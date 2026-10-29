@@ -16,24 +16,24 @@ export const AboutPage: React.FC = () => {
           À Propos de {settings.companyName}
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Spécialiste de la conception, de la réhabilitation et de la maintenance technique des piscines et espaces de baignade au Maroc.
+          Entreprise de bâtiment spécialisée dans la construction, la rénovation et les travaux tous corps d'état à Marrakech et sa région.
         </p>
       </div>
 
       {/* Presentation */}
       <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 shadow-xs space-y-6">
         <h2 className="text-xl sm:text-2xl font-bold text-[#102A43]">
-          Une expertise dédiée aux exigences du climat marocain
+          Une entreprise de travaux au service de vos projets
         </h2>
         <div className="text-xs sm:text-sm text-slate-600 leading-relaxed space-y-4">
           <p>
-            Implantée au cœur de Marrakech, à Sidi Ghanem, <strong>{settings.companyName}</strong> est née de la volonté d'apporter une réponse rigoureuse, transparente et pérenne aux propriétaires de villas privées, riads traditionnels et établissements touristiques.
+            Implantée au Quartier Industriel Sidi Ghanem à Marrakech, <strong>{settings.companyName} SARL</strong> accompagne particuliers, promoteurs, syndics et professionnels dans leurs projets de construction et de rénovation, avec rigueur, transparence et respect des délais.
           </p>
           <p>
-            Sous le soleil marocain, où les températures estivales dépassent régulièrement 40°C, une piscine ne peut souffrir d'approximations hydrauliques ou d'étanchéités vulnérables. La combinaison d'eaux dures très calcaires et d'un rayonnement solaire intense exige un dimensionnement précis des pompes, des filtres et des revêtements.
+            Entreprise de travaux divers et de construction, nous coordonnons l'ensemble des corps d'état — du gros œuvre aux finitions — afin de vous offrir un interlocuteur unique du premier coup de pelle à la réception de votre chantier.
           </p>
           <p>
-            Nous intervenons sur l'ensemble du cycle de vie du bassin : gros œuvre en béton armé banché, pose de carrelage haut de gamme, rénovation de circuits hydrauliques colmatés, dépannage express et contrats de maintenance sur mesure.
+            Nous intervenons sur l'ensemble du cycle du bâtiment : gros œuvre en béton armé, second œuvre et finitions, électricité et plomberie, aménagement extérieur, ainsi que la maintenance et les travaux divers.
           </p>
         </div>
       </div>
@@ -46,7 +46,7 @@ export const AboutPage: React.FC = () => {
           </div>
           <h3 className="text-sm font-bold text-slate-900 mb-2">Pérennité des Ouvrages</h3>
           <p className="text-xs text-slate-600 leading-relaxed">
-            Nous privilégions le béton armé monolithique et des matériaux éprouvés pour résister aux mouvements de terrain sans microfissures.
+            Nous privilégions le béton armé et des matériaux éprouvés, mis en œuvre selon les règles de l'art pour des ouvrages durables.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ export const AboutPage: React.FC = () => {
           </div>
           <h3 className="text-sm font-bold text-slate-900 mb-2">Accompagnement Suivi</h3>
           <p className="text-xs text-slate-600 leading-relaxed">
-            Un interlocuteur unique joignable et réactif pour vos questions, interventions de maintenance et besoins de réapprovisionnement.
+            Un interlocuteur unique joignable et réactif pour le suivi de chantier, la maintenance et vos besoins complémentaires.
           </p>
         </div>
       </div>
@@ -75,7 +75,7 @@ export const AboutPage: React.FC = () => {
       <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 sm:p-10 text-center space-y-4">
         <h3 className="text-xl font-bold text-[#102A43]">Vous avez un projet en tête ?</h3>
         <p className="text-xs text-slate-500 max-w-md mx-auto">
-          Nos techniciens se déplacent sur site pour examiner votre terrain ou votre installation existante.
+          Nos équipes se déplacent sur site pour examiner votre terrain ou votre bâtiment existant et établir un devis.
         </p>
         <div className="pt-2">
           <button

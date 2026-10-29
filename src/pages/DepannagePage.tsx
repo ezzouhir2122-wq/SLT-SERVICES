@@ -5,9 +5,9 @@ import { Wrench, PhoneCall, MessageCircle, AlertTriangle, CheckCircle2, Clock, S
 export const DepannagePage: React.FC = () => {
   const { submitLead, settings, getWhatsAppUrl, navigate } = useApp();
   const [formData, setFormData] = useState({
-    issue: 'Pompe bloquée / Disjonction récurrente',
+    issue: 'Infiltration d\'eau / humidité',
     urgency: 'immediate',
-    city: 'Marrakech (Palmeraie)',
+    city: 'Marrakech',
     name: '',
     phone: '',
     whatsapp: '',
@@ -26,10 +26,10 @@ export const DepannagePage: React.FC = () => {
       phone: formData.phone,
       whatsapp: formData.whatsapp || formData.phone,
       city: formData.city,
-      service: "Dépannage d'urgence",
+      service: "Dépannage & travaux d'urgence",
       source: "depannage_urgent",
       urgency: formData.urgency,
-      description: `Panne signalée : ${formData.issue}. ${formData.description}`,
+      description: `Intervention signalée : ${formData.issue}. ${formData.description}`,
       details: {
         issue: formData.issue,
         urgency: formData.urgency
@@ -42,7 +42,7 @@ export const DepannagePage: React.FC = () => {
     }
   };
 
-  const emergencyWhatsApp = `URGENCE TECHNIQUE PISCINE : Bonjour Aqua Piscines, je signale une panne (${formData.issue}) à ${formData.city}. Contact : ${formData.name} (${formData.phone}). Pouvez-vous intervenir ?`;
+  const emergencyWhatsApp = `URGENCE BÂTIMENT : Bonjour SLT SERVICES, je signale un problème (${formData.issue}) à ${formData.city}. Contact : ${formData.name} (${formData.phone}). Pouvez-vous intervenir ?`;
 
   if (submittedRef) {
     return (
@@ -93,10 +93,10 @@ export const DepannagePage: React.FC = () => {
           <span>Assistance & Dépannage Technique</span>
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#102A43] mt-2">
-          Diagnostic & Réparation d'Urgence
+          Dépannage & Interventions d'Urgence
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Pompe en panne, eau qui verdit, fuite dans le local technique ou disjonction : nos spécialistes interviennent sur Marrakech et ses zones limitrophes.
+          Infiltration, fissure, humidité, panne électrique ou plomberie, petits travaux urgents : nos équipes interviennent rapidement sur Marrakech et ses environs.
         </p>
       </div>
 
@@ -111,7 +111,7 @@ export const DepannagePage: React.FC = () => {
               </span>
               <h3 className="text-xl font-bold mt-1 text-white">Besoin d'aide immédiate ?</h3>
               <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                Sous les chaleurs de Marrakech, une eau sans filtration peut tourner en 48 heures. Appelez notre équipe d'astreinte technique.
+                Une infiltration ou une fissure non traitée peut vite s'aggraver. Appelez notre équipe pour une intervention rapide.
               </p>
             </div>
 
@@ -150,7 +150,7 @@ export const DepannagePage: React.FC = () => {
                 <Clock className="w-3.5 h-3.5 text-[#00B4D8]" />
                 <span>Interventions programmées 6j/7 + urgences</span>
               </div>
-              <p>Pièces d'usure les plus courantes disponibles en véhicule atelier.</p>
+              <p>Équipe d'intervention mobile équipée pour la plupart des réparations courantes.</p>
             </div>
           </div>
         </div>
@@ -174,12 +174,12 @@ export const DepannagePage: React.FC = () => {
                 onChange={(e) => setFormData({ ...formData, issue: e.target.value })}
                 className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
               >
-                <option value="Pompe bloquée / Disjonction récurrente">Pompe bloquée, bruyante ou fait sauter le disjoncteur</option>
-                <option value="Fuite apparente dans le local technique">Fuite d'eau dans le local technique (tuyau, vanne 6 voies, filtre)</option>
-                <option value="Eau trouble, blanchâtre ou verdissante">Eau trouble, verte ou envahie d'algues</option>
-                <option value="Suspicion de fuite dans le bassin (perte de niveau rapide)">Perte importante de niveau d'eau dans la piscine</option>
-                <option value="Éclairage subaquatique défaillant ou disjonction">Projecteurs subaquatiques en panne ou court-circuit</option>
-                <option value="Robot nettoyeur en panne">Robot nettoyeur immobilisé</option>
+                <option value="Infiltration d'eau / humidité">Infiltration d'eau / humidité (toiture, mur, terrasse)</option>
+                <option value="Fissures de structure ou façade">Fissures de structure ou de façade</option>
+                <option value="Problème d'étanchéité">Problème d'étanchéité (toiture-terrasse, salle d'eau)</option>
+                <option value="Panne électrique">Panne électrique / tableau / court-circuit</option>
+                <option value="Problème de plomberie">Fuite ou problème de plomberie</option>
+                <option value="Réparation maçonnerie / finitions">Réparation maçonnerie, plâtre ou peinture</option>
               </select>
             </div>
 
@@ -193,7 +193,7 @@ export const DepannagePage: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, urgency: e.target.value })}
                   className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
                 >
-                  <option value="immediate">Urgent (pompe arrêtée / risque eau verte)</option>
+                  <option value="immediate">Urgent (dégât en cours / aggravation)</option>
                   <option value="24_48h">Sous 24h à 48h ouvrées</option>
                   <option value="cette_semaine">Cette semaine / flexible</option>
                 </select>
@@ -248,11 +248,11 @@ export const DepannagePage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                Description de la panne et matériel existant
+                Description du problème et contexte
               </label>
               <textarea
                 rows={3}
-                placeholder="Indiquez la marque de la pompe, les bruits anormaux, les manipulations tentées..."
+                placeholder="Décrivez le problème, sa localisation (étage, pièce), depuis quand il est apparu, l'ampleur des dégâts..."
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 className="w-full text-xs sm:text-sm p-3.5 rounded-lg border border-slate-300"

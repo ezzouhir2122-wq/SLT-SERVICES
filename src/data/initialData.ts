@@ -10,25 +10,31 @@ import {
   Lead
 } from '../types';
 
+// Helper: génère une URL d'image Unsplash optimisée (toutes testées et fonctionnelles)
+const img = (id: string, w = 900): string =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=70`;
+
 export const initialCompanySettings: CompanySettings = {
-  companyName: "AQUA PISCINES",
-  slogan: "Votre piscine, notre expertise. Conception, rénovation & équipements au Maroc.",
-  phone: "+212 5 24 43 89 20",
-  whatsapp: "+212 6 61 88 45 12",
-  email: "contact@aquapiscines-maroc.com",
-  address: "Zone Industrielle Sidi Ghanem, Voie Principale, 40000 Marrakech, Maroc",
+  companyName: "SLT SERVICES",
+  slogan: "Vos travaux, notre expertise. Construction, rénovation et travaux tous corps d'état à Marrakech.",
+  phone: "+212 661 586 841",
+  phoneSecondary: "+212 663 116 200",
+  whatsapp: "+212 661 586 841",
+  email: "contact@slt-services.ma",
+  address: "Bureau N°26, N°484, Quartier Industriel Sidi Ghanem, Marrakech",
   primaryCity: "Marrakech",
   citiesCovered: [
     "Marrakech",
+    "Guéliz & Hivernage",
     "Palmeraie & Environs",
+    "Targa & Route de Casablanca",
     "Route de l'Ourika",
-    "Route d'Amizmiz",
     "Route de Fès",
-    "Essaouira",
-    "Agadir",
-    "Casablanca"
+    "Tamansourt",
+    "Région Marrakech-Safi"
   ],
-  openingHours: "Lundi au Samedi : 08h30 – 18h30 (Urgences techniques 7j/7)",
+  openingHours: "Lundi au Samedi : 08h30 – 18h30",
+  heroImage: img("photo-1503387762-592deb58ef4e", 1400),
   facebookUrl: "https://facebook.com",
   instagramUrl: "https://instagram.com",
   linkedinUrl: "https://linkedin.com",
@@ -39,239 +45,245 @@ export const initialCompanySettings: CompanySettings = {
 export const initialServices: ServiceItem[] = [
   {
     id: "serv_1",
-    slug: "construction-piscines",
-    title: "Construction de Piscines sur Mesure",
-    kicker: "Gros œuvre & Finitions haut de gamme",
-    shortDescription: "Piscines contemporaines, bassins miroirs, piscines à débordement et lagons pour villas et établissements hôteliers.",
-    fullDescription: "Nous prenons en charge l'intégralité du chantier : étude de sol, terrassement, ferraillage en béton armé banché ou projeté, circuit hydraulique optimisé, étanchéité certifiée et revêtements d'exception (carrelage Bali, émaux, quartz ou résine).",
-    iconName: "Waves",
+    slug: "gros-oeuvre-construction",
+    title: "Gros Œuvre & Construction",
+    kicker: "Fondations, structure & bâtiment",
+    shortDescription: "Construction de villas, immeubles et locaux professionnels, du terrassement au béton armé, selon les règles de l'art.",
+    fullDescription: "SLT SERVICES prend en charge l'intégralité du gros œuvre : étude de sol, terrassement, fondations, radier, ferraillage, coulage de béton armé, élévation des murs et dalles. Nous construisons des structures solides et durables, conformes aux normes marocaines, pour villas, immeubles et bâtiments professionnels.",
+    iconName: "Building2",
+    image: img("photo-1523217582562-09d0def993a6"),
     clientProblems: [
-      "Inquiétude sur la durabilité du gros œuvre et les fissures",
-      "Perte de temps avec des sous-traitants multiples non coordonnés",
-      "Équipements hydrauliques sous-dimensionnés causant une eau trouble",
-      "Dépassement imprévu des délais et des budgets annoncés"
+      "Crainte de fissures et de malfaçons sur la structure",
+      "Coordination difficile entre plusieurs sous-traitants",
+      "Délais de chantier qui s'allongent sans explication",
+      "Dépassement du budget initialement annoncé"
     ],
     solutions: [
-      "Étude technique approfondie et plan hydraulique avant terrassement",
-      "Structure monolithique en béton armé résistant aux mouvements de terrain",
-      "Interlocuteur unique dédié de l'avant-projet à la mise en eau",
-      "Dimensionnement rigoureux du débit de filtration selon le climat marocain"
+      "Étude technique et métré précis avant le démarrage",
+      "Structure en béton armé dimensionnée par un bureau d'études",
+      "Interlocuteur unique du terrassement à la réception",
+      "Planning de chantier clair avec jalons de paiement"
     ],
     prestations: [
-      "Piscines miroir avec goulotte périphérique affleurante",
-      "Piscines à débordement avec vue dégagée sur l'Atlas",
-      "Piscines rectangulaires contemporaines avec plage immergée",
-      "Bassins de nage épurés et couloirs d'entraînement",
-      "Piscines de riad sur mesure adaptées aux cours intérieures"
+      "Terrassement, fouilles et fondations",
+      "Radier, semelles et longrines en béton armé",
+      "Élévation de murs en agglomérés ou briques",
+      "Planchers, dalles et poteaux-poutres",
+      "Charpente et couverture"
     ],
     advantages: [
-      "Béton armé monobloc garantissant une étanchéité pérenne",
-      "Sélection de matériaux résistants aux fortes chaleurs de Marrakech",
-      "Locaux techniques ergonomiques et faciles d'accès"
+      "Béton armé conforme aux normes parasismiques",
+      "Matériaux sélectionnés et traçables",
+      "Chantier propre, sécurisé et balisé"
     ],
     faq: [
       {
-        question: "Quelle est la durée moyenne d'une construction ?",
-        answer: "Pour une piscine standard en béton armé (8x4m à 12x5m), le délai moyen se situe généralement entre 6 et 10 semaines, comprenant le terrassement, le séchage du béton, l'étanchéité et la pose des revêtements."
+        question: "Quels types de bâtiments construisez-vous ?",
+        answer: "Villas individuelles, immeubles R+2 à R+5, locaux commerciaux, dépôts et bâtiments industriels légers. Nous intervenons en construction neuve comme en extension."
       },
       {
-        question: "Quel type de revêtement recommandez-vous à Marrakech ?",
-        answer: "Le carrelage imitation pierre de Bali (grès cérame) et les mosaïques en émaux sont particulièrement adaptés au climat chaud et résistent parfaitement aux UV et aux variations de température."
+        question: "Travaillez-vous avec un architecte ?",
+        answer: "Oui. Nous collaborons avec votre architecte et bureau d'études, ou pouvons vous en recommander un pour les plans et l'obtention du permis de construire."
       }
     ]
   },
   {
     id: "serv_2",
-    slug: "amenagement",
-    title: "Aménagement des Espaces Extérieurs",
-    kicker: "Plages, terrasses & mise en valeur",
-    shortDescription: "Création de plages en travertin, margelles en pierre naturelle, douches solaires, local technique discret et éclairage immergé.",
-    fullDescription: "Une piscine haut de gamme s'intègre harmonieusement dans son environnement. Nous réalisons les abords de votre bassin : terrasses en bois exotique ou grès cérame antidérapant, margelles biseautées, pergolas d'ombrage et intégration paysagère.",
-    iconName: "Compass",
+    slug: "renovation-rehabilitation",
+    title: "Rénovation & Réhabilitation",
+    kicker: "Remise à neuf & transformation",
+    shortDescription: "Rénovation complète de maisons, appartements et locaux : reprise de structure, mise aux normes et modernisation.",
+    fullDescription: "Vous souhaitez transformer un bien ancien ou le remettre au goût du jour ? Nous réalisons des rénovations partielles ou complètes : démolition maîtrisée, reprise de maçonnerie, création d'ouvertures, réfection des sols et murs, mise aux normes électriques et sanitaires.",
+    iconName: "Hammer",
+    image: img("photo-1574359411659-15573a27fd0c"),
     clientProblems: [
-      "Margelles brûlantes en plein été ou glissantes une fois mouillées",
-      "Local technique bruyant et inesthétique gâchant le jardin",
-      "Manque d'éclairage nocturne pour profiter des soirées estivales",
-      "Espaces de circulation mal pensés autour du bassin"
+      "Bien vétuste, humide ou mal agencé",
+      "Installations électriques et plomberie hors normes",
+      "Peur des mauvaises surprises une fois le chantier ouvert",
+      "Difficulté à chiffrer précisément les travaux"
     ],
     solutions: [
-      "Sélection de pierres naturelles et dalles athermiques et antidérapantes (R11)",
-      "Intégration paysagère ou habillage acoustique des locaux techniques",
-      "Éclairage LED blanc chaud ou RGB encastré et synchronisé",
-      "Plages solarium confortables avec intégration de transats immergés"
+      "Diagnostic complet avant devis détaillé",
+      "Reprise de structure et traitement de l'humidité",
+      "Mise aux normes électricité, plomberie et étanchéité",
+      "Devis ferme et transparent, poste par poste"
     ],
     prestations: [
-      "Pose de margelles en pierre de Taza, travertin ou granit",
-      "Plages de piscine en grès cérame grand format antidérapant",
-      "Création de solarium et banquettes immergées balnéo",
-      "Installation de douches d'extérieur inox ou solaires",
-      "Murs d'eau et cascades d'ambiance avec pompe dédiée"
+      "Démolition et dépose sélective",
+      "Création et agrandissement d'ouvertures",
+      "Réfection des sols, murs et plafonds",
+      "Rénovation de cuisines et salles de bains",
+      "Mise aux normes des réseaux"
     ],
     advantages: [
-      "Matériaux athermiques confortables même sous 45°C",
-      "Pentes d'évacuation calculées pour éviter l'eau stagnante",
-      "Harmonie architecturale avec la villa ou le riad"
+      "Valorisation immédiate du bien",
+      "Respect du bâti existant",
+      "Chantier planifié pour limiter la gêne"
     ],
     faq: [
       {
-        question: "Comment éviter que la plage de piscine ne devienne trop chaude ?",
-        answer: "Nous préconisons le travertin clair ou les dalles en grès cérame certifiées athermiques, qui emmagasinent nettement moins la chaleur que les bétons foncés."
+        question: "Pouvez-vous rénover un appartement occupé ?",
+        answer: "Oui, nous organisons le chantier par zones et sécurisons les espaces pour limiter la gêne lorsque le logement reste partiellement occupé."
       }
     ]
   },
   {
     id: "serv_3",
-    slug: "renovation-reparation",
-    title: "Rénovation & Réhabilitation de Bassins",
-    kicker: "Modernisation esthétique & reprise d'étanchéité",
-    shortDescription: "Remise à neuf complète de bassins anciens : suppression de fuites, remplacement de revêtements, agrandissement et modernisation hydraulique.",
-    fullDescription: "Votre bassin a vieilli, présente des fuites ou consomme trop d'eau et d'électricité ? Nous réhabilitons votre installation : reprise d'étanchéité, pose de membrane armée ou carrelage contemporain, modification de la profondeur et modernisation du système de filtration.",
-    iconName: "Sparkles",
+    slug: "amenagement-exterieur",
+    title: "Aménagement Extérieur",
+    kicker: "Voirie, terrasses & espaces verts",
+    shortDescription: "Terrasses, allées, murs de clôture, dallage et aménagement paysager pour valoriser vos extérieurs.",
+    fullDescription: "Nous aménageons vos espaces extérieurs de A à Z : terrassement et nivellement, dallage et pavage, murs de clôture et portails, terrasses en béton ou pierre naturelle, et intégration paysagère avec espaces verts et éclairage.",
+    iconName: "Trees",
+    image: img("photo-1512917774080-9991f1c4c750"),
     clientProblems: [
-      "Baisse anormale du niveau d'eau indiquant une fuite structurelle ou hydraulique",
-      "Revêtement décollé, terni ou taché par le calcaire",
-      "Bassin trop profond ou dangereux, difficile et coûteux à chauffer",
-      "Factures énergétiques élevées à cause d'une pompe ancienne"
+      "Terrain brut, en pente ou mal drainé",
+      "Extérieurs peu valorisés et difficiles à entretenir",
+      "Clôture ou mur de soutènement à réaliser",
+      "Manque d'éclairage et de circulation"
     ],
     solutions: [
-      "Diagnostic de recherche de fuite par mise sous pression des canalisations",
-      "Reprise structurelle des fissures et cuvelage étanche nouvelle génération",
-      "Rehausse du fond pour créer une profondeur agréable et économique",
-      "Remplacement du circuit par des équipements à haute efficacité énergétique"
+      "Nivellement et gestion des eaux pluviales",
+      "Dallage antidérapant et pavage durable",
+      "Murs de clôture et de soutènement en béton armé",
+      "Éclairage extérieur et intégration paysagère"
     ],
     prestations: [
-      "Rénovation complète d'étanchéité (résine, cuvelage ou carrelage)",
-      "Création d'une plage immergée dans un ancien bassin rectangulaire",
-      "Remplacement des margelles détériorées et des dalles environnantes",
-      "Remplacement des pièces à sceller (skimmers, buses, bondes de fond)",
-      "Conversion au traitement par électrolyse au sel"
+      "Terrasses en béton désactivé, pierre ou grès cérame",
+      "Allées, parkings et voirie légère",
+      "Murs de clôture, portails et garde-corps",
+      "Pose de gazon, plantations et arrosage",
+      "Éclairage extérieur encastré"
     ],
     advantages: [
-      "Valorisation immédiate de la propriété",
-      "Consommation en eau et produits chimiques réduite",
-      "Sécurisation conforme et esthétique modernisée"
+      "Matériaux résistants au climat de Marrakech",
+      "Pentes et drainage calculés contre l'eau stagnante",
+      "Harmonie avec l'architecture du bâtiment"
     ],
     faq: [
       {
-        question: "Faut-il casser la piscine pour réparer une fuite ?",
-        answer: "Non, la majorité des fuites se situent au niveau des canalisations ou des pièces à sceller. Nous effectuons un test de pression pour localiser précisément le défaut sans démolition inutile."
+        question: "Réalisez-vous aussi les murs de clôture ?",
+        answer: "Oui, nous construisons murs de clôture et de soutènement en béton armé, avec finition enduit, pierre ou habillage, ainsi que la pose de portails."
       }
     ]
   },
   {
     id: "serv_4",
-    slug: "pompes-filtration",
-    title: "Installation de Pompes & Systèmes de Filtration",
-    kicker: "Cœur technique de votre bassin",
-    shortDescription: "Installation, dimensionnement et remplacement de pompes de circulation, pompes à vitesse variable et filtres à sable haute capacité.",
-    fullDescription: "80 % de la clarté de l'eau dépend de la filtration mécanique. Nous sélectionnons et installons des pompes performantes, silencieuses et adaptées aux températures estivales marocaines, associées à des filtres à sable ou média de verre assurant une eau limpide sans gaspillage.",
-    iconName: "Activity",
+    slug: "second-oeuvre-finitions",
+    title: "Second Œuvre & Finitions",
+    kicker: "Plâtre, carrelage, peinture & menuiserie",
+    shortDescription: "Toutes les finitions intérieures : plâtrerie, carrelage, peinture, faux plafonds et menuiserie pour un rendu impeccable.",
+    fullDescription: "Le second œuvre fait toute la différence. Nos équipes réalisent la plâtrerie et les faux plafonds, la pose de carrelage et revêtements, la peinture décorative, ainsi que la menuiserie bois et aluminium, pour des finitions soignées et durables.",
+    iconName: "Paintbrush",
+    image: img("photo-1621905251189-08b45d6a269e"),
     clientProblems: [
-      "Pompe bruyante, qui surchauffe ou disjoncte au tableau",
-      "Eau qui verdit malgré l'ajout répété de produits de traitement",
-      "Pression excessive au manomètre du filtre ou sable refoulé dans le bassin",
-      "Consommation électrique exorbitante en période de filtration intensive"
+      "Finitions bâclées par des intervenants non coordonnés",
+      "Fissures de plâtre et peintures qui s'écaillent",
+      "Carrelage mal posé ou joints irréguliers",
+      "Menuiseries mal ajustées, peu étanches"
     ],
     solutions: [
-      "Installation de pompes à vitesse variable réduisant la facture électrique jusqu'à 70%",
-      "Remplacement du sable usagé par du verre filtrant activé ultra-performant",
-      "Refonte de la plomberie PVC pression avec vannes quart de tour ergonomiques",
-      "Installation de coffrets électriques sécurisés avec disjoncteur différentiel"
+      "Équipes spécialisées par corps d'état",
+      "Préparation rigoureuse des supports",
+      "Pose de carrelage calepinée au millimètre",
+      "Menuiserie alu et bois sur mesure posée à niveau"
     ],
     prestations: [
-      "Remplacement urgent de pompes défaillantes toutes marques",
-      "Installation de filtres laminés grand débit et vannes multivoies",
-      "Conversion vers média filtrant en verre recyclé haute finesse",
-      "Pose de surpresseurs pour robots de nettoyage hydrauliques",
-      "Mise en place de régulateurs automatiques de pH et chlore liquide"
+      "Plâtrerie, cloisons et faux plafonds (placo & staff)",
+      "Carrelage, faïence et revêtements grand format",
+      "Peinture intérieure et décorative",
+      "Menuiserie bois, aluminium et PVC",
+      "Pose de parquet et revêtements de sol"
     ],
     advantages: [
-      "Dimensionnement exact du débit selon le volume d'eau du bassin",
-      "Matériaux résistants à la corrosion saline et aux eaux calcaires",
-      "Intervention soignée et tests de pression systématiques"
+      "Finitions nettes et durables",
+      "Respect du calepinage et des teintes choisies",
+      "Nettoyage de fin de chantier inclus"
     ],
     faq: [
       {
-        question: "Combien d'heures par jour doit tourner la filtration en été à Marrakech ?",
-        answer: "La règle générale est : Température de l'eau divisée par 2. À 30°C, prévoyez environ 15h de filtration en journée. Avec une pompe à vitesse variable, il est plus efficace de filtrer 24h/24 à très basse vitesse tout en consommant beaucoup moins."
+        question: "Proposez-vous la menuiserie aluminium sur mesure ?",
+        answer: "Oui, nous réalisons fenêtres, baies coulissantes, portes et garde-corps en aluminium sur mesure, avec vitrage adapté à l'isolation thermique."
       }
     ]
   },
   {
     id: "serv_5",
-    slug: "entretien",
-    title: "Entretien Périodique & Contrats de Maintenance",
-    kicker: "Tranquillité d'esprit toute l'année",
-    shortDescription: "Passages réguliers par nos techniciens qualifiés : contrôle de l'eau, nettoyage complet du bassin, lavage de filtre et veille technique.",
-    fullDescription: "Profitez d'une piscine toujours prête à la baignade sans vous soucier de la chimie de l'eau ou de la manipulation des produits. Nos techniciens interviennent chaque semaine pour nettoyer le bassin, équilibrer les paramètres physico-chimiques et vérifier le bon fonctionnement du local technique.",
-    iconName: "ShieldCheck",
+    slug: "electricite-plomberie",
+    title: "Électricité & Plomberie",
+    kicker: "Réseaux, mise aux normes & sanitaire",
+    shortDescription: "Installation et mise aux normes électriques, plomberie, sanitaire et évacuation pour le neuf comme la rénovation.",
+    fullDescription: "Nous réalisons l'ensemble des lots techniques : installation électrique complète avec tableau et protections, plomberie d'alimentation et d'évacuation, pose de sanitaires, chauffe-eau et réseaux, dans le respect des normes de sécurité en vigueur.",
+    iconName: "Zap",
+    image: img("photo-1590725140246-20acdee442be"),
     clientProblems: [
-      "Eau trouble ou verte juste avant l'arrivée des invités ou des locataires",
-      "Manipulation délicate et risquée des produits chimiques concentrés",
-      "Entartrage des buses et de la ligne d'eau par l'eau dure de la région",
-      "Locaux techniques délaissés menant à des pannes imprévues et coûteuses"
+      "Installation électrique ancienne et dangereuse",
+      "Fuites, mauvaise pression ou évacuations bouchées",
+      "Absence de mise à la terre et de protections",
+      "Tableaux électriques non conformes"
     ],
     solutions: [
-      "Visites hebdomadaires ou bi-hebdomadaires programmées avec carnet de passage",
-      "Analyse photométrique professionnelle des 6 paramètres clés de l'eau",
-      "Nettoyage manuel minutieux : brossage des parois, épuisette, aspiration",
-      "Lavage à contre-courant du filtre et rinçage régulier"
+      "Installation conforme avec disjoncteurs différentiels",
+      "Réseaux de plomberie en PER ou multicouche",
+      "Mise à la terre et protection des circuits",
+      "Tests et mise en service documentés"
     ],
     prestations: [
-      "Contrat résidentiel pour villas privées (1 à 2 passages par semaine)",
-      "Contrat professionnel pour maisons d'hôtes, riads et hôtels (jusqu'à 3 passages)",
-      "Remise en route printanière et hivernage actif de fin de saison",
-      "Traitement de choc ponctuel (rattrapage eau verte en urgence)",
-      "Fourniture et dosage précis des produits de traitement certifiés"
+      "Installation électrique complète et tableaux",
+      "Éclairage intérieur et extérieur",
+      "Plomberie d'alimentation et d'évacuation",
+      "Pose de sanitaires et chauffe-eau",
+      "Mise aux normes et dépannage"
     ],
     advantages: [
-      "Équipe dédiée et formée aux protocoles sanitaires stricts",
-      "Rapport d'intervention transmis après chaque passage",
-      "Stock de sécurité des consommables géré par nos soins"
+      "Sécurité des personnes et des biens",
+      "Matériel de marques reconnues",
+      "Schémas et repérage des circuits fournis"
     ],
     faq: [
       {
-        question: "Les produits d'entretien sont-ils inclus dans le contrat ?",
-        answer: "Nous proposons deux formules : soit nous fournissons les produits professionnels de traitement de haute pureté, soit nous utilisons votre stock si vous disposez déjà des consommables requis."
+        question: "Pouvez-vous mettre aux normes une ancienne installation ?",
+        answer: "Oui. Après diagnostic, nous remplaçons le tableau, ajoutons les protections différentielles, la mise à la terre et sécurisons l'ensemble des circuits."
       }
     ]
   },
   {
     id: "serv_6",
-    slug: "depannage-diagnostic",
-    title: "Dépannage & Diagnostic Technique d'Urgence",
-    kicker: "Réactivité sur Marrakech et sa périphérie",
-    shortDescription: "Intervention rapide pour panne de pompe, fuite soudaine, disjonction électrique, vanne bloquée ou eau impropre à la baignade.",
-    fullDescription: "Une panne technique peut rapidement compromettre la qualité de l'eau, particulièrement sous les chaleurs estivales. Notre service d'assistance diagnostique rapidement l'origine du dysfonctionnement et met en œuvre une solution immédiate.",
+    slug: "travaux-divers-maintenance",
+    title: "Travaux Divers & Maintenance",
+    kicker: "Entretien & petits travaux du bâtiment",
+    shortDescription: "Interventions ponctuelles, maintenance de bâtiments, réparations et petits travaux tous corps d'état.",
+    fullDescription: "Pour les particuliers, syndics et professionnels, nous assurons la maintenance et les travaux divers : réparations, reprises d'étanchéité, dépannage, entretien courant et interventions multi-métiers, avec réactivité sur Marrakech et sa région.",
     iconName: "Wrench",
+    image: img("photo-1416339306562-f3d12fefd36f"),
     clientProblems: [
-      "Pompe qui ne démarre plus ou bourdonne sans tourner",
-      "Inondation dans le local technique ou vanne 6 voies qui fuit",
-      "L'eau vire au vert en moins de 48 heures",
-      "Disjoncteur différentiel qui saute dès l'enclenchement de la piscine"
+      "Petits travaux négligés qui s'aggravent",
+      "Difficulté à trouver un intervenant fiable et réactif",
+      "Infiltrations et fissures non traitées",
+      "Besoin d'un contrat d'entretien régulier"
     ],
     solutions: [
-      "Prise en charge rapide sur Marrakech, Palmeraie et routes périphériques",
-      "Outillage de diagnostic électrique et hydraulique complet",
-      "Pièces de rechange courantes disponibles dans le véhicule d'intervention",
-      "Rattrapage express de l'eau verte par floculation et traitement choc"
+      "Interventions rapides planifiées",
+      "Équipe polyvalente multi-corps d'état",
+      "Traitement durable des infiltrations et fissures",
+      "Contrats de maintenance sur mesure"
     ],
     prestations: [
-      "Diagnostic électrique : condensateur, bobinage, relais thermique",
-      "Remplacement en urgence de garniture mécanique et roulements",
-      "Colmatage d'urgence de fuites PVC pression et raccords unions",
-      "Réparation d'horloge de programmation et coffret de commande",
-      "Éradication des algues résistantes et clarification de l'eau"
+      "Réparations maçonnerie, plâtre et peinture",
+      "Reprise d'étanchéité toiture et terrasse",
+      "Petits travaux d'électricité et de plomberie",
+      "Entretien de bâtiments et parties communes",
+      "Dépannage et interventions d'urgence"
     ],
     advantages: [
-      "Techniciens expérimentés équipés de matériel de test précis",
-      "Conseils clairs sans remplacement superflu",
-      "Priorité accordée aux résidences en location et établissements hôteliers"
+      "Réactivité sur Marrakech et sa région",
+      "Devis clair même pour les petits travaux",
+      "Suivi et conseils d'entretien"
     ],
     faq: [
       {
-        question: "Quel est le délai d'intervention pour un dépannage ?",
-        answer: "Nous priorisons les urgences signalées (pompe en arrêt sous forte chaleur, fuite active) pour une visite sous 24h à 48h ouvrées selon le secteur géographique."
+        question: "Intervenez-vous pour de petits travaux ?",
+        answer: "Oui, aucun chantier n'est trop petit. Nous réalisons aussi bien des réparations ponctuelles que des contrats d'entretien pour syndics et professionnels."
       }
     ]
   }
@@ -280,153 +292,160 @@ export const initialServices: ServiceItem[] = [
 export const initialProducts: ProductItem[] = [
   {
     id: "prod_1",
-    slug: "pompe-variable-speed-eco-flow",
-    name: "Pompe de Piscine à Vitesse Variable Haute Efficacité",
-    reference: "PMP-VS-150PRO",
-    brand: "Gamme Professionnelle",
-    category: "Pompes de piscine",
-    price: 8900,
+    slug: "chape-beton-lisse",
+    name: "Chape & Dalle Béton Lissé",
+    reference: "GO-CHAPE",
+    brand: "Gros Œuvre",
+    category: "Gros œuvre",
+    price: 180,
     isPriceOnDemand: false,
-    shortDescription: "Pompe silencieuse avec programmation multi-vitesses. Économise jusqu'à 70% d'électricité par rapport à une pompe classique.",
+    shortDescription: "Coulage et lissage de dalle béton pour sols intérieurs et extérieurs. Prix indicatif au m², selon surface et finition.",
+    image: img("photo-1504328345606-18bbc8c9d7d1"),
     specs: [
-      { label: "Puissance", value: "1.5 CV / 1.1 kW" },
-      { label: "Alimentation", value: "230V Monophasé" },
-      { label: "Débit max", value: "24 m³/h" },
-      { label: "Niveau sonore", value: "< 45 dB à basse vitesse" },
-      { label: "Connectivité", value: "Panneau digital intégré & timer" }
+      { label: "Prestation", value: "Fourniture & pose" },
+      { label: "Épaisseur", value: "8 à 15 cm selon usage" },
+      { label: "Finition", value: "Lissée ou talochée" },
+      { label: "Unité", value: "Prix au m² HT (indicatif)" }
     ],
     inStock: true,
     featured: true
   },
   {
     id: "prod_2",
-    slug: "pompe-circulation-standard-heavy-duty",
-    name: "Pompe de Circulation Robuste Auto-Amorçante",
-    reference: "PMP-STD-100",
-    brand: "Gamme Renforcée",
-    category: "Pompes de piscine",
-    price: 4600,
+    slug: "mur-agglos-beton",
+    name: "Élévation de Murs en Agglomérés",
+    reference: "GO-MUR",
+    brand: "Gros Œuvre",
+    category: "Gros œuvre",
+    price: 160,
     isPriceOnDemand: false,
-    shortDescription: "Pompe mono-vitesse ultra-éprouvée pour bassins de 40 à 75 m³. Moteur thermique tropicalisé résistant aux fortes températures.",
+    shortDescription: "Montage de murs en parpaings/agglomérés avec chaînages, pour cloisons porteuses et murs de clôture.",
+    image: img("photo-1574359411659-15573a27fd0c"),
     specs: [
-      { label: "Puissance", value: "1.0 CV" },
-      { label: "Débit nominal", value: "16 m³/h" },
-      { label: "Raccordement", value: "Ø 50 mm à coller" },
-      { label: "Panier préfiltre", value: "Grande capacité avec couvercle transparent" }
+      { label: "Matériau", value: "Agglomérés 20 cm" },
+      { label: "Chaînage", value: "Horizontal & vertical inclus" },
+      { label: "Hauteur", value: "Selon étude" },
+      { label: "Unité", value: "Prix au m² HT (indicatif)" }
     ],
     inStock: true,
     featured: true
   },
   {
     id: "prod_3",
-    slug: "filtre-sable-polyethylene-bobine-d650",
-    name: "Filtre à Sable Bobiné Renforcé Ø 650 mm",
-    reference: "FLT-BOB-650",
-    brand: "Gamme Aquatech",
-    category: "Filtres à sable",
-    price: 5800,
+    slug: "carrelage-grand-format",
+    name: "Pose de Carrelage Grand Format",
+    reference: "SO-CARR",
+    brand: "Second Œuvre",
+    category: "Finitions",
+    price: 120,
     isPriceOnDemand: false,
-    shortDescription: "Cuve bobinée en résine polyester armée de fibres de verre. Excellente résistance à la pression pour bassins jusqu'à 80 m³.",
+    shortDescription: "Pose calepinée de carrelage et grès cérame grand format, sols et murs, joints fins.",
+    image: img("photo-1600596542815-ffad4c1539a9"),
     specs: [
-      { label: "Diamètre de cuve", value: "650 mm" },
-      { label: "Débit recommandé", value: "15 m³/h" },
-      { label: "Vanne", value: "6 voies Top ou Side" },
-      { label: "Charge filtrante", value: "150 kg sable ou 120 kg verre" }
+      { label: "Prestation", value: "Pose (hors fourniture carreaux)" },
+      { label: "Formats", value: "Jusqu'à 120 x 120 cm" },
+      { label: "Joints", value: "Fins, teinte au choix" },
+      { label: "Unité", value: "Prix au m² HT (indicatif)" }
     ],
     inStock: true,
     featured: true
   },
   {
     id: "prod_4",
-    slug: "verre-filtrant-active-grade-1",
-    name: "Verre Filtrant Actif Haute Pureté (Sac 25 kg)",
-    reference: "MED-VERRE-25",
-    brand: "EcoClear",
-    category: "Cartouches et consommables",
-    price: 290,
+    slug: "enduit-facade",
+    name: "Enduit & Ravalement de Façade",
+    reference: "SO-FACADE",
+    brand: "Second Œuvre",
+    category: "Finitions",
+    price: 90,
     isPriceOnDemand: false,
-    shortDescription: "Remplace le sable traditionnel. Finesse de filtration jusqu'à 5 microns sans colmatage ni formation de biofilm.",
+    shortDescription: "Enduit monocouche ou traditionnel et ravalement de façade, avec traitement des fissures.",
+    image: img("photo-1558618666-fcd25c85cd64"),
     specs: [
-      { label: "Conditionnement", value: "Sac de 25 kg" },
-      { label: "Finesse", value: "Jusqu'à 5 microns" },
-      { label: "Durée de vie", value: "+ de 10 ans" },
-      { label: "Économie d'eau", value: "-50% sur les lavages de filtre" }
+      { label: "Type", value: "Monocouche / traditionnel" },
+      { label: "Préparation", value: "Reprise fissures incluse" },
+      { label: "Finition", value: "Gratté, taloché ou lisse" },
+      { label: "Unité", value: "Prix au m² HT (indicatif)" }
     ],
     inStock: true,
     featured: false
   },
   {
     id: "prod_5",
-    slug: "robot-nettoyeur-electrique-fond-parois",
-    name: "Robot Nettoyeur Électrique Autonome Fond & Parois",
-    reference: "RBT-ELEC-400X",
-    brand: "CleanMaster Pro",
-    category: "Robots nettoyeurs",
-    price: 11500,
+    slug: "cloison-faux-plafond-placo",
+    name: "Cloisons & Faux Plafonds Placo",
+    reference: "SO-PLACO",
+    brand: "Second Œuvre",
+    category: "Finitions",
+    price: 110,
     isPriceOnDemand: false,
-    shortDescription: "Navigation intelligente gyro avec double brosse active. Nettoie méticuleusement le fond, les parois et la ligne d'eau.",
+    shortDescription: "Cloisons de distribution, doublages isolants et faux plafonds en plaques de plâtre.",
+    image: img("photo-1621905251189-08b45d6a269e"),
     specs: [
-      { label: "Cycle de nettoyage", value: "1h30 / 2h30 au choix" },
-      { label: "Filtration", value: "Double cartouche ultra-fine (100 et 20 microns)" },
-      { label: "Longueur câble", value: "18 m avec swivel anti-entortillement" },
-      { label: "Chariot de transport", value: "Inclus" }
+      { label: "Ossature", value: "Métallique galvanisée" },
+      { label: "Isolation", value: "Laine minérale en option" },
+      { label: "Plaques", value: "Standard / hydrofuge" },
+      { label: "Unité", value: "Prix au m² HT (indicatif)" }
     ],
     inStock: true,
-    featured: true
+    featured: false
   },
   {
     id: "prod_6",
-    slug: "projecteur-led-plat-blanc-chaud",
-    name: "Projecteur LED Submersible Plat Blanc Chaud 18W",
-    reference: "LED-PLT-18W",
-    brand: "LumiPool",
-    category: "Éclairage LED",
-    price: 850,
+    slug: "peinture-interieure",
+    name: "Peinture Intérieure",
+    reference: "FN-PEINT",
+    brand: "Finitions",
+    category: "Finitions",
+    price: 55,
     isPriceOnDemand: false,
-    shortDescription: "Projecteur extra-plat se vissant directement sur buse de refoulement 1.5''. Lumière blanc chaud 3000K valorisant l'eau turquoise.",
+    shortDescription: "Préparation des supports et application de peinture intérieure, murs et plafonds, finition soignée.",
+    image: img("photo-1590725140246-20acdee442be"),
     specs: [
-      { label: "Puissance", value: "18W / 12V AC" },
-      { label: "Flux lumineux", value: "1650 Lumens" },
-      { label: "Teinte", value: "Blanc chaud élégant 3000K" },
-      { label: "Étanchéité", value: "IP68 résine injectée" }
+      { label: "Préparation", value: "Rebouchage & ponçage" },
+      { label: "Couches", value: "Impression + 2 couches" },
+      { label: "Teintes", value: "Au nuancier, au choix" },
+      { label: "Unité", value: "Prix au m² HT (indicatif)" }
     ],
     inStock: true,
     featured: false
   },
   {
     id: "prod_7",
-    slug: "coffret-electrique-filtration-projecteur",
-    name: "Coffret Électrique de Filtration & Éclairage Étanche",
-    reference: "ELC-COF-STD",
-    brand: "ElecPool Maroc",
-    category: "Coffrets électriques",
-    price: 1650,
+    slug: "etancheite-toiture-terrasse",
+    name: "Étanchéité Toiture-Terrasse",
+    reference: "ET-TOIT",
+    brand: "Étanchéité",
+    category: "Étanchéité",
+    price: 140,
     isPriceOnDemand: false,
-    shortDescription: "Coffret mural pré-câblé avec disjoncteur magnéto-thermique, horloge journalière modulaire et transformateur 12V torique 100W.",
+    shortDescription: "Reprise et réalisation d'étanchéité de toitures-terrasses contre les infiltrations, avec protection.",
+    image: img("photo-1504307651254-35680f356dfd"),
     specs: [
-      { label: "Protection", value: "IP65 avec porte transparente fermée à clé" },
-      { label: "Disjoncteur", value: "Calibré selon puissance de pompe (4 à 10A)" },
-      { label: "Horloge", value: "Programmateur mécanique journalier 24h" },
-      { label: "Transformateur", value: "100 VA 230V / 12V conforme sécurité piscine" }
+      { label: "Système", value: "Membrane bitumineuse / résine" },
+      { label: "Préparation", value: "Forme de pente & relevés" },
+      { label: "Garantie", value: "Selon système retenu" },
+      { label: "Unité", value: "Prix au m² HT (indicatif)" }
     ],
     inStock: true,
-    featured: false
+    featured: true
   },
   {
     id: "prod_8",
-    slug: "electrolyseur-sel-auto-nettoyant",
-    name: "Électrolyseur au Sel avec Cellule Auto-Nettoyante",
-    reference: "TRT-SEL-80M3",
-    brand: "PureWater Tech",
-    category: "Autres équipements",
-    price: 14200,
+    slug: "menuiserie-aluminium",
+    name: "Menuiserie Aluminium sur Mesure",
+    reference: "MN-ALU",
+    brand: "Menuiserie",
+    category: "Menuiserie",
+    price: undefined,
     isPriceOnDemand: true,
-    shortDescription: "Désinfection naturelle et continue de l'eau sans odeur de chlore agressif. Idéal pour une eau douce respectueuse de la peau et des yeux.",
+    shortDescription: "Fenêtres, baies coulissantes, portes et garde-corps en aluminium sur mesure, posés et réglés.",
+    image: img("photo-1486406146926-c627a92ad1ab"),
     specs: [
-      { label: "Volume de bassin", value: "Jusqu'à 90 m³" },
-      { label: "Production de chlore", value: "18 g/h" },
-      { label: "Cellule", value: "Plaques titane avec inversion de polarité anti-calcaire" },
-      { label: "Sécurités", value: "Détecteur de débit gaz et alarme manque de sel" }
+      { label: "Produits", value: "Fenêtres, baies, portes" },
+      { label: "Vitrage", value: "Double vitrage isolant" },
+      { label: "Coloris", value: "Laqué au choix (RAL)" },
+      { label: "Prix", value: "Sur devis après métré" }
     ],
     inStock: true,
     featured: true
@@ -436,129 +455,138 @@ export const initialProducts: ProductItem[] = [
 export const initialProjects: ProjectItem[] = [
   {
     id: "proj_1",
-    slug: "piscine-miroir-villa-palmeraie",
-    title: "Bassin Miroir Contemporain en Pierre de Bali",
+    slug: "villa-contemporaine-palmeraie",
+    title: "Construction d'une Villa Contemporaine",
     category: "construction",
     categoryLabel: "Construction Neuve",
     location: "Palmeraie, Marrakech",
-    dimensions: "14 x 4.5 m (Profondeur 1.45 m)",
-    description: "Conception et réalisation d'un bassin miroir rectangulaire avec plage immergée de 2.5 mètres et goulottes périphériques dissimulées sous le dallage en travertin clair.",
+    dimensions: "350 m² habitables (R+1)",
+    description: "Construction complète d'une villa contemporaine, du terrassement aux finitions : gros œuvre en béton armé, toiture-terrasse étanchée, menuiserie aluminium et finitions haut de gamme.",
     keyPoints: [
-      "Structure béton banché avec double nappe de ferraillage",
-      "Revêtement carrelage Bali vert émeraude 15x15 cm",
-      "Filtration à vitesse variable 24h/24 ultra-silencieuse",
-      "Éclairage LED encastré blanc chaud 2700K"
+      "Fondations et structure en béton armé",
+      "Toiture-terrasse avec étanchéité garantie",
+      "Menuiserie aluminium double vitrage",
+      "Finitions carrelage grand format et peinture décorative"
     ],
+    image: img("photo-1600585154340-be6161a56a0c"),
     isDemonstration: true,
     hasBeforeAfter: false
   },
   {
     id: "proj_2",
-    slug: "renovation-bassin-route-ourika",
-    title: "Modernisation & Rehausse de Fond d'un Bassin Ancien",
+    slug: "renovation-appartement-gueliz",
+    title: "Rénovation Complète d'un Appartement",
     category: "renovation",
     categoryLabel: "Rénovation Complète",
-    location: "Route de l'Ourika, Marrakech",
-    dimensions: "12 x 6 m",
-    description: "Transformation d'un ancien bassin des années 1990 avec fond incliné dangereux à 2.40m en une piscine contemporaine à fond plat sécurisé de 1.40m avec banquette balnéo.",
+    location: "Guéliz, Marrakech",
+    dimensions: "140 m²",
+    description: "Réhabilitation totale d'un appartement ancien : redistribution des espaces, mise aux normes électrique et plomberie, nouvelles cuisines et salles de bains, et finitions modernes.",
     keyPoints: [
-      "Comblement et coulage d'un nouveau radier allégé",
-      "Suppression des fuites par réfection totale de l'étanchéité",
-      "Remplacement des margelles en béton dégradé par de la pierre naturelle de Taza",
-      "Installation d'un système de filtration à média de verre"
+      "Démolition et redistribution des cloisons",
+      "Mise aux normes électricité et plomberie",
+      "Rénovation cuisine et salles de bains",
+      "Sols, peinture et faux plafonds neufs"
     ],
+    image: img("photo-1600596542815-ffad4c1539a9"),
+    beforeImage: img("photo-1574359411659-15573a27fd0c"),
+    afterImage: img("photo-1600596542815-ffad4c1539a9"),
     isDemonstration: true,
     hasBeforeAfter: true,
-    beforeLabel: "Bassin vétuste, carrelage fendu et fuite hydraulique",
-    afterLabel: "Bassin modernisé avec eau limpide et plage immergée"
+    beforeLabel: "Appartement vétuste, agencement cloisonné",
+    afterLabel: "Espaces ouverts, finitions modernes"
   },
   {
     id: "proj_3",
-    slug: "piscine-riad-medina-marrakech",
-    title: "Bassin Architectural pour Riad d'Hôtes",
+    slug: "immeuble-r-plus-4-targa",
+    title: "Gros Œuvre d'un Immeuble R+4",
     category: "construction",
-    categoryLabel: "Projet Hôtelier",
-    location: "Médina, Marrakech",
-    dimensions: "6 x 3 m (Bassin de patio)",
-    description: "Création d'un bassin de rafraîchissement au cœur du patio d'un riad historique avec contraintes d'accès piétonnier strictes et mur d'eau intégré.",
+    categoryLabel: "Projet Immobilier",
+    location: "Targa, Marrakech",
+    dimensions: "Immeuble R+4, 8 appartements",
+    description: "Réalisation du gros œuvre d'un immeuble résidentiel R+4 : fondations profondes, structure poteaux-poutres, planchers et murs, livrés dans les délais.",
     keyPoints: [
-      "Acheminement des matériaux par engins compacts et travail artisanal",
-      "Revêtement en zellige traditionnel teinté vert d'eau sur mesure",
-      "Local technique déporté insonorisé pour préserver la quiétude des hôtes",
-      "Chauffage par pompe à chaleur discrète"
+      "Fondations et radier dimensionnés par bureau d'études",
+      "Structure poteaux-poutres en béton armé",
+      "Planchers et escaliers coulés en place",
+      "Respect strict du planning de livraison"
     ],
+    image: img("photo-1486406146926-c627a92ad1ab"),
     isDemonstration: true,
     hasBeforeAfter: false
   },
   {
     id: "proj_4",
-    slug: "refonte-local-technique-villa-golf",
-    title: "Réfection Complète d'un Local Technique Haut Débit",
-    category: "technique",
-    categoryLabel: "Installation Technique",
-    location: "Golf Samanah, Marrakech",
-    dimensions: "Bassin 18 x 7 m",
-    description: "Dépose d'une installation vétuste et reconstruction à neuf du collecteur hydraulique : 2 pompes à vitesse variable jumelées, filtre laminé Ø 900 et régulation automatique chlore/pH.",
+    slug: "amenagement-exterieur-ourika",
+    title: "Aménagement Extérieur & Clôture",
+    category: "amenagement",
+    categoryLabel: "Aménagement Extérieur",
+    location: "Route de l'Ourika, Marrakech",
+    dimensions: "Terrain 1 200 m²",
+    description: "Aménagement complet des extérieurs d'une propriété : mur de clôture en béton armé, terrasse en béton désactivé, allées carrossables et espaces verts.",
     keyPoints: [
-      "Clarification totale de l'eau en moins de 36 heures",
-      "Réduction mesurée de 62% de la consommation électrique",
-      "Automatisation complète sans manipulation manuelle de produits acides"
+      "Mur de clôture et portail sur mesure",
+      "Terrasse et allées en béton désactivé",
+      "Gestion des eaux pluviales et drainage",
+      "Plantations et éclairage extérieur"
     ],
+    image: img("photo-1512917774080-9991f1c4c750"),
+    beforeImage: img("photo-1574359411659-15573a27fd0c"),
+    afterImage: img("photo-1512917774080-9991f1c4c750"),
     isDemonstration: true,
     hasBeforeAfter: true,
-    beforeLabel: "Tuyauteries colmatées et pompe thermique bruyante",
-    afterLabel: "Plomberie PVC pression claire, pompes éco et contrôle digital"
+    beforeLabel: "Terrain brut non aménagé",
+    afterLabel: "Extérieurs clôturés et paysagés"
   }
 ];
 
 export const initialMaintenancePlans: MaintenancePlan[] = [
   {
     id: "plan_1",
-    name: "Formule Sérénité Particulier",
-    targetAudience: "Villas & Résidences Secondaires",
-    idealFor: "Propriétaires souhaitant une eau cristalline sans contrainte de manipulation",
-    visitsPerMonth: "4 à 8 visites par mois (1 à 2 passages par semaine)",
+    name: "Contrat Entretien Particulier",
+    targetAudience: "Villas & Résidences",
+    idealFor: "Propriétaires souhaitant entretenir durablement leur bien sans souci",
+    visitsPerMonth: "Visites planifiées selon besoin (mensuel / trimestriel)",
     features: [
-      "Passage hebdomadaire régulier le même jour",
-      "Nettoyage minutieux : brossage ligne d'eau, parois et aspiration fond",
-      "Vérification des paniers skimmers et préfiltre de la pompe",
-      "Analyse photométrique des paramètres : pH, Chlore/Brome, Alcalinité, Stabilisant",
-      "Lavage et rinçage du filtre à sable selon pression du manomètre",
-      "Vérification de l'étanchéité apparente du local technique",
-      "Rapport de passage numérique après chaque intervention"
+      "Visite d'inspection programmée du bâtiment",
+      "Contrôle étanchéité, fissures et infiltrations",
+      "Petites réparations maçonnerie et peinture",
+      "Vérification des réseaux électriques et plomberie",
+      "Entretien des extérieurs et évacuations",
+      "Rapport d'intervention après chaque passage",
+      "Devis prioritaire pour travaux complémentaires"
     ],
     isPopular: true
   },
   {
     id: "plan_2",
-    name: "Formule Prestige Professionnelle",
-    targetAudience: "Riads, Maisons d'Hôtes & Hôtels Boutiques",
-    idealFor: "Établissements avec forte fréquentation nécessitant une qualité sanitaire irréprochable",
-    visitsPerMonth: "8 à 12 visites par mois (2 à 3 passages par semaine)",
+    name: "Contrat Maintenance Professionnelle",
+    targetAudience: "Syndics, Immeubles & Entreprises",
+    idealFor: "Gestionnaires de bâtiments nécessitant un suivi régulier et réactif",
+    visitsPerMonth: "Interventions régulières + astreinte prioritaire",
     features: [
-      "Jusqu'à 3 passages hebdomadaires programmés aux heures creuses",
-      "Tenue du carnet sanitaire obligatoire pour les contrôles d'hygiène",
-      "Surveillance accrue de la désinfection et ajustement dynamique du pH",
-      "Nettoyage systématique de la ligne d'eau et des goulottes de débordement",
-      "Assistance dépannage prioritaire sous 24h sans surcoût de déplacement",
-      "Stock tampon de produits de traitement surveillé et réapprovisionné",
-      "Référent technique dédié joignable 7j/7"
+      "Plan de maintenance préventive du bâtiment",
+      "Entretien des parties communes et extérieurs",
+      "Interventions multi-corps d'état coordonnées",
+      "Dépannage prioritaire sous 24 à 48h",
+      "Suivi et traçabilité des interventions",
+      "Référent technique dédié joignable",
+      "Tarifs négociés pour travaux récurrents"
     ],
     isPopular: false
   },
   {
     id: "plan_3",
-    name: "Intervention Ponctuelle & Remise en Route",
-    targetAudience: "Tous Bassins",
-    idealFor: "Remise en route estivale, retour de vacances ou rattrapage d'eau verte",
-    visitsPerMonth: "À la demande ou pack saisonnier",
+    name: "Intervention Ponctuelle",
+    targetAudience: "Tous Bâtiments",
+    idealFor: "Réparation unique, reprise d'étanchéité ou petits travaux",
+    visitsPerMonth: "À la demande",
     features: [
-      "Bilan diagnostic complet de l'état de l'eau et du matériel",
-      "Rattrapage d'eau trouble ou verte par traitement choc adapté",
-      "Nettoyage de choc et aspiration des dépôts vers l'égout",
-      "Vérification électrique de la pompe et calibrage de l'horloge",
-      "Test de fonctionnement des vannes et manomètres",
-      "Conseils personnalisés pour la suite de la saison"
+      "Diagnostic sur place et devis clair",
+      "Réparation ciblée et durable",
+      "Reprise d'infiltrations et de fissures",
+      "Petits travaux tous corps d'état",
+      "Conseils d'entretien personnalisés",
+      "Intervention rapide sur Marrakech"
     ],
     isPopular: false
   }
@@ -567,52 +595,52 @@ export const initialMaintenancePlans: MaintenancePlan[] = [
 export const initialBlogPosts: BlogPost[] = [
   {
     id: "blog_1",
-    slug: "comment-choisir-pompe-piscine-marrakech",
-    title: "Comment choisir une pompe de piscine adaptée au climat de Marrakech ?",
-    category: "Pompes & Filtration",
-    readTime: "4 min",
+    slug: "etapes-cles-construction-maison-marrakech",
+    title: "Les étapes clés d'une construction de maison réussie à Marrakech",
+    category: "Construction",
+    readTime: "5 min",
     publishedAt: "15 Mars 2026",
-    excerpt: "Sous le soleil et la chaleur marrakchie, le dimensionnement d'une pompe ne s'improvise pas. Découvrez les critères essentiels pour éviter surchauffe et surconsommation.",
+    excerpt: "Du terrain au emménagement, découvrez les grandes étapes d'un projet de construction maîtrisé et sans mauvaise surprise.",
     content: [
-      "À Marrakech, l'eau d'un bassin dépasse fréquemment 28 à 32°C de mai à septembre. À ces températures, la prolifération des algues et des bactéries s'accélère considérablement si la filtration est sous-dimensionnée.",
-      "1. Calculer le débit nécessaire : Le volume total de la piscine doit pouvoir être entièrement recyclé en 4 heures maximum. Pour une piscine de 60 m³, le débit utile doit être d'au moins 15 m³/h.",
-      "2. L'atout des pompes à vitesse variable : En faisant tourner la pompe 24h/24 à un régime modéré, vous filtrez l'eau en continu tout en divisant par trois la facture électrique par rapport à une pompe mono-vitesse tournant 12h à plein régime.",
-      "3. La qualité de la ventilation du local technique : Un local technique mal aéré peut atteindre 55°C en été, provoquant des disjonctions thermiques répétées. Veillez toujours à une double aération haute et basse."
+      "Construire sa maison est un projet de vie qui demande méthode et anticipation. Voici les étapes incontournables pour un chantier maîtrisé.",
+      "1. L'étude et les plans : avant tout, l'architecte et le bureau d'études définissent les plans, la structure et déposent la demande de permis de construire.",
+      "2. Le terrassement et les fondations : la nature du sol détermine le type de fondations. Un radier ou des semelles en béton armé assurent la stabilité de l'ouvrage.",
+      "3. Le gros œuvre : élévation des murs, coulage des planchers et de la structure poteaux-poutres. C'est le squelette de la maison.",
+      "4. Le second œuvre et les finitions : électricité, plomberie, plâtrerie, carrelage, peinture et menuiserie donnent vie au bâtiment avant la réception du chantier."
     ],
     isDraft: false
   },
   {
     id: "blog_2",
-    slug: "quand-remplacer-sable-filtre-piscine",
-    title: "Quand faut-il remplacer le sable de son filtre de piscine ?",
-    category: "Entretien",
+    slug: "eviter-infiltrations-toiture-terrasse",
+    title: "Comment éviter les infiltrations sur une toiture-terrasse ?",
+    category: "Étanchéité",
     readTime: "3 min",
     publishedAt: "22 Février 2026",
-    excerpt: "Le sable s'use et s'entartre avec le temps. Reconnaître les signes de colmatage permet de préserver la limpidité de l'eau et de soulager votre pompe.",
+    excerpt: "Les toitures-terrasses sont exposées. Une bonne étanchéité protège durablement votre bâtiment des infiltrations.",
     content: [
-      "La durée de vie du sable siliceux traditionnel dans un filtre est généralement de 3 à 5 ans. Au Maroc, où l'eau est souvent très calcaire, ce délai peut même être raccourci si aucun détartrage annuel n'est effectué.",
-      "Les symptômes d'un sable fatigué :",
-      "- La pression du filtre monte rapidement même après un contre-lavage soigneux.",
-      "- L'eau reste légèrement laiteuse ou trouble malgré un taux de désinfectant correct.",
-      "- Du sable se retrouve rejeté au fond de la piscine via les buses de refoulement (signe que les crépines internes sont cassées ou écrasées).",
-      "L'alternative moderne : Le verre filtrant recyclé. Grâce à sa surface lisse et non poreuse, il ne retient pas le calcaire, offre une finesse de filtration double (environ 5 à 15 microns contre 30 à 40 pour le sable) et dure plus de 10 ans sans remplacement."
+      "Les infiltrations sont l'une des principales causes de dégradation des bâtiments. Sur une toiture-terrasse, la vigilance est essentielle.",
+      "La forme de pente : une pente minimale est indispensable pour évacuer l'eau vers les descentes. Une terrasse plate accumule l'eau et fragilise l'étanchéité.",
+      "Le choix du système : membrane bitumineuse soudée ou résine d'étanchéité, chaque solution a ses avantages selon la configuration et l'usage de la terrasse.",
+      "Les points singuliers : relevés, évacuations et joints de dilatation sont les zones les plus sensibles. Ils doivent être traités avec le plus grand soin.",
+      "L'entretien : un contrôle annuel des évacuations et des relevés permet d'anticiper les problèmes avant qu'ils ne causent des dégâts à l'intérieur."
     ],
     isDraft: false
   },
   {
     id: "blog_3",
-    slug: "etapes-cles-construction-piscine-beton",
-    title: "Les étapes clés d'une construction de piscine en béton armé réussie",
-    category: "Construction",
-    readTime: "5 min",
+    slug: "renover-ou-construire-que-choisir",
+    title: "Rénover ou construire : comment faire le bon choix ?",
+    category: "Rénovation",
+    readTime: "4 min",
     publishedAt: "10 Janvier 2026",
-    excerpt: "Du terrassement à la première baignade, tour d'horizon des étapes d'ingénierie indispensables pour un bassin durable sans risque de fissures.",
+    excerpt: "Entre rénovation d'un bien existant et construction neuve, le bon choix dépend de plusieurs critères. Nos conseils.",
     content: [
-      "La construction d'une piscine est un ouvrage de génie civil à part entière qui doit résister aux pressions conjuguées de la terre et de l'eau.",
-      "Étape 1 : L'implantation et le terrassement. Respecter les cotes et vérifier la nature du sol (argileux, rocheux, sablonneux) pour adapter la fondation.",
-      "Étape 2 : Le radier et le ferraillage. Pose d'un lit de gravier propre, film polyane et double nappe de treillis soudé haute adhérence avec fers d'équerre solidarisant le fond et les parois.",
-      "Étape 3 : Le coulage du béton hydrofuge. Le béton banché ou projeté doit être coulé dans les règles de l'art pour assurer une densité homogène sans poches d'air.",
-      "Étape 4 : Le temps de cure. Un séchage naturel d'au moins 28 jours est impératif avant d'appliquer les couches d'étanchéité et le carrelage de finition."
+      "Faut-il rénover un bien existant ou construire du neuf ? La réponse dépend de votre budget, de l'état du bâti et de vos objectifs.",
+      "L'état de la structure : si les fondations et la structure sont saines, la rénovation est souvent plus économique et plus rapide.",
+      "Le budget : la rénovation permet d'étaler les travaux par étapes, tandis que la construction neuve offre une maîtrise totale mais demande un investissement initial plus important.",
+      "Les performances : une construction neuve respecte les dernières normes thermiques et de sécurité. Une rénovation lourde peut toutefois atteindre un niveau de confort équivalent.",
+      "Notre conseil : un diagnostic technique préalable permet de comparer objectivement les deux scénarios et de chiffrer précisément chaque option."
     ],
     isDraft: false
   }
@@ -622,38 +650,38 @@ export const initialFAQ: FAQItem[] = [
   {
     id: "faq_1",
     category: "prix",
-    question: "Combien coûte la construction d'une piscine à Marrakech ?",
-    answer: "Le budget de construction dépend essentiellement des dimensions, du terrain, de la complexité architecturale (bassin miroir, débordement, plage immergée), du revêtement sélectionné (carrelage Bali, résine, émaux) et des équipements techniques (pompe à vitesse variable, régulateurs automatiques). Nous établissons une étude technique chiffrée et transparente après échange sur votre projet."
+    question: "Comment établissez-vous vos devis ?",
+    answer: "Après une visite technique sur place et un métré précis, nous remettons un devis détaillé poste par poste, clair et sans surprise. L'étude et le devis sont gratuits et sans engagement."
   },
   {
     id: "faq_2",
     category: "construction",
-    question: "Quels sont les délais habituels de construction ?",
-    answer: "Pour un bassin résidentiel traditionnel en béton armé, comptez en moyenne de 6 à 10 semaines entre le premier coup de pelleteuse et la mise en eau, en respectant scrupuleusement les temps de séchage du béton et des enduits d'étanchéité."
+    question: "Quels sont les délais pour une construction ?",
+    answer: "Les délais dépendent de la nature et de la taille du projet. Pour une villa, comptez en moyenne 8 à 14 mois selon les finitions. Un planning prévisionnel est fourni avec le devis et suivi tout au long du chantier."
   },
   {
     id: "faq_3",
-    category: "entretien",
-    question: "Comment gérer le calcaire très présent dans l'eau de la région ?",
-    answer: "L'eau de Marrakech et sa périphérie présente souvent un titre hydrotimétrique (TH) élevé. Sans surveillance du pH et sans anticalcaire séquestrant, le calcaire précipite sous l'effet de la chaleur, blanchissant la ligne d'eau et entartrant le filtre. Nous équilibrons les paramètres physico-chimiques pour stabiliser l'eau."
+    category: "construction",
+    question: "Intervenez-vous uniquement à Marrakech ?",
+    answer: "Notre base est au Quartier Industriel Sidi Ghanem à Marrakech. Nous intervenons sur toute la ville, sa périphérie (Palmeraie, Targa, Route de l'Ourika…) et la région Marrakech-Safi."
   },
   {
     id: "faq_4",
-    category: "pompe_filtration",
-    question: "Comment savoir quelle pompe convient à ma piscine ?",
-    answer: "Le choix dépend du volume d'eau (longueur x largeur x profondeur moyenne), des pertes de charge (distance entre bassin et local technique) et du diamètre du filtre existant. Nos techniciens calculent le point de fonctionnement exact pour vous proposer le modèle idéal."
+    category: "renovation",
+    question: "Gérez-vous tous les corps d'état ?",
+    answer: "Oui. SLT SERVICES coordonne l'ensemble des corps d'état (gros œuvre, électricité, plomberie, menuiserie, finitions) avec un interlocuteur unique, ce qui vous évite de gérer plusieurs entreprises."
   },
   {
     id: "faq_5",
-    category: "renovation",
-    question: "Peut-on transformer un bassin rectangulaire classique en piscine contemporaine ?",
-    answer: "Absolument. Nous réalisons régulièrement des modifications de profil : rehausse de fond pour créer une profondeur confortable de 1.40m, création d'une plage immergée solarium avec marches larges, et remplacement des vieilles margelles par des pierres naturelles contemporaines."
+    category: "prix",
+    question: "Faut-il un architecte pour mon projet ?",
+    answer: "Pour une construction neuve soumise à permis de construire, un architecte est requis. Nous travaillons avec le vôtre ou pouvons vous recommander des partenaires de confiance."
   },
   {
     id: "faq_6",
     category: "depannage",
-    question: "Que faire en urgence si ma pompe ne tourne plus ?",
-    answer: "Vérifiez en premier lieu le disjoncteur au tableau électrique et assurez-vous que le panier de préfiltre n'est pas bouché. Si la pompe émet un sifflement ou bourdonne sans tourner, coupez l'alimentation pour éviter de brûler le moteur et contactez notre service de dépannage technique."
+    question: "Réalisez-vous aussi de petits travaux ?",
+    answer: "Absolument. Au-delà des grands chantiers, nous assurons les travaux divers, la maintenance et les réparations ponctuelles, pour les particuliers comme pour les professionnels et syndics."
   }
 ];
 
@@ -664,31 +692,31 @@ export const initialTestimonials: Testimonial[] = [
     role: "Propriétaire de villa",
     propertyType: "Villa contemporaine",
     location: "Palmeraie, Marrakech",
-    content: "Rénovation complète de notre bassin de 14 mètres avec pose de carrelage en pierre de Bali. Équipe très professionnelle, chantier propre et conseils judicieux sur la pompe à vitesse variable.",
+    content: "SLT SERVICES a construit notre villa de A à Z. Chantier sérieux, délais respectés et finitions impeccables. Un interlocuteur unique du début à la fin, c'est un vrai confort.",
     rating: 5,
-    projectType: "Rénovation & filtration",
+    projectType: "Construction neuve",
     verified: true
   },
   {
     id: "test_2",
     name: "Sophie M.",
-    role: "Gérante de maison d'hôtes",
-    propertyType: "Riad 8 chambres",
-    location: "Médina, Marrakech",
-    content: "Nous avons confié l'entretien bi-hebdomadaire de notre bassin de patio. Une eau toujours impeccable pour nos clients et une excellente réactivité dès qu'une pièce technique doit être changée.",
+    role: "Gérante d'immeuble",
+    propertyType: "Résidence 8 logements",
+    location: "Guéliz, Marrakech",
+    content: "Rénovation complète de deux appartements et entretien des parties communes. Équipe réactive, propre et de bon conseil. Je recommande pour le suivi professionnel.",
     rating: 5,
-    projectType: "Contrat de maintenance",
+    projectType: "Rénovation & maintenance",
     verified: true
   },
   {
     id: "test_3",
     name: "Hassan E.",
-    role: "Architecte d'intérieur",
-    propertyType: "Domaine privé",
-    location: "Route d'Amizmiz",
-    content: "Collaboration sur la conception d'une piscine miroir à débordement. La maîtrise technique du système hydraulique et la discrétion du local technique répondent parfaitement à nos exigences architecturales.",
+    role: "Architecte",
+    propertyType: "Projet résidentiel",
+    location: "Targa, Marrakech",
+    content: "Nous avons confié à SLT SERVICES le gros œuvre d'un immeuble R+4. Maîtrise technique, respect des plans et du planning. Une entreprise fiable pour nos chantiers.",
     rating: 5,
-    projectType: "Construction sur mesure",
+    projectType: "Gros œuvre",
     verified: true
   }
 ];
@@ -696,7 +724,7 @@ export const initialTestimonials: Testimonial[] = [
 export const initialLeads: Lead[] = [
   {
     id: "lead_1001",
-    ref: "AP-2026-1001",
+    ref: "SLT-2026-1001",
     createdAt: "2026-10-26T10:15:00Z",
     name: "Omar Tazi",
     phone: "+212 6 61 22 33 44",
@@ -705,63 +733,62 @@ export const initialLeads: Lead[] = [
     city: "Marrakech (Palmeraie)",
     source: "formulaire_devis",
     originPage: "/devis",
-    service: "Construction de piscines",
-    description: "Projet de piscine rectangulaire miroir 12x4.5m pour villa neuve en cours d'achèvement. Souhaite plage immergée et carrelage Bali.",
+    service: "Gros Œuvre & Construction",
+    description: "Projet de construction d'une villa R+1 d'environ 300 m² sur terrain déjà viabilisé. Souhaite une étude et un devis gros œuvre + finitions.",
     urgency: "cette_semaine",
     details: {
-      type: "Miroir",
-      dimensions: "12 x 4.5 m",
-      profondeur: "1.40 m constante",
-      terrain: "Plat et accessible",
-      echeance: "Dans les 2 prochains mois"
+      type: "Construction villa",
+      surface: "300 m² (R+1)",
+      terrain: "Viabilisé et accessible",
+      echeance: "Démarrage sous 3 mois"
     },
     status: "qualifie",
     priority: "eleve",
     assignedTo: "Directeur Technique",
-    internalNotes: "Contact téléphonique chaleureux. Rendez-vous sur place fixé ce vendredi à 11h avec l'architecte du projet.",
+    internalNotes: "Contact sérieux, plans d'architecte disponibles. Visite de terrain fixée vendredi à 11h.",
     followUpDate: "2026-10-31",
     history: [
       {
         timestamp: "2026-10-26T10:15:00Z",
-        action: "Demande reçue via le formulaire de devis intelligent",
+        action: "Demande reçue via le formulaire de devis",
         user: "Système"
       },
       {
         timestamp: "2026-10-26T14:30:00Z",
         action: "Appel de qualification effectué",
         user: "Admin",
-        note: "Projet très sérieux, permis de construire validé, terrain terrassé."
+        note: "Projet très sérieux, permis de construire validé, terrain prêt."
       }
     ]
   },
   {
     id: "lead_1002",
-    ref: "AP-2026-1002",
+    ref: "SLT-2026-1002",
     createdAt: "2026-10-27T08:45:00Z",
     name: "Nadia Bennani",
     phone: "+212 6 70 88 99 00",
     whatsapp: "+212 6 70 88 99 00",
-    email: "n.bennani@villa-marrakech.com",
+    email: "n.bennani@example.com",
     city: "Route de l'Ourika",
     source: "depannage_urgent",
     originPage: "/depannage",
-    service: "Dépannage d'urgence",
-    description: "La pompe de filtration siffle fort puis disjoncte immédiatement. L'eau commence à se troubler.",
+    service: "Travaux Divers & Maintenance",
+    description: "Infiltration importante au niveau de la toiture-terrasse après les pluies. Traces d'humidité au plafond du dernier étage.",
     urgency: "immediate",
     details: {
-      probleme: "Pompe bloquée / Disjonction",
-      modele: "Pompe 1.5 CV Hayward ancienne",
+      probleme: "Infiltration toiture-terrasse",
+      zone: "Dernier étage",
       urgent: true
     },
     status: "visite_programmee",
     priority: "urgent",
-    assignedTo: "Technicien Dépannage 1",
-    internalNotes: "Passage calé aujourd'hui en fin d'après-midi entre 16h et 17h. Prévoir condensateur de démarrage et pompe de prêt si moteur HS.",
+    assignedTo: "Chef de Chantier",
+    internalNotes: "Passage calé aujourd'hui en fin d'après-midi. Prévoir diagnostic étanchéité et reprise des relevés.",
     followUpDate: "2026-10-28",
     history: [
       {
         timestamp: "2026-10-27T08:45:00Z",
-        action: "Demande de dépannage urgent enregistrée",
+        action: "Demande d'intervention urgente enregistrée",
         user: "Système"
       },
       {
@@ -773,26 +800,26 @@ export const initialLeads: Lead[] = [
   },
   {
     id: "lead_1003",
-    ref: "AP-2026-1003",
+    ref: "SLT-2026-1003",
     createdAt: "2026-10-27T16:20:00Z",
-    name: "M. Delacroix (Riad Médina)",
+    name: "M. Delacroix",
     phone: "+212 6 12 34 56 78",
     whatsapp: "+212 6 12 34 56 78",
-    city: "Marrakech Médina",
+    city: "Marrakech Guéliz",
     source: "maintenance",
     originPage: "/maintenance",
     service: "Contrats de maintenance",
-    description: "Demande de contrat annuel pour le bassin de notre maison d'hôtes (8 chambres). 2 passages hebdomadaires souhaités.",
+    description: "Demande de contrat de maintenance annuel pour un immeuble de 8 logements (parties communes, étanchéité, petits travaux).",
     urgency: "cette_semaine",
     details: {
-      formule: "Formule Prestige Professionnelle",
-      passages: "2 fois par semaine",
-      typeEtablissement: "Maison d'hôtes"
+      formule: "Contrat Maintenance Professionnelle",
+      batiment: "Immeuble 8 logements",
+      besoins: "Parties communes & étanchéité"
     },
     status: "devis_envoye",
     priority: "normal",
     assignedTo: "Chargé Commercial",
-    internalNotes: "Proposition commerciale avec carnet sanitaire envoyée par email et WhatsApp. En attente de validation par le gérant.",
+    internalNotes: "Proposition de contrat annuel envoyée par email et WhatsApp. En attente de validation du syndic.",
     followUpDate: "2026-11-02",
     history: [
       {

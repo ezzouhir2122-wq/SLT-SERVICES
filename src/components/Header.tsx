@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
     { label: 'Accueil', path: '/' },
     { label: 'Services', path: '/services' },
     { label: 'Réalisations', path: '/realisations' },
-    { label: 'Équipements', path: '/equipements' },
+    { label: 'Prestations', path: '/equipements' },
     { label: 'Dépannage', path: '/depannage' },
     { label: 'Maintenance', path: '/maintenance' },
     { label: 'Contact', path: '/contact' }
@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-8">
-        {/* Zone 1: Brand wordmark & sleek vector aquatic icon */}
+        {/* Zone 1: Brand wordmark & building icon */}
         <button
           onClick={() => navigate('/')}
           className="flex items-center gap-3 text-left focus:outline-none group whitespace-nowrap shrink-0"
@@ -34,13 +34,17 @@ export const Header: React.FC = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d="M2 12c2.5-3 5.5-3 8 0s5.5 3 8 0" />
-              <path d="M2 17c2.5-3 5.5-3 8 0s5.5 3 8 0" />
+              <path d="M3 21h18" />
+              <path d="M6 21V7l6-3 6 3v14" />
+              <path d="M10 21v-6h4v6" />
             </svg>
           </div>
           <div>
             <span className="text-xl font-bold tracking-tight text-[#102A43] group-hover:text-[#0077B6] transition-colors block">
-              {settings.companyName || 'AQUA PISCINES'}
+              {settings.companyName || 'SLT SERVICES'}
+            </span>
+            <span className="text-[10px] font-semibold tracking-[0.18em] text-[#0077B6] uppercase block -mt-0.5">
+              Travaux & Construction
             </span>
           </div>
         </button>

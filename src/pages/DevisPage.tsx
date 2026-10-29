@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { CheckCircle2, ArrowRight, ArrowLeft, MessageCircle, Send, ShieldCheck, AlertCircle } from 'lucide-react';
+import { CheckCircle2, ArrowRight, ArrowLeft, MessageCircle, Send, AlertCircle } from 'lucide-react';
 
 export const DevisPage: React.FC = () => {
   const { submitLead, settings, getWhatsAppUrl, navigate } = useApp();
@@ -9,20 +9,18 @@ export const DevisPage: React.FC = () => {
   const [submittedRef, setSubmittedRef] = useState<string | null>(null);
 
   // Form State
-  const [projectType, setProjectType] = useState<string>('Construction de piscines');
-  
+  const [projectType, setProjectType] = useState<string>('Gros œuvre & construction');
+
   // Step 2 conditional fields
   const [details, setDetails] = useState<Record<string, any>>({
-    poolType: 'Piscine rectangulaire en béton armé',
-    length: '10',
-    width: '4.5',
-    depth: '1.40',
-    terrain: 'Terrain plat accessible',
+    buildingType: 'Villa individuelle',
+    surface: '150',
+    levels: 'R+1',
+    terrain: 'Terrain plat et accessible',
     timeline: 'Dans les 1 à 3 prochains mois',
-    issueType: 'Pompe en panne ou bruyante',
-    equipmentType: 'Pompe de circulation',
-    urgencyLevel: '24_48h',
-    maintenanceFrequency: '1 passage par semaine'
+    propertyType: 'Villa / maison individuelle',
+    issueType: 'Infiltration / humidité',
+    urgencyLevel: '24_48h'
   });
 
   // Step 3 Contact details
@@ -31,7 +29,7 @@ export const DevisPage: React.FC = () => {
     phone: '',
     whatsapp: '',
     email: '',
-    city: 'Marrakech (Palmeraie)',
+    city: 'Marrakech',
     message: ''
   });
 
@@ -39,15 +37,17 @@ export const DevisPage: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState('');
 
   const projectOptions = [
-    { id: 'Construction de piscines', label: 'Construction neuve', desc: 'Bassin en béton armé, miroir, débordement' },
-    { id: 'Rénovation de bassin', label: 'Rénovation & réhabilitation', desc: 'Reprise étanchéité, changement carrelage, rehausse' },
-    { id: 'Dépannage & réparation', label: 'Dépannage / Réparation', desc: 'Pompe en panne, fuite, disjoncteur' },
-    { id: 'Pompe & filtration', label: 'Pompe & filtration', desc: 'Remplacement de pompe, filtre à sable' },
-    { id: 'Entretien & maintenance', label: 'Contrat d\'entretien', desc: 'Visites hebdomadaires, suivi régulier' },
-    { id: 'Aménagement extérieur', label: 'Aménagement & plages', desc: 'Margelles, solarium, travertin, terrasse' },
-    { id: 'Achat équipement', label: 'Achat d\'équipements', desc: 'Robot nettoyeur, électrolyseur sel, projecteurs' },
+    { id: 'Gros œuvre & construction', label: 'Construction neuve', desc: 'Villa, immeuble, local — du terrassement au gros œuvre' },
+    { id: 'Rénovation & réhabilitation', label: 'Rénovation & réhabilitation', desc: 'Remise à neuf, transformation, mise aux normes' },
+    { id: 'Aménagement extérieur', label: 'Aménagement extérieur', desc: 'Terrasse, clôture, voirie, espaces verts' },
+    { id: 'Second œuvre & finitions', label: 'Second œuvre & finitions', desc: 'Plâtre, carrelage, peinture, menuiserie' },
+    { id: 'Électricité & plomberie', label: 'Électricité & plomberie', desc: 'Installation et mise aux normes' },
+    { id: 'Travaux divers & maintenance', label: 'Travaux divers / maintenance', desc: 'Réparations, étanchéité, entretien' },
+    { id: 'Dépannage & urgence', label: 'Dépannage / Urgence', desc: 'Infiltration, fissure, panne technique' },
     { id: 'Autre demande', label: 'Autre projet', desc: 'Conseil ou étude particulière' }
   ];
+
+  const isUrgentType = projectType.includes('Dépannage') || projectType.includes('Travaux divers');
 
   const handleNext = () => {
     setErrorMsg('');
@@ -100,7 +100,7 @@ export const DevisPage: React.FC = () => {
   };
 
   if (submittedRef) {
-    const summaryMsg = `Bonjour Aqua Piscines, je viens de soumettre ma demande de devis n° ${submittedRef} concernant : ${projectType} à ${contact.city}. Pouvons-nous échanger à ce sujet ?`;
+    const summaryMsg = `Bonjour SLT SERVICES, je viens de soumettre ma demande de devis n° ${submittedRef} concernant : ${projectType} à ${contact.city}. Pouvons-nous échanger à ce sujet ?`;
     return (
       <div className="max-w-2xl mx-auto px-4 py-16">
         <div className="bg-white rounded-3xl border border-slate-200/90 shadow-lg p-8 sm:p-12 text-center">
@@ -123,7 +123,7 @@ export const DevisPage: React.FC = () => {
           </div>
 
           <p className="text-xs text-slate-500 mb-8 max-w-md mx-auto">
-            Un technicien chargé d'affaires va examiner les spécificités de votre bassin et vous contacter sous 24h ouvrées.
+            Un chargé d'affaires va étudier votre projet et vous contacter sous 24h ouvrées pour organiser la visite technique.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -157,10 +157,10 @@ export const DevisPage: React.FC = () => {
           Devis Personnalisé & Gratuit
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#102A43] mt-2">
-          Étude Chiffrée de votre Bassin
+          Étude Chiffrée de votre Projet
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Complétez ce formulaire en 4 étapes rapides pour obtenir une proposition claire et adaptée à votre projet.
+          Complétez ce formulaire en 4 étapes rapides pour obtenir une proposition claire et adaptée à vos travaux.
         </p>
       </div>
 
@@ -168,7 +168,7 @@ export const DevisPage: React.FC = () => {
       <div className="mb-10">
         <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mb-2">
           <span className={currentStep >= 1 ? 'text-[#0077B6]' : ''}>1. Projet</span>
-          <span className={currentStep >= 2 ? 'text-[#0077B6]' : ''}>2. Spécifications</span>
+          <span className={currentStep >= 2 ? 'text-[#0077B6]' : ''}>2. Précisions</span>
           <span className={currentStep >= 3 ? 'text-[#0077B6]' : ''}>3. Coordonnées</span>
           <span className={currentStep >= 4 ? 'text-[#0077B6]' : ''}>4. Validation</span>
         </div>
@@ -229,228 +229,124 @@ export const DevisPage: React.FC = () => {
                 Précisions sur votre projet ({projectType})
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                Ces informations nous permettent de calibrer les matériels et les dimensions adéquates.
+                Ces informations nous permettent de préparer une étude et un chiffrage adaptés.
               </p>
             </div>
 
-            {/* Construction questions */}
-            {projectType === 'Construction de piscines' && (
+            {/* Construction */}
+            {projectType === 'Gros œuvre & construction' && (
               <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                    Type architectural souhaité
-                  </label>
-                  <select
-                    value={details.poolType}
-                    onChange={(e) => setDetails({ ...details, poolType: e.target.value })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
-                  >
-                    <option value="Piscine miroir (l'eau affleure le dallage)">Bassin miroir contemporain</option>
-                    <option value="Piscine à débordement (vue dégagée)">Piscine à débordement cascade</option>
-                    <option value="Piscine rectangulaire classique avec plage immergée">Piscine rectangulaire avec plage immergée</option>
-                    <option value="Couloir de nage épuré">Couloir de nage (longueur plus de 15m)</option>
-                    <option value="Bassin pour patio de riad">Bassin de rafraîchissement pour patio de riad</option>
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Longueur estimée (m)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.5"
-                      value={details.length}
-                      onChange={(e) => setDetails({ ...details, length: e.target.value })}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300"
-                      placeholder="Ex : 10"
-                    />
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Type de bâtiment</label>
+                    <select
+                      value={details.buildingType}
+                      onChange={(e) => setDetails({ ...details, buildingType: e.target.value })}
+                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
+                    >
+                      <option value="Villa individuelle">Villa individuelle</option>
+                      <option value="Immeuble résidentiel">Immeuble résidentiel</option>
+                      <option value="Local commercial / professionnel">Local commercial / professionnel</option>
+                      <option value="Dépôt / bâtiment industriel">Dépôt / bâtiment industriel</option>
+                      <option value="Extension / surélévation">Extension / surélévation</option>
+                    </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Largeur estimée (m)
-                    </label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Surface approximative (m²)</label>
                     <input
                       type="number"
-                      step="0.5"
-                      value={details.width}
-                      onChange={(e) => setDetails({ ...details, width: e.target.value })}
+                      step="10"
+                      value={details.surface}
+                      onChange={(e) => setDetails({ ...details, surface: e.target.value })}
                       className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300"
-                      placeholder="Ex : 4.5"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Profondeur souhaitée (m)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      value={details.depth}
-                      onChange={(e) => setDetails({ ...details, depth: e.target.value })}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300"
-                      placeholder="Ex : 1.40"
+                      placeholder="Ex : 150"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Accès et terrain
-                    </label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Nombre de niveaux</label>
                     <select
-                      value={details.terrain}
-                      onChange={(e) => setDetails({ ...details, terrain: e.target.value })}
+                      value={details.levels}
+                      onChange={(e) => setDetails({ ...details, levels: e.target.value })}
                       className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
                     >
-                      <option value="Terrain plat accessible engins">Terrain plat, accès facile pour engins de terrassement</option>
-                      <option value="Terrain en pente / rocheux">Terrain en pente ou présence de roche</option>
-                      <option value="Accès étroit (médina ou passage piéton)">Accès piéton ou ruelle étroite (médina/riad)</option>
+                      <option value="RDC">Rez-de-chaussée seul</option>
+                      <option value="R+1">R+1 (un étage)</option>
+                      <option value="R+2">R+2 (deux étages)</option>
+                      <option value="R+3 et plus">R+3 et plus</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Échéance prévisionnelle
-                    </label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Échéance prévisionnelle</label>
                     <select
                       value={details.timeline}
                       onChange={(e) => setDetails({ ...details, timeline: e.target.value })}
                       className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
                     >
-                      <option value="Immédiat (chantier prêt)">Immédiat (permis validé, début sous 30 jours)</option>
+                      <option value="Immédiat (permis validé)">Immédiat (permis validé, début sous 30 jours)</option>
                       <option value="Dans les 1 à 3 prochains mois">Dans les 1 à 3 prochains mois</option>
-                      <option value="Dans plus de 3 mois / Projet futur">Projet en phase d'étude préliminaire</option>
+                      <option value="Projet en phase d'étude">Projet en phase d'étude préliminaire</option>
                     </select>
                   </div>
                 </div>
-              </div>
-            )}
 
-            {/* Pompe / Filtration questions */}
-            {(projectType.includes('Pompe') || projectType.includes('filtration')) && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Nature de l'intervention
-                    </label>
-                    <select
-                      value={details.pumpNeed || 'Remplacement de pompe défaillante'}
-                      onChange={(e) => setDetails({ ...details, pumpNeed: e.target.value })}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
-                    >
-                      <option value="Remplacement de pompe défaillante">Remplacement d'une pompe défaillante</option>
-                      <option value="Passage à une pompe à vitesse variable">Passage à une pompe à vitesse variable (économies d'énergie)</option>
-                      <option value="Remplacement du sable du filtre">Changement du sable / Passage au média de verre</option>
-                      <option value="Création complète du local technique">Création ou réfection complète du local technique</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Marque / Modèle existant (si connu)
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Ex : Hayward 1.5 CV, AstralPool, Espa..."
-                      value={details.pumpBrand || ''}
-                      onChange={(e) => setDetails({ ...details, pumpBrand: e.target.value })}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Dépannage questions */}
-            {projectType.includes('Dépannage') && (
-              <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                    Problème constaté
-                  </label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">Terrain & accès</label>
                   <select
-                    value={details.issueType}
-                    onChange={(e) => setDetails({ ...details, issueType: e.target.value })}
+                    value={details.terrain}
+                    onChange={(e) => setDetails({ ...details, terrain: e.target.value })}
                     className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
                   >
-                    <option value="Pompe qui disjoncte ou ne démarre plus">La pompe disjoncte immédiatement ou bourdonne</option>
-                    <option value="Fuite apparente dans le local technique">Fuite d'eau importante au niveau de la tuyauterie ou vanne</option>
-                    <option value="L'eau est verte ou laiteuse en quelques jours">Eau verte, trouble ou développement d'algues rapide</option>
-                    <option value="Niveau d'eau qui baisse anormalement (fuite bassin)">Baisse rapide du niveau d'eau (suspicion de fuite dans le bassin)</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                    Degré d'urgence
-                  </label>
-                  <select
-                    value={details.urgencyLevel}
-                    onChange={(e) => setDetails({ ...details, urgencyLevel: e.target.value })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
-                  >
-                    <option value="immediate">Urgent : Intervention souhaitée au plus vite</option>
-                    <option value="24_48h">Sous 24h à 48h ouvrées</option>
-                    <option value="cette_semaine">Cette semaine</option>
+                    <option value="Terrain plat et accessible">Terrain plat, accès facile pour engins</option>
+                    <option value="Terrain en pente / rocheux">Terrain en pente ou présence de roche</option>
+                    <option value="Accès étroit">Accès étroit (ruelle, passage piéton)</option>
                   </select>
                 </div>
               </div>
             )}
 
-            {/* Entretien questions */}
-            {projectType.includes('Entretien') && (
+            {/* Rénovation */}
+            {projectType === 'Rénovation & réhabilitation' && (
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Type d'établissement / Propriété
-                    </label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Type de bien</label>
                     <select
-                      value={details.propertyType || 'Villa privée résidentielle'}
+                      value={details.propertyType}
                       onChange={(e) => setDetails({ ...details, propertyType: e.target.value })}
                       className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
                     >
-                      <option value="Villa privée résidentielle">Villa privée d'habitation</option>
-                      <option value="Résidence secondaire en location">Résidence secondaire / Location saisonnière</option>
-                      <option value="Riad ou maison d'hôtes">Riad ou maison d'hôtes</option>
-                      <option value="Hôtel ou résidence touristique">Hôtel ou complexe touristique</option>
+                      <option value="Villa / maison individuelle">Villa / maison individuelle</option>
+                      <option value="Appartement">Appartement</option>
+                      <option value="Local commercial">Local commercial</option>
+                      <option value="Immeuble / parties communes">Immeuble / parties communes</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                      Fréquence de passage souhaitée
-                    </label>
-                    <select
-                      value={details.maintenanceFrequency}
-                      onChange={(e) => setDetails({ ...details, maintenanceFrequency: e.target.value })}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
-                    >
-                      <option value="1 passage par semaine">1 passage par semaine (résidentiel classique)</option>
-                      <option value="2 passages par semaine">2 passages par semaine (haute saison / location)</option>
-                      <option value="3 passages par semaine">3 passages par semaine (hôtels / forte affluence)</option>
-                      <option value="Intervention ponctuelle de remise en route">Passage ponctuel de remise en route</option>
-                    </select>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Surface approximative (m²)</label>
+                    <input
+                      type="number"
+                      step="10"
+                      value={details.surface}
+                      onChange={(e) => setDetails({ ...details, surface: e.target.value })}
+                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300"
+                      placeholder="Ex : 120"
+                    />
                   </div>
                 </div>
-              </div>
-            )}
 
-            {/* Rénovation questions */}
-            {projectType.includes('Rénovation') && (
-              <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                    Modifications souhaitées pour la rénovation
-                  </label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">Travaux souhaités</label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                     {[
-                      "Réfection totale de l'étanchéité",
-                      "Pose de carrelage imitation pierre de Bali",
-                      "Rehausse de fond pour diminuer la profondeur",
-                      "Création d'une plage immergée avec banquette",
-                      "Remplacement des margelles en pierre naturelle",
-                      "Remplacement complet de la plomberie et du filtre"
+                      "Redistribution / démolition de cloisons",
+                      "Mise aux normes électricité & plomberie",
+                      "Rénovation cuisine / salle de bains",
+                      "Sols, peinture et faux plafonds",
+                      "Reprise d'étanchéité / humidité",
+                      "Menuiserie et façade"
                     ].map(item => (
                       <label key={item} className="flex items-center gap-2 p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-slate-50">
                         <input
@@ -471,6 +367,45 @@ export const DevisPage: React.FC = () => {
                     ))}
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Dépannage / Travaux divers */}
+            {isUrgentType && (
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">Nature du problème / des travaux</label>
+                  <select
+                    value={details.issueType}
+                    onChange={(e) => setDetails({ ...details, issueType: e.target.value })}
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
+                  >
+                    <option value="Infiltration / humidité">Infiltration d'eau / humidité</option>
+                    <option value="Fissures de structure ou façade">Fissures de structure ou façade</option>
+                    <option value="Réparation maçonnerie / plâtre / peinture">Réparation maçonnerie / plâtre / peinture</option>
+                    <option value="Panne électricité / plomberie">Panne électricité / plomberie</option>
+                    <option value="Entretien de bâtiment / parties communes">Entretien de bâtiment / parties communes</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">Degré d'urgence</label>
+                  <select
+                    value={details.urgencyLevel}
+                    onChange={(e) => setDetails({ ...details, urgencyLevel: e.target.value })}
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
+                  >
+                    <option value="immediate">Urgent : intervention au plus vite</option>
+                    <option value="24_48h">Sous 24h à 48h ouvrées</option>
+                    <option value="cette_semaine">Cette semaine</option>
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* Autres types : saisie libre à l'étape suivante */}
+            {!['Gros œuvre & construction', 'Rénovation & réhabilitation'].includes(projectType) && !isUrgentType && (
+              <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200 text-xs text-slate-700">
+                Parfait. Vous pourrez décrire précisément votre besoin ({projectType.toLowerCase()}) à l'étape suivante dans le champ message.
               </div>
             )}
           </div>
@@ -548,7 +483,7 @@ export const DevisPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                Localisation du bien (Ville / Quartier) *
+                Localisation du chantier (Ville / Quartier) *
               </label>
               <select
                 value={contact.city}
@@ -568,7 +503,7 @@ export const DevisPage: React.FC = () => {
               </label>
               <textarea
                 rows={3}
-                placeholder="Indiquez toute précision utile : contraintes d'accès, historique du bassin, dimensions approximatives..."
+                placeholder="Indiquez toute précision utile : contraintes d'accès, état du bâti, plans disponibles, budget indicatif..."
                 value={contact.message}
                 onChange={(e) => setContact({ ...contact, message: e.target.value })}
                 className="w-full text-xs sm:text-sm p-3.5 rounded-lg border border-slate-300"
@@ -591,7 +526,7 @@ export const DevisPage: React.FC = () => {
 
             <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3 text-xs sm:text-sm">
               <div className="flex justify-between py-1 border-b border-slate-200">
-                <span className="text-slate-500">Service sélectionné :</span>
+                <span className="text-slate-500">Projet sélectionné :</span>
                 <span className="font-bold text-slate-900">{projectType}</span>
               </div>
               <div className="flex justify-between py-1 border-b border-slate-200">
@@ -614,7 +549,7 @@ export const DevisPage: React.FC = () => {
               )}
             </div>
 
-            {/* Consentement CNDP */}
+            {/* Consentement */}
             <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200 text-xs">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input

@@ -5,11 +5,11 @@ import { Check, ShieldCheck, MessageCircle, FileText, Calendar } from 'lucide-re
 
 export const MaintenancePage: React.FC = () => {
   const { navigate, getWhatsAppUrl, submitLead, settings } = useApp();
-  const [selectedPlan, setSelectedPlan] = useState<string>('Formule Sérénité Particulier');
+  const [selectedPlan, setSelectedPlan] = useState<string>('Contrat Entretien Particulier');
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    city: 'Marrakech (Palmeraie)',
+    city: 'Marrakech',
     propertyType: 'Villa résidentielle'
   });
   const [loading, setLoading] = useState(false);
@@ -50,7 +50,7 @@ export const MaintenancePage: React.FC = () => {
           Contrats d'Entretien & Maintenance
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Bénéficiez d'une eau saine et cristalline toute l'année sans manipulation de produits chimiques. Nos techniciens qualifiés assurent un suivi rigoureux.
+          Préservez durablement vos bâtiments avec un suivi régulier : étanchéité, petites réparations, entretien des parties communes et des extérieurs.
         </p>
       </div>
 
@@ -130,7 +130,7 @@ export const MaintenancePage: React.FC = () => {
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">Demande de contrat enregistrée</h3>
             <p className="text-xs text-slate-600 mb-4">
-              Votre dossier n° <span className="font-mono font-bold text-[#0077B6]">{submittedRef}</span> a été transmis. Notre responsable maintenance prendra contact pour convenir d'une première visite de calibrage.
+              Votre dossier n° <span className="font-mono font-bold text-[#0077B6]">{submittedRef}</span> a été transmis. Notre responsable maintenance prendra contact pour convenir d'une première visite d'évaluation.
             </p>
             <a
               href={getWhatsAppUrl(`Bonjour, je souhaite valider ma demande de contrat d'entretien (Réf: ${submittedRef}) pour la formule : ${selectedPlan}.`)}
@@ -165,11 +165,11 @@ export const MaintenancePage: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
                     className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
                   >
-                    <option value="Villa résidentielle">Villa résidentielle privée</option>
-                    <option value="Résidence secondaire">Résidence secondaire / Villa d'hivernage</option>
-                    <option value="Riad en Médina">Riad en Médina</option>
-                    <option value="Maison d'hôtes / Hôtel">Maison d'hôtes / Établissement hôtelier</option>
-                    <option value="Copropriété / Club de sport">Copropriété / Résidence fermée</option>
+                    <option value="Villa résidentielle">Villa / maison individuelle</option>
+                    <option value="Appartement">Appartement</option>
+                    <option value="Immeuble / copropriété">Immeuble / copropriété (syndic)</option>
+                    <option value="Local commercial">Local commercial / bureaux</option>
+                    <option value="Établissement / hôtel">Établissement / hôtel</option>
                   </select>
                 </div>
 
@@ -236,7 +236,7 @@ export const MaintenancePage: React.FC = () => {
               </button>
 
               <p className="text-[11px] text-slate-400 text-center">
-                Tarifs calculés selon le cubage d'eau, la localisation et le nombre de passages hebdomadaires.
+                Tarifs établis selon la surface, la localisation et la fréquence des interventions.
               </p>
             </form>
           </div>

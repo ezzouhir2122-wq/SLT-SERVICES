@@ -51,6 +51,8 @@ export interface CompanySettings {
   primaryCity: string;
   citiesCovered: string[];
   openingHours: string;
+  phoneSecondary?: string;
+  heroImage?: string;
   facebookUrl?: string;
   instagramUrl?: string;
   linkedinUrl?: string;
@@ -66,6 +68,7 @@ export interface ServiceItem {
   shortDescription: string;
   fullDescription: string;
   iconName: string;
+  image?: string;
   solutions: string[];
   clientProblems: string[];
   prestations: string[];
@@ -83,6 +86,7 @@ export interface ProductItem {
   price?: number;
   isPriceOnDemand: boolean;
   shortDescription: string;
+  image?: string;
   specs: { label: string; value: string }[];
   inStock: boolean;
   featured: boolean;
@@ -98,6 +102,9 @@ export interface ProjectItem {
   dimensions?: string;
   description: string;
   keyPoints: string[];
+  image?: string;
+  beforeImage?: string;
+  afterImage?: string;
   isDemonstration: boolean;
   hasBeforeAfter?: boolean;
   beforeLabel?: string;
@@ -128,7 +135,7 @@ export interface BlogPost {
 
 export interface FAQItem {
   id: string;
-  category: 'construction' | 'prix' | 'entretien' | 'pompe_filtration' | 'renovation' | 'depannage';
+  category: string;
   question: string;
   answer: string;
 }

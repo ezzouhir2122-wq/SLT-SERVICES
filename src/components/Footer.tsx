@@ -23,8 +23,9 @@ export const Footer: React.FC = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <path d="M2 12c2.5-3 5.5-3 8 0s5.5 3 8 0" />
-                  <path d="M2 17c2.5-3 5.5-3 8 0s5.5 3 8 0" />
+                  <path d="M3 21h18" />
+                  <path d="M6 21V7l6-3 6 3v14" />
+                  <path d="M10 21v-6h4v6" />
                 </svg>
               </div>
               <span className="text-xl font-bold tracking-tight text-white">
@@ -33,7 +34,7 @@ export const Footer: React.FC = () => {
             </div>
 
             <p className="text-sm text-slate-300 leading-relaxed max-w-sm">
-              Conception, construction, rénovation, dépannage et vente d'équipements de piscines haut de gamme. Interventions sur Marrakech, sa région et l'ensemble du Maroc.
+              Construction, rénovation, aménagement et travaux tous corps d'état. Entreprise de bâtiment basée au Quartier Industriel Sidi Ghanem, intervenant sur Marrakech et sa région.
             </p>
 
             <div className="pt-2 flex items-center gap-3">
@@ -57,42 +58,42 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2.5 text-xs text-slate-300">
               <li>
                 <button
-                  onClick={() => navigate('/services/construction-piscines')}
+                  onClick={() => navigate('/services/gros-oeuvre-construction')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Construction sur mesure
+                  Gros œuvre & Construction
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => navigate('/services/amenagement')}
+                  onClick={() => navigate('/services/renovation-rehabilitation')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Aménagement & Plages
+                  Rénovation & Réhabilitation
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => navigate('/services/renovation-reparation')}
+                  onClick={() => navigate('/services/amenagement-exterieur')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Rénovation & Étanchéité
+                  Aménagement extérieur
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => navigate('/services/pompes-filtration')}
+                  onClick={() => navigate('/services/second-oeuvre-finitions')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Pompes & Filtration
+                  Second œuvre & Finitions
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => navigate('/services/entretien')}
+                  onClick={() => navigate('/services/electricite-plomberie')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Entretien périodique
+                  Électricité & Plomberie
                 </button>
               </li>
               <li>
@@ -100,7 +101,7 @@ export const Footer: React.FC = () => {
                   onClick={() => navigate('/depannage')}
                   className="hover:text-white transition-colors text-left text-[#00B4D8]"
                 >
-                  Dépannage d'urgence
+                  Travaux divers & Urgences
                 </button>
               </li>
             </ul>
@@ -117,7 +118,7 @@ export const Footer: React.FC = () => {
                   onClick={() => navigate('/equipements')}
                   className="hover:text-white transition-colors text-left"
                 >
-                  Catalogue équipements
+                  Nos prestations
                 </button>
               </li>
               <li>
@@ -179,6 +180,14 @@ export const Footer: React.FC = () => {
                   {settings.phone}
                 </a>
               </li>
+              {settings.phoneSecondary && (
+                <li className="flex items-center gap-2.5">
+                  <Phone className="w-4 h-4 text-[#00B4D8] shrink-0" />
+                  <a href={`tel:${settings.phoneSecondary.replace(/\s+/g, '')}`} className="hover:text-white">
+                    {settings.phoneSecondary}
+                  </a>
+                </li>
+              )}
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#00B4D8] shrink-0" />
                 <a href={`mailto:${settings.email}`} className="hover:text-white">
@@ -196,7 +205,7 @@ export const Footer: React.FC = () => {
         {/* Bottom bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-300">
           <div>
-            © {currentYear} {settings.companyName}. Tous droits réservés. Piscines d'exception au Maroc.
+            © {currentYear} {settings.companyName} SARL. Tous droits réservés. Construction & travaux à Marrakech.
           </div>
 
           <div className="flex items-center gap-6">

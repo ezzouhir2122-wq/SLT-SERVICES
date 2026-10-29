@@ -262,7 +262,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="mt-6 pt-4 border-t border-slate-100 text-center">
             <span className="text-[11px] text-slate-400 block mb-1">Identifiants démonstration :</span>
             <code className="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-700">
-              admin / AquaMarrakech2026!
+              admin / SltMarrakech2026!
             </code>
           </div>
         </div>
@@ -652,7 +652,7 @@ export const AdminDashboard: React.FC = () => {
               </a>
 
               <a
-                href={`https://wa.me/${selectedLead.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Bonjour ${selectedLead.name}, je fais suite à votre demande de devis n° ${selectedLead.ref} chez Aqua Piscines.`)}`}
+                href={`https://wa.me/${selectedLead.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Bonjour ${selectedLead.name}, je fais suite à votre demande de devis n° ${selectedLead.ref} chez SLT SERVICES.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold border border-emerald-200"

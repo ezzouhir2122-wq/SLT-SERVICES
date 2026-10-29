@@ -16,13 +16,16 @@ export const MentionsLegalesPage: React.FC = () => {
         <div>
           <h2 className="text-base font-bold text-slate-900 mb-2">1. Éditeur de la Plateforme</h2>
           <p>
-            Le présent site internet est édité par la société <strong>{settings.companyName}</strong>, société commerciale régie par le droit des sociétés au Maroc.
+            Le présent site internet est édité par la société <strong>{settings.companyName} SARL</strong>, société à responsabilité limitée de droit marocain.
           </p>
           <ul className="mt-2 space-y-1 text-slate-600">
+            <li><strong>Forme juridique :</strong> Société à Responsabilité Limitée (SARL)</li>
+            <li><strong>Capital social :</strong> 1 000 000,00 MAD</li>
+            <li><strong>Activité :</strong> Entrepreneur de travaux divers ou constructions</li>
             <li><strong>Siège social :</strong> {settings.address}</li>
-            <li><strong>Téléphone :</strong> {settings.phone}</li>
+            <li><strong>Téléphone :</strong> {settings.phone}{settings.phoneSecondary ? ` / ${settings.phoneSecondary}` : ''}</li>
             <li><strong>Courrier électronique :</strong> {settings.email}</li>
-            <li><strong>Zone d'activité :</strong> Marrakech et Royaume du Maroc</li>
+            <li><strong>Zone d'activité :</strong> Marrakech et région Marrakech-Safi</li>
           </ul>
         </div>
 
@@ -43,7 +46,7 @@ export const MentionsLegalesPage: React.FC = () => {
         <div>
           <h2 className="text-base font-bold text-slate-900 mb-2">4. Responsabilité & Conseils Techniques</h2>
           <p>
-            Les articles de blog, simulateurs et fiches informatives ont une vocation purement consultative. Une visite technique sur place par un professionnel qualifié est indispensable pour valider tout dimensionnement hydraulique ou structurel.
+            Les articles de blog, simulateurs et fiches informatives ont une vocation purement consultative. Une visite technique sur place par un professionnel qualifié est indispensable pour valider tout dimensionnement technique ou structurel.
           </p>
         </div>
       </div>

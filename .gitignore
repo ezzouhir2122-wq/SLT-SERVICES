@@ -6,3 +6,9 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Runtime database (auto-generated from src/data/initialData.ts on server start)
+data/db.json
+
+# Playwright MCP test artifacts
+.playwright-mcp/

@@ -5,13 +5,20 @@ interface InteractiveBeforeAfterProps {
   subtitle?: string;
   beforeLabel?: string;
   afterLabel?: string;
+  beforeImage?: string;
+  afterImage?: string;
 }
+
+const DEFAULT_BEFORE = "https://images.unsplash.com/photo-1574359411659-15573a27fd0c?auto=format&fit=crop&w=1200&q=70";
+const DEFAULT_AFTER = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=70";
 
 export const InteractiveBeforeAfter: React.FC<InteractiveBeforeAfterProps> = ({
   title = "Rénovation Complète : Avant / Après",
-  subtitle = "Faites glisser le curseur pour visualiser la transformation d'un bassin dégradé en oasis contemporaine.",
-  beforeLabel = "Avant : Fissures, étanchéité défaillante & margelles cassées",
-  afterLabel = "Après : Bassin en pierre de Bali, plage immergée & filtration neuve"
+  subtitle = "Faites glisser le curseur pour visualiser la transformation d'un bien dégradé en espace moderne et sain.",
+  beforeLabel = "Avant : bâti vétuste, fissures et finitions dégradées",
+  afterLabel = "Après : rénovation complète, finitions modernes et durables",
+  beforeImage = DEFAULT_BEFORE,
+  afterImage = DEFAULT_AFTER
 }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -69,83 +76,35 @@ export const InteractiveBeforeAfter: React.FC<InteractiveBeforeAfterProps> = ({
         }}
         onTouchMove={handleTouchMove}
       >
-        {/* Layer 1: AFTER (Renovated luxury pool with crystal turquoise water) */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#005f73] via-[#0a9396] to-[#94d2bd] flex items-center justify-center overflow-hidden">
-          {/* Architectural pool vector visualization */}
-          <div className="absolute inset-0 opacity-90">
-            <svg className="w-full h-full object-cover" viewBox="0 0 1200 600" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="poolWater" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0077B6" />
-                  <stop offset="50%" stopColor="#00B4D8" />
-                  <stop offset="100%" stopColor="#90E0EF" />
-                </linearGradient>
-                <linearGradient id="coping" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#F8FAFC" />
-                  <stop offset="100%" stopColor="#E2E8F0" />
-                </linearGradient>
-              </defs>
-              {/* Background villa wall */}
-              <rect width="1200" height="260" fill="#F1F5F9" />
-              {/* Modern glass villa architecture facade */}
-              <rect x="250" y="40" width="700" height="200" fill="#E2E8F0" rx="8" />
-              <rect x="300" y="70" width="280" height="150" fill="#94A3B8" opacity="0.3" rx="4" />
-              <rect x="620" y="70" width="280" height="150" fill="#94A3B8" opacity="0.3" rx="4" />
-              {/* Limestone deck */}
-              <rect y="240" width="1200" height="360" fill="url(#coping)" />
-              {/* Pool basin */}
-              <rect x="180" y="270" width="840" height="290" rx="16" fill="url(#poolWater)" stroke="#CBD5E1" strokeWidth="8" />
-              {/* Shallow lounge sun shelf */}
-              <rect x="200" y="290" width="240" height="100" rx="8" fill="#90E0EF" opacity="0.6" />
-              {/* Water caustics reflection lines */}
-              <path d="M220 330 Q400 310 600 330 T1000 330" fill="none" stroke="#FFFFFF" strokeWidth="2.5" opacity="0.5" />
-              <path d="M200 400 Q450 380 750 410 T1000 390" fill="none" stroke="#FFFFFF" strokeWidth="2" opacity="0.4" />
-              <path d="M220 480 Q500 460 700 490 T980 470" fill="none" stroke="#FFFFFF" strokeWidth="3" opacity="0.4" />
-            </svg>
-          </div>
-
+        {/* Layer 1: AFTER (rénovation terminée) */}
+        <div className="absolute inset-0">
+          <img
+            src={afterImage}
+            alt="Après travaux"
+            className="absolute inset-0 w-full h-full object-cover"
+            draggable={false}
+          />
           <div className="absolute top-4 right-4 bg-[#102A43]/85 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-lg border border-white/20 font-medium z-10 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span>RÉNOVATION TERMINÉE</span>
+            <span>TRAVAUX TERMINÉS</span>
           </div>
         </div>
 
-        {/* Layer 2: BEFORE (Degraded, green/troubled water, cracked coping) - Clipped by width */}
+        {/* Layer 2: BEFORE (état initial) - clipped via clip-path */}
         <div
-          className="absolute inset-0 overflow-hidden"
-          style={{ width: `${sliderPosition}%` }}
+          className="absolute inset-0"
+          style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
         >
-          <div className="absolute inset-0 w-full min-w-full bg-[#3f4a3c] flex items-center justify-center">
-            <div className="absolute inset-0 opacity-90">
-              <svg className="w-full h-full object-cover" viewBox="0 0 1200 600" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="dirtyWater" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#283618" />
-                    <stop offset="50%" stopColor="#606c38" />
-                    <stop offset="100%" stopColor="#4a572a" />
-                  </linearGradient>
-                  <linearGradient id="crackedDeck" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#d5bdaf" />
-                    <stop offset="100%" stopColor="#b79c88" />
-                  </linearGradient>
-                </defs>
-                {/* Weathered background */}
-                <rect width="1200" height="260" fill="#9c8c7c" opacity="0.6" />
-                {/* Weathered terracotta deck */}
-                <rect y="240" width="1200" height="360" fill="url(#crackedDeck)" />
-                {/* Dirty pool */}
-                <rect x="180" y="270" width="840" height="290" rx="16" fill="url(#dirtyWater)" stroke="#8d7768" strokeWidth="8" />
-                {/* Cracks */}
-                <path d="M220 280 L290 340 L340 330 L400 390" fill="none" stroke="#2b2d42" strokeWidth="3" opacity="0.7" />
-                <path d="M700 310 L750 380 L800 370 L850 450" fill="none" stroke="#2b2d42" strokeWidth="2.5" opacity="0.7" />
-                <path d="M450 490 L520 440 L600 480" fill="none" stroke="#2b2d42" strokeWidth="2" opacity="0.6" />
-              </svg>
-            </div>
-
-            <div className="absolute top-4 left-4 bg-amber-950/85 backdrop-blur-md text-amber-200 text-xs px-3 py-1.5 rounded-lg border border-amber-500/30 font-medium z-10 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-              <span>ÉTAT INITIAL DÉGRADÉ</span>
-            </div>
+          <img
+            src={beforeImage}
+            alt="Avant travaux"
+            className="absolute inset-0 w-full h-full object-cover"
+            draggable={false}
+          />
+          <div className="absolute inset-0 bg-slate-900/20" />
+          <div className="absolute top-4 left-4 bg-amber-950/85 backdrop-blur-md text-amber-200 text-xs px-3 py-1.5 rounded-lg border border-amber-500/30 font-medium z-10 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span>ÉTAT INITIAL</span>
           </div>
         </div>
 

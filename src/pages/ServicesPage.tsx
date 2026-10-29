@@ -3,11 +3,11 @@ import { useApp } from '../context/AppContext';
 import { initialServices, initialProjects } from '../data/initialData';
 import { QuickQuoteMiniForm } from '../components/QuickQuoteMiniForm';
 import {
-  Waves,
-  Compass,
-  Sparkles,
-  Activity,
-  ShieldCheck,
+  Building2,
+  Hammer,
+  Trees,
+  Paintbrush,
+  Zap,
   Wrench,
   CheckCircle2,
   AlertTriangle,
@@ -21,14 +21,15 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   const getServiceIcon = (iconName: string) => {
+    const cls = "w-6 h-6 text-[#0077B6]";
     switch (iconName) {
-      case 'Waves': return <Waves className="w-6 h-6 text-[#0077B6]" />;
-      case 'Compass': return <Compass className="w-6 h-6 text-[#0077B6]" />;
-      case 'Sparkles': return <Sparkles className="w-6 h-6 text-[#0077B6]" />;
-      case 'Activity': return <Activity className="w-6 h-6 text-[#0077B6]" />;
-      case 'ShieldCheck': return <ShieldCheck className="w-6 h-6 text-[#0077B6]" />;
-      case 'Wrench': return <Wrench className="w-6 h-6 text-[#0077B6]" />;
-      default: return <Waves className="w-6 h-6 text-[#0077B6]" />;
+      case 'Building2': return <Building2 className={cls} />;
+      case 'Hammer': return <Hammer className={cls} />;
+      case 'Trees': return <Trees className={cls} />;
+      case 'Paintbrush': return <Paintbrush className={cls} />;
+      case 'Zap': return <Zap className={cls} />;
+      case 'Wrench': return <Wrench className={cls} />;
+      default: return <Building2 className={cls} />;
     }
   };
 
@@ -39,13 +40,13 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
 
   if (activeService) {
     const relatedProjects = initialProjects.filter(p => {
-      if (activeService.slug === 'construction-piscines') return p.category === 'construction';
-      if (activeService.slug === 'renovation-reparation') return p.category === 'renovation';
-      if (activeService.slug === 'pompes-filtration') return p.category === 'technique';
+      if (activeService.slug === 'gros-oeuvre-construction') return p.category === 'construction';
+      if (activeService.slug === 'renovation-rehabilitation') return p.category === 'renovation';
+      if (activeService.slug === 'amenagement-exterieur') return p.category === 'amenagement';
       return true;
     }).slice(0, 2);
 
-    const whatsappText = `Bonjour, je souhaite me renseigner sur votre service : ${activeService.title} pour ma piscine.`;
+    const whatsappText = `Bonjour, je souhaite me renseigner sur votre service : ${activeService.title} pour mon projet.`;
 
     return (
       <div className="space-y-16 pb-20">
@@ -87,6 +88,16 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
                 </a>
               </div>
             </div>
+
+            {activeService.image && (
+              <div className="mt-10 rounded-2xl overflow-hidden shadow-lg border border-slate-200 aspect-[21/9]">
+                <img
+                  src={activeService.image}
+                  alt={activeService.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
           </div>
         </section>
 
@@ -113,7 +124,7 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
             <div className="bg-emerald-50/50 rounded-2xl border border-emerald-100 p-6 sm:p-8">
               <div className="flex items-center gap-2 text-emerald-800 font-bold text-base mb-4">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                <h3>La réponse technique Aqua Piscines</h3>
+                <h3>La réponse technique SLT SERVICES</h3>
               </div>
               <ul className="space-y-3">
                 {activeService.solutions.map((sol, idx) => (
@@ -230,13 +241,13 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
       <div className="text-center max-w-2xl mx-auto">
         <span className="text-xs font-semibold tracking-wider text-[#0077B6] uppercase">
-          Savoir-faire Aquatique
+          Notre Savoir-faire
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#102A43] mt-2">
-          Nos Services & Prestations Piscine
+          Nos Services & Prestations
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Une équipe dédiée pour chaque phase de vie de votre piscine à Marrakech et partout au Maroc.
+          Une équipe dédiée pour chaque étape de votre projet de construction ou de rénovation, à Marrakech et sa région.
         </p>
       </div>
 
@@ -245,24 +256,36 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
           <div
             key={service.id}
             onClick={() => navigate(`/services/${service.slug}`)}
-            className="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between hover:border-[#0077B6]/50 hover:shadow-md transition-all cursor-pointer group"
+            className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:border-[#0077B6]/50 hover:shadow-md transition-all cursor-pointer group"
           >
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-                {getServiceIcon(service.iconName)}
+            {service.image && (
+              <div className="h-40 overflow-hidden">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
               </div>
-              <span className="text-xs font-medium text-[#0077B6] block mb-1">{service.kicker}</span>
-              <h3 className="text-lg font-bold text-[#102A43] group-hover:text-[#0077B6] transition-colors mb-2.5">
-                {service.title}
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed mb-6">
-                {service.shortDescription}
-              </p>
-            </div>
+            )}
+            <div className="p-6 flex flex-col justify-between flex-1">
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#0077B6] flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+                  {getServiceIcon(service.iconName)}
+                </div>
+                <span className="text-xs font-medium text-[#0077B6] block mb-1">{service.kicker}</span>
+                <h3 className="text-lg font-bold text-[#102A43] group-hover:text-[#0077B6] transition-colors mb-2.5">
+                  {service.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed mb-6">
+                  {service.shortDescription}
+                </p>
+              </div>
 
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#0077B6]">
-              <span>Consulter la page détaillée</span>
-              <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-[#0077B6]">
+                <span>Consulter la page détaillée</span>
+                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
           </div>
         ))}

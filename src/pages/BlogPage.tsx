@@ -7,7 +7,7 @@ export const BlogPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
-  const categories = ['all', 'Pompes & Filtration', 'Entretien', 'Construction'];
+  const categories = ['all', 'Construction', 'Rénovation', 'Étanchéité'];
 
   const filteredPosts = initialBlogPosts.filter(p => {
     if (selectedCategory === 'all') return true;
@@ -22,10 +22,10 @@ export const BlogPage: React.FC = () => {
           Conseils Techniques
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#102A43] mt-2">
-          Le Guide de la Piscine au Maroc
+          Conseils Travaux & Bâtiment
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Retrouvez nos conseils d'ingénierie et d'entretien pour profiter d'une eau limpide et préserver la durée de vie de vos équipements.
+          Retrouvez nos conseils de construction, de rénovation et d'entretien pour réussir vos projets et préserver vos bâtiments.
         </p>
       </div>
 

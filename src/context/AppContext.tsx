@@ -34,10 +34,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [params, setParams] = useState<Record<string, string>>({});
   const [settings, setSettings] = useState<CompanySettings>(initialCompanySettings);
   const [adminToken, setAdminToken] = useState<string | null>(() => {
-    return localStorage.getItem('aqua_admin_token') || null;
+    return localStorage.getItem('slt_admin_token') || null;
   });
   const [adminUser, setAdminUser] = useState<any | null>(() => {
-    const saved = localStorage.getItem('aqua_admin_user');
+    const saved = localStorage.getItem('slt_admin_user');
     return saved ? JSON.parse(saved) : null;
   });
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -133,7 +133,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const getWhatsAppUrl = (customMessage?: string): string => {
     const cleanNumber = settings.whatsapp.replace(/[^0-9]/g, '');
-    const defaultMsg = "Bonjour Aqua Piscines, je souhaite des renseignements sur vos prestations de piscine à Marrakech.";
+    const defaultMsg = "Bonjour SLT SERVICES, je souhaite des renseignements sur vos prestations de travaux à Marrakech.";
     const encoded = encodeURIComponent(customMessage || defaultMsg);
     return `https://wa.me/${cleanNumber}?text=${encoded}`;
   };
@@ -141,16 +141,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const loginAdmin = (token: string, user: any) => {
     setAdminToken(token);
     setAdminUser(user);
-    localStorage.setItem('aqua_admin_token', token);
-    localStorage.setItem('aqua_admin_user', JSON.stringify(user));
+    localStorage.setItem('slt_admin_token', token);
+    localStorage.setItem('slt_admin_user', JSON.stringify(user));
     showToast(`Bienvenue, ${user.name || user.username}`, 'success');
   };
 
   const logoutAdmin = () => {
     setAdminToken(null);
     setAdminUser(null);
-    localStorage.removeItem('aqua_admin_token');
-    localStorage.removeItem('aqua_admin_user');
+    localStorage.removeItem('slt_admin_token');
+    localStorage.removeItem('slt_admin_user');
     showToast('Déconnexion réussie.', 'info');
     navigate('/');
   };

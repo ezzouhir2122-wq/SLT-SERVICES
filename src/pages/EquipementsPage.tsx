@@ -23,13 +23,10 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
 
   const categories = [
     'all',
-    'Pompes de piscine',
-    'Filtres à sable',
-    'Cartouches et consommables',
-    'Robots nettoyeurs',
-    'Éclairage LED',
-    'Coffrets électriques',
-    'Autres équipements'
+    'Gros œuvre',
+    'Finitions',
+    'Étanchéité',
+    'Menuiserie'
   ];
 
   const filteredProducts = initialProducts.filter(p => {
@@ -51,9 +48,9 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
       name: inquiryForm.name,
       phone: inquiryForm.phone,
       city: inquiryForm.city,
-      service: "Demande de prix équipement",
+      service: "Demande de devis prestation",
       source: "fiche_produit",
-      description: `Demande pour ${selectedProduct.name} (${selectedProduct.reference})`,
+      description: `Demande de devis pour ${selectedProduct.name} (${selectedProduct.reference})`,
       details: {
         productName: selectedProduct.name,
         reference: selectedProduct.reference,
@@ -72,13 +69,13 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
         <span className="text-xs font-semibold tracking-wider text-[#0077B6] uppercase">
-          Matériel Professionnel
+          Prestations & Matériaux
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#102A43] mt-2">
-          Boutique & Équipements de Piscine
+          Nos Prestations & Tarifs indicatifs
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Pompes performantes, filtration fine, robots automatisés et pièces détachées sélectionnées pour résister aux eaux calcaires du Maroc.
+          Prestations du bâtiment, du gros œuvre aux finitions, avec tarifs indicatifs au m². Le prix définitif est établi après visite et métré.
         </p>
       </div>
 
@@ -89,7 +86,7 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Rechercher pompe, filtre, robot, référence..."
+            placeholder="Rechercher une prestation, un matériau, une référence..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full text-xs sm:text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0077B6]"
@@ -131,8 +128,22 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
           {filteredProducts.map(product => (
             <div
               key={product.id}
-              className="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col justify-between hover:shadow-md transition-shadow group"
+              className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow group"
             >
+              {product.image && (
+                <div
+                  onClick={() => setSelectedProduct(product)}
+                  className="h-36 overflow-hidden cursor-pointer"
+                >
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div className="p-5 flex flex-col justify-between flex-1">
               <div>
                 <div className="flex items-center justify-between text-[11px] text-slate-400 mb-2">
                   <span>{product.brand}</span>
@@ -167,10 +178,10 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
                 <div className="py-2.5 border-t border-slate-100 flex items-center justify-between">
                   <span className="text-xs font-bold text-slate-900">
                     {product.isPriceOnDemand || !product.price
-                      ? 'Prix sur demande'
-                      : `${product.price.toLocaleString('fr-FR')} MAD HT`}
+                      ? 'Prix sur devis'
+                      : `${product.price.toLocaleString('fr-FR')} MAD/m² HT`}
                   </span>
-                  <span className="text-[11px] text-emerald-600 font-medium">En stock</span>
+                  <span className="text-[11px] text-emerald-600 font-medium">Disponible</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 pt-2">
@@ -191,6 +202,7 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
                     Demander prix
                   </button>
                 </div>
+              </div>
               </div>
             </div>
           ))}
@@ -217,6 +229,16 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
               </button>
             </div>
 
+            {selectedProduct.image && (
+              <div className="rounded-2xl overflow-hidden mb-5 aspect-[16/9] border border-slate-200">
+                <img
+                  src={selectedProduct.image}
+                  alt={selectedProduct.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
               {selectedProduct.shortDescription}
             </p>
@@ -241,14 +263,14 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
                 <span className="text-slate-400 block">Tarif estimé :</span>
                 <span className="font-bold text-sm text-slate-900">
                   {selectedProduct.price
-                    ? `${selectedProduct.price.toLocaleString('fr-FR')} MAD HT`
-                    : 'Sur devis / commande'}
+                    ? `${selectedProduct.price.toLocaleString('fr-FR')} MAD/m² HT`
+                    : 'Sur devis'}
                 </span>
               </div>
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <a
-                  href={getWhatsAppUrl(`Bonjour, je souhaite des informations et le prix pour l'article : ${selectedProduct.name} (Réf : ${selectedProduct.reference})`)}
+                  href={getWhatsAppUrl(`Bonjour, je souhaite des informations et un devis pour la prestation : ${selectedProduct.name} (Réf : ${selectedProduct.reference})`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 transition-colors"

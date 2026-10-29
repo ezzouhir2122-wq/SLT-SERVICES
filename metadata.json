@@ -1,6 +1,6 @@
 {
-  "name": "AQUA PISCINES - Piscines et Équipements Marrakech",
-  "description": "Plateforme web premium de piscines à Marrakech et au Maroc : construction, rénovation, dépannage, pompes, filtration, maintenance et vente d'équipements aquatiques.",
+  "name": "SLT SERVICES - Construction & Travaux à Marrakech",
+  "description": "SLT SERVICES SARL, entreprise de bâtiment à Marrakech (Sidi Ghanem) : construction, gros œuvre, rénovation, aménagement extérieur, second œuvre, électricité, plomberie et travaux divers.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

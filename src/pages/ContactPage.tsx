@@ -47,7 +47,7 @@ export const ContactPage: React.FC = () => {
           Contact & Accès Agence
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Une question sur votre installation, un besoin de pièces ou un projet à étudier ? Nos conseillers sont à votre entière disposition.
+          Une question sur vos travaux, un projet à étudier ou une demande de devis ? Nos conseillers sont à votre entière disposition.
         </p>
       </div>
 
@@ -224,8 +224,8 @@ export const ContactPage: React.FC = () => {
                   >
                     <option value="Renseignement général">Renseignement général</option>
                     <option value="Demande de devis projet">Demande d'étude ou devis pour un projet</option>
-                    <option value="Demande de prix équipement">Disponibilité ou prix d'un équipement</option>
-                    <option value="Proposition de partenariat pro">Partenariat promoteur / architecte / riad</option>
+                    <option value="Demande de prix prestation">Prix d'une prestation / matériau</option>
+                    <option value="Proposition de partenariat pro">Partenariat promoteur / architecte / syndic</option>
                   </select>
                 </div>
 

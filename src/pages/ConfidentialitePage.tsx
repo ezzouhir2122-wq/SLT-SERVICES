@@ -23,7 +23,7 @@ export const ConfidentialitePage: React.FC = () => {
         <div>
           <h2 className="text-base font-bold text-slate-900 mb-2">2. Finalité de la Collecte</h2>
           <p>
-            Les données collectées (nom, téléphone, adresse email, localisation géographique, caractéristiques du bassin) sont strictement réservées aux services internes de <strong>{settings.companyName}</strong> pour :
+            Les données collectées (nom, téléphone, adresse email, localisation géographique, nature du projet) sont strictement réservées aux services internes de <strong>{settings.companyName}</strong> pour :
           </p>
           <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-600">
             <li>L'établissement et le chiffrage d'études techniques et devis.</li>

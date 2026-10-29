@@ -8,7 +8,7 @@ export const QuickQuoteMiniForm: React.FC = () => {
     name: '',
     phone: '',
     city: 'Marrakech',
-    service: 'Construction de piscines'
+    service: 'Gros œuvre & construction'
   });
   const [loading, setLoading] = useState(false);
   const [submittedRef, setSubmittedRef] = useState<string | null>(null);
@@ -60,7 +60,7 @@ export const QuickQuoteMiniForm: React.FC = () => {
           <button
             onClick={() => {
               setSubmittedRef(null);
-              setFormData({ name: '', phone: '', city: 'Marrakech', service: 'Construction de piscines' });
+              setFormData({ name: '', phone: '', city: 'Marrakech', service: 'Gros œuvre & construction' });
             }}
             className="w-full sm:w-auto px-4 py-2 text-xs text-slate-600 hover:text-slate-900"
           >
@@ -93,13 +93,13 @@ export const QuickQuoteMiniForm: React.FC = () => {
               onChange={(e) => setFormData({ ...formData, service: e.target.value })}
               className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0077B6] focus:border-transparent bg-white"
             >
-              <option value="Construction de piscines">Construction de piscine neuve</option>
-              <option value="Rénovation & réhabilitation">Rénovation de bassin existant</option>
-              <option value="Pompes & filtration">Installation ou remplacement de pompe</option>
-              <option value="Aménagement extérieur">Aménagement plages & margelles</option>
-              <option value="Entretien & maintenance">Contrat d'entretien régulier</option>
-              <option value="Dépannage d'urgence">Dépannage / Panne technique</option>
-              <option value="Achat d'équipements">Achat équipement ou accessoire</option>
+              <option value="Gros œuvre & construction">Construction / Gros œuvre</option>
+              <option value="Rénovation & réhabilitation">Rénovation / Réhabilitation</option>
+              <option value="Aménagement extérieur">Aménagement extérieur & clôture</option>
+              <option value="Second œuvre & finitions">Second œuvre & finitions</option>
+              <option value="Électricité & plomberie">Électricité & plomberie</option>
+              <option value="Travaux divers & maintenance">Travaux divers / maintenance</option>
+              <option value="Dépannage d'urgence">Dépannage / Urgence bâtiment</option>
             </select>
           </div>
 

@@ -135,7 +135,7 @@ async function startServer() {
       id: `serv_${Date.now()}`,
       slug: req.body.slug || `service-${Date.now()}`,
       title: req.body.title || 'Nouveau service',
-      kicker: req.body.kicker || 'Expertise piscine',
+      kicker: req.body.kicker || 'Expertise bâtiment',
       shortDescription: req.body.shortDescription || '',
       fullDescription: req.body.fullDescription || '',
       iconName: req.body.iconName || 'Waves',
@@ -178,7 +178,7 @@ async function startServer() {
       slug: req.body.slug || `produit-${Date.now()}`,
       name: req.body.name || 'Nouvel équipement',
       reference: req.body.reference || `REF-${Math.floor(1000 + Math.random() * 9000)}`,
-      brand: req.body.brand || 'Aqua Pisciniste',
+      brand: req.body.brand || 'SLT SERVICES',
       category: req.body.category || 'Autres équipements',
       price: req.body.price ? Number(req.body.price) : undefined,
       isPriceOnDemand: req.body.isPriceOnDemand ?? true,
@@ -327,7 +327,7 @@ async function startServer() {
 
     const currentYear = new Date().getFullYear();
     const sequence = 1000 + db.leads.length + 1;
-    const ref = `AP-${currentYear}-${sequence}`;
+    const ref = `SLT-${currentYear}-${sequence}`;
 
     const newLead: Lead = {
       id: `lead_${Date.now()}`,
@@ -478,7 +478,7 @@ async function startServer() {
     const csvContent = '\uFEFF' + [headers.join(';'), ...rows].join('\r\n');
 
     res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-    res.setHeader('Content-Disposition', `attachment; filename=leads-aqua-piscines-${new Date().toISOString().slice(0, 10)}.csv`);
+    res.setHeader('Content-Disposition', `attachment; filename=leads-slt-services-${new Date().toISOString().slice(0, 10)}.csv`);
     res.status(200).send(csvContent);
   });
 
@@ -536,11 +536,11 @@ async function startServer() {
   app.post('/api/auth/login', (req: Request, res: Response) => {
     const { username, password } = req.body;
     // Standard secure admin credential check (supports admin session)
-    if ((username === 'admin' && password === 'AquaMarrakech2026!') || (username === 'admin' && password === 'admin')) {
+    if ((username === 'admin' && password === 'SltMarrakech2026!') || (username === 'admin' && password === 'admin')) {
       const token = `session_${Date.now()}_${Math.random().toString(36).substring(2)}`;
       res.json({
         success: true,
-        user: { username: 'admin', role: 'Directeur Général', name: 'Direction Aqua Piscines' },
+        user: { username: 'admin', role: 'Directeur Général', name: 'Direction SLT SERVICES' },
         token
       });
       return;
