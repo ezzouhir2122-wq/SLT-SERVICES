@@ -1,0 +1,6 @@
+{
+  "name": "AQUA PISCINES - Piscines et Équipements Marrakech",
+  "description": "Plateforme web premium de piscines à Marrakech et au Maroc : construction, rénovation, dépannage, pompes, filtration, maintenance et vente d'équipements aquatiques.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
