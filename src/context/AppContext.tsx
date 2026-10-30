@@ -86,7 +86,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       const res = await fetch('/api/settings', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(adminToken ? { Authorization: `Bearer ${adminToken}` } : {})
+        },
         body: JSON.stringify(newSettings)
       });
       const data = await res.json();

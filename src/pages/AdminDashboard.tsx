@@ -31,7 +31,7 @@ export const AdminDashboard: React.FC = () => {
   const { adminToken, adminUser, loginAdmin, logoutAdmin, settings, updateSettings, showToast, navigate } = useApp();
 
   // Login form state if not authenticated
-  const [loginForm, setLoginForm] = useState({ username: 'admin', password: '' });
+  const [loginForm, setLoginForm] = useState({ username: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
 
@@ -62,11 +62,13 @@ export const AdminDashboard: React.FC = () => {
   // Settings form
   const [settingsForm, setSettingsForm] = useState(settings);
 
+  const adminHeaders: Record<string, string> = adminToken ? { Authorization: `Bearer ${adminToken}` } : {};
+
   // Load leads and stats
   const fetchLeads = async () => {
     setLeadsLoading(true);
     try {
-      const res = await fetch('/api/leads');
+      const res = await fetch('/api/leads', { headers: adminHeaders });
       const data = await res.json();
       if (data.success) {
         setLeads(data.leads);
@@ -80,7 +82,7 @@ export const AdminDashboard: React.FC = () => {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch('/api/stats');
+      const res = await fetch('/api/stats', { headers: adminHeaders });
       const data = await res.json();
       if (data.success) {
         setStats(data.stats);
@@ -132,7 +134,7 @@ export const AdminDashboard: React.FC = () => {
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...adminHeaders },
         body: JSON.stringify(loginForm)
       });
       const data = await res.json();
@@ -179,7 +181,7 @@ export const AdminDashboard: React.FC = () => {
     if (!window.confirm('Voulez-vous vraiment supprimer définitivement ce prospect ?')) return;
 
     try {
-      const res = await fetch(`/api/leads/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/leads/${id}`, { method: 'DELETE', headers: adminHeaders });
       const data = await res.json();
       if (data.success) {
         showToast('Prospect supprimé.', 'info');
@@ -206,7 +208,7 @@ export const AdminDashboard: React.FC = () => {
       <div className="min-h-[75vh] flex items-center justify-center px-4 py-16">
         <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl max-w-md w-full p-8 sm:p-10">
           <div className="text-center mb-8">
-            <img src="/assets/logo-slt.png" alt={settings.companyName} className="h-12 w-auto mx-auto mb-5" />
+            <img src="/assets/logo-slt-mark.png" alt={settings.companyName} className="h-14 w-auto mx-auto mb-5" />
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0077B6] to-[#00B4D8] flex items-center justify-center text-white mx-auto mb-4 shadow-sm">
               <Shield className="w-6 h-6" />
             </div>
@@ -263,7 +265,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="mt-6 pt-4 border-t border-slate-100 text-center">
             <span className="text-[11px] text-slate-400 block mb-1">Identifiants démonstration :</span>
             <code className="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-700">
-              admin / SltMarrakech2026!
+              Accès réservé aux membres autorisés.
             </code>
           </div>
         </div>
@@ -312,7 +314,7 @@ export const AdminDashboard: React.FC = () => {
       {/* Top Admin Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div className="flex items-center gap-3">
-          <img src="/assets/logo-slt.png" alt={settings.companyName} className="h-10 w-auto hidden sm:block" />
+          <img src="/assets/logo-slt-mark.png" alt={settings.companyName} className="h-11 w-auto hidden sm:block" />
           <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-[#0077B6] uppercase">
             <span>Administration CRM</span>

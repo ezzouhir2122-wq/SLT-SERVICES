@@ -8,11 +8,11 @@
 .pool-footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 35px; }
 .pool-footer-brand { display: flex; align-items: center; gap: 10px; color: #fff; font-size: 22px; margin-bottom: 13px; }
 .pool-footer-brand svg { color: #4fd3ec; }
-.pool-footer-logo { height: 58px; width: auto; display: block; background: #fff; padding: 9px 14px; border-radius: 12px; }
+.pool-footer-logo { height: 66px; width: auto; display: block; background: #fff; padding: 10px 16px; border-radius: 12px; }
 /* Logo marque dans le header (remplace l'icône + texte) */
 .slt-header .slt-brand { gap: 0; }
-.slt-brand-logo { height: 46px; width: auto; display: block; }
-@media (max-width: 600px) { .slt-brand-logo { height: 38px; } .pool-footer-logo { height: 50px; padding: 8px 12px; } }
+.slt-brand-logo { height: 58px; width: auto; display: block; }
+@media (max-width: 600px) { .slt-brand-logo { height: 44px; } .pool-footer-logo { height: 56px; padding: 8px 12px; } }
 .pool-footer h3 { color: #fff; font-size: 13px; font-weight: 800; margin-bottom: 16px; }
 .pool-footer p, .pool-footer button, .pool-footer a { font-size: 11px; line-height: 1.9; }
 .pool-footer button { display: block; text-align: left; margin-bottom: 6px; }

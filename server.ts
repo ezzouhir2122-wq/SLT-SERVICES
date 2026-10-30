@@ -9,6 +9,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const store = createStore();
+const adminUsername = process.env.ADMIN_USERNAME;
+const adminPassword = process.env.ADMIN_PASSWORD;
+const adminApiToken = process.env.ADMIN_API_TOKEN;
 
 /** Enrobe un handler async : toute erreur de stockage renvoie un 500 propre. */
 const wrap = (fn: (req: Request, res: Response) => Promise<void>): RequestHandler => {
@@ -22,19 +25,26 @@ const wrap = (fn: (req: Request, res: Response) => Promise<void>): RequestHandle
   };
 };
 
-async function startServer() {
-  const app = express();
-  const PORT = process.env.PORT || 3000;
+const requireAdmin: RequestHandler = (req, res, next) => {
+  const token = req.headers.authorization?.replace(/^Bearer\s+/i, '');
+  if (!adminApiToken || token !== adminApiToken) {
+    res.status(401).json({ success: false, error: 'Accès administrateur requis.' });
+    return;
+  }
+  next();
+};
 
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+const app = express();
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
   // ---------------------------------------------------------------- Settings
   app.get('/api/settings', wrap(async (_req, res) => {
     res.json({ success: true, settings: await store.getSettings() });
   }));
 
-  app.put('/api/settings', wrap(async (req, res) => {
+  app.put('/api/settings', requireAdmin, wrap(async (req, res) => {
     const settings = await store.updateSettings(req.body);
     res.json({ success: true, settings });
   }));
@@ -44,7 +54,7 @@ async function startServer() {
     res.json({ success: true, services: await store.listServices() });
   }));
 
-  app.put('/api/services/:id', wrap(async (req, res) => {
+  app.put('/api/services/:id', requireAdmin, wrap(async (req, res) => {
     const service = await store.updateService(req.params.id, req.body);
     if (!service) {
       res.status(404).json({ success: false, error: 'Service not found' });
@@ -53,7 +63,7 @@ async function startServer() {
     res.json({ success: true, service });
   }));
 
-  app.post('/api/services', wrap(async (req, res) => {
+  app.post('/api/services', requireAdmin, wrap(async (req, res) => {
     const newService: ServiceItem = {
       id: `serv_${Date.now()}`,
       slug: req.body.slug || `service-${Date.now()}`,
@@ -94,7 +104,7 @@ async function startServer() {
     res.json({ success: true, products: items });
   }));
 
-  app.post('/api/products', wrap(async (req, res) => {
+  app.post('/api/products', requireAdmin, wrap(async (req, res) => {
     const newProduct: ProductItem = {
       id: `prod_${Date.now()}`,
       slug: req.body.slug || `produit-${Date.now()}`,
@@ -113,7 +123,7 @@ async function startServer() {
     res.status(201).json({ success: true, product: created });
   }));
 
-  app.put('/api/products/:id', wrap(async (req, res) => {
+  app.put('/api/products/:id', requireAdmin, wrap(async (req, res) => {
     const product = await store.updateProduct(req.params.id, req.body);
     if (!product) {
       res.status(404).json({ success: false, error: 'Product not found' });
@@ -122,7 +132,7 @@ async function startServer() {
     res.json({ success: true, product });
   }));
 
-  app.delete('/api/products/:id', wrap(async (req, res) => {
+  app.delete('/api/products/:id', requireAdmin, wrap(async (req, res) => {
     const ok = await store.deleteProduct(req.params.id);
     if (!ok) {
       res.status(404).json({ success: false, error: 'Product not found' });
@@ -136,7 +146,7 @@ async function startServer() {
     res.json({ success: true, projects: await store.listProjects() });
   }));
 
-  app.put('/api/projects/:id', wrap(async (req, res) => {
+  app.put('/api/projects/:id', requireAdmin, wrap(async (req, res) => {
     const project = await store.updateProject(req.params.id, req.body);
     if (!project) {
       res.status(404).json({ success: false, error: 'Project not found' });
@@ -150,7 +160,7 @@ async function startServer() {
     res.json({ success: true, blogPosts: await store.listBlog() });
   }));
 
-  app.put('/api/blog/:id', wrap(async (req, res) => {
+  app.put('/api/blog/:id', requireAdmin, wrap(async (req, res) => {
     const post = await store.updateBlog(req.params.id, req.body);
     if (!post) {
       res.status(404).json({ success: false, error: 'Post not found' });
@@ -177,7 +187,7 @@ async function startServer() {
   }));
 
   // ---------------------------------------------------------------- Leads CRM
-  app.get('/api/leads', wrap(async (req, res) => {
+  app.get('/api/leads', requireAdmin, wrap(async (req, res) => {
     const { status, search, service, city } = req.query;
     let leads = await store.listLeads();
 
@@ -278,7 +288,7 @@ async function startServer() {
     });
   }));
 
-  app.put('/api/leads/:id', wrap(async (req, res) => {
+  app.put('/api/leads/:id', requireAdmin, wrap(async (req, res) => {
     const leads = await store.listLeads();
     const current = leads.find(l => l.id === req.params.id);
     if (!current) {
@@ -329,7 +339,7 @@ async function startServer() {
     res.json({ success: true, lead: saved });
   }));
 
-  app.delete('/api/leads/:id', wrap(async (req, res) => {
+  app.delete('/api/leads/:id', requireAdmin, wrap(async (req, res) => {
     const ok = await store.deleteLead(req.params.id);
     if (!ok) {
       res.status(404).json({ success: false, error: 'Lead not found' });
@@ -339,7 +349,7 @@ async function startServer() {
   }));
 
   // ---------------------------------------------------------------- Export CSV
-  app.get('/api/leads/export-csv', wrap(async (_req, res) => {
+  app.get('/api/leads/export-csv', requireAdmin, wrap(async (_req, res) => {
     const leads = await store.listLeads();
     const headers = [
       'Référence', 'Date', 'Nom', 'Téléphone', 'WhatsApp', 'Email', 'Ville',
@@ -378,7 +388,7 @@ async function startServer() {
   }));
 
   // -------------------------------------------------------- CRM Statistics
-  app.get('/api/stats', wrap(async (_req, res) => {
+  app.get('/api/stats', requireAdmin, wrap(async (_req, res) => {
     const leads = await store.listLeads();
     const totalLeads = leads.length;
     const newLeads = leads.filter(l => l.status === 'nouveau').length;
@@ -417,20 +427,19 @@ async function startServer() {
   // ---------------------------------------------------------- Admin Auth
   app.post('/api/auth/login', (req: Request, res: Response) => {
     const { username, password } = req.body;
-    if ((username === 'admin' && password === 'SltMarrakech2026!') || (username === 'admin' && password === 'admin')) {
-      const token = `session_${Date.now()}_${Math.random().toString(36).substring(2)}`;
+    if (adminUsername && adminPassword && adminApiToken && username === adminUsername && password === adminPassword) {
       res.json({
         success: true,
         user: { username: 'admin', role: 'Directeur Général', name: 'Direction SLT SERVICES' },
-        token
+        token: adminApiToken
       });
       return;
     }
-    res.status(401).json({ success: false, error: 'Identifiants administrateur incorrects.' });
+    res.status(401).json({ success: false, error: 'Identifiants administrateur incorrects ou espace non configuré.' });
   });
 
   // -------------------------------- Vite en dev / statique en prod
-  if (process.env.NODE_ENV !== 'production') {
+  if (!process.env.VERCEL && process.env.NODE_ENV !== 'production') {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: {
@@ -449,12 +458,7 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, () => {
-    console.log(`Server ready on port ${PORT} — stockage: ${store.backend}`);
+  if (!process.env.VERCEL) app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server ready — stockage: ${store.backend}`);
   });
-}
-
-startServer().catch(err => {
-  console.error('Failed to start server:', err);
-  process.exit(1);
-});
+export default app;
