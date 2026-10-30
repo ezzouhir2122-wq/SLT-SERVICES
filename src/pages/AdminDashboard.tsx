@@ -194,6 +194,25 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
+  const handleExportLeads = async () => {
+    try {
+      const res = await fetch('/api/leads/export-csv', { headers: adminHeaders });
+      if (!res.ok) throw new Error('Export indisponible');
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `leads-slt-services-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      showToast('Impossible d’exporter les prospects.', 'error');
+    }
+  };
+
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await updateSettings(settingsForm);
@@ -328,14 +347,14 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <a
-            href="/api/leads/export-csv"
-            download
+          <button
+            type="button"
+            onClick={handleExportLeads}
             className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg shadow-2xs transition-colors"
           >
             <Download className="w-4 h-4 text-slate-500" />
             <span>Exporter CSV</span>
-          </a>
+          </button>
 
           <button
             onClick={logoutAdmin}
