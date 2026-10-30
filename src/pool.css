@@ -61,10 +61,9 @@
   position: absolute;
   right: clamp(16px, 6vw, 150px);
   bottom: 0;
-  height: min(90%, 420px);
+  height: min(92%, 440px);
   width: auto;
-  border-radius: 24px;
-  box-shadow: 0 26px 60px rgba(0, 18, 38, .55);
+  filter: drop-shadow(0 22px 42px rgba(0, 18, 38, .55));
   z-index: 1;
 }
 @media (max-width: 1100px) { .slt-hero-mockup { right: 20px; height: min(80%, 360px); } }
