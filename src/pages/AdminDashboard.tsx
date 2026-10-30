@@ -206,6 +206,7 @@ export const AdminDashboard: React.FC = () => {
       <div className="min-h-[75vh] flex items-center justify-center px-4 py-16">
         <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl max-w-md w-full p-8 sm:p-10">
           <div className="text-center mb-8">
+            <img src="/assets/logo-slt.png" alt={settings.companyName} className="h-12 w-auto mx-auto mb-5" />
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0077B6] to-[#00B4D8] flex items-center justify-center text-white mx-auto mb-4 shadow-sm">
               <Shield className="w-6 h-6" />
             </div>
@@ -310,7 +311,9 @@ export const AdminDashboard: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Top Admin Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
-        <div>
+        <div className="flex items-center gap-3">
+          <img src="/assets/logo-slt.png" alt={settings.companyName} className="h-10 w-auto hidden sm:block" />
+          <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-[#0077B6] uppercase">
             <span>Administration CRM</span>
             <span aria-hidden="true">·</span>
@@ -319,6 +322,7 @@ export const AdminDashboard: React.FC = () => {
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#102A43] mt-0.5">
             Tableau de Bord Commercial
           </h1>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
