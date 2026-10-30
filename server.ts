@@ -1,96 +1,26 @@
-import express, { Request, Response } from 'express';
-import fs from 'fs';
+import 'dotenv/config';
+import express, { Request, Response, RequestHandler } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import {
-  initialCompanySettings,
-  initialServices,
-  initialProducts,
-  initialProjects,
-  initialMaintenancePlans,
-  initialBlogPosts,
-  initialFAQ,
-  initialTestimonials,
-  initialLeads
-} from './src/data/initialData.ts';
-import { Lead, CompanySettings, ServiceItem, ProductItem, ProjectItem, BlogPost } from './src/types/index.ts';
+import { Lead, ServiceItem, ProductItem } from './src/types/index.ts';
+import { createStore } from './lib/createStore.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DATA_DIR = path.join(__dirname, 'data');
-const DB_FILE = path.join(DATA_DIR, 'db.json');
+const store = createStore();
 
-interface DatabaseSchema {
-  settings: CompanySettings;
-  services: ServiceItem[];
-  products: ProductItem[];
-  projects: ProjectItem[];
-  maintenancePlans: any[];
-  blogPosts: BlogPost[];
-  faq: any[];
-  testimonials: any[];
-  leads: Lead[];
-}
-
-function initDatabase(): DatabaseSchema {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-
-  if (fs.existsSync(DB_FILE)) {
-    try {
-      const content = fs.readFileSync(DB_FILE, 'utf-8');
-      const parsed = JSON.parse(content);
-      return {
-        settings: parsed.settings || initialCompanySettings,
-        services: parsed.services || initialServices,
-        products: parsed.products || initialProducts,
-        projects: parsed.projects || initialProjects,
-        maintenancePlans: parsed.maintenancePlans || initialMaintenancePlans,
-        blogPosts: parsed.blogPosts || initialBlogPosts,
-        faq: parsed.faq || initialFAQ,
-        testimonials: parsed.testimonials || initialTestimonials,
-        leads: parsed.leads || initialLeads
-      };
-    } catch (e) {
-      console.error('Error reading db.json, reinitializing default data:', e);
-    }
-  }
-
-  const defaultDb: DatabaseSchema = {
-    settings: initialCompanySettings,
-    services: initialServices,
-    products: initialProducts,
-    projects: initialProjects,
-    maintenancePlans: initialMaintenancePlans,
-    blogPosts: initialBlogPosts,
-    faq: initialFAQ,
-    testimonials: initialTestimonials,
-    leads: initialLeads
+/** Enrobe un handler async : toute erreur de stockage renvoie un 500 propre. */
+const wrap = (fn: (req: Request, res: Response) => Promise<void>): RequestHandler => {
+  return (req, res) => {
+    fn(req, res).catch(err => {
+      console.error(`[api] ${req.method} ${req.path}:`, err);
+      if (!res.headersSent) {
+        res.status(500).json({ success: false, error: 'Erreur serveur interne.' });
+      }
+    });
   };
-
-  try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(defaultDb, null, 2), 'utf-8');
-  } catch (err) {
-    console.error('Failed to write initial db.json:', err);
-  }
-
-  return defaultDb;
-}
-
-let db = initDatabase();
-
-function saveDatabase(): void {
-  try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf-8');
-  } catch (err) {
-    console.error('Failed to persist database:', err);
-  }
-}
+};
 
 async function startServer() {
   const app = express();
@@ -99,38 +29,31 @@ async function startServer() {
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-  // API Routes
-  
-  // Settings
-  app.get('/api/settings', (_req: Request, res: Response) => {
-    res.json({ success: true, settings: db.settings });
-  });
+  // ---------------------------------------------------------------- Settings
+  app.get('/api/settings', wrap(async (_req, res) => {
+    res.json({ success: true, settings: await store.getSettings() });
+  }));
 
-  app.put('/api/settings', (req: Request, res: Response) => {
-    const updated = req.body;
-    db.settings = { ...db.settings, ...updated };
-    saveDatabase();
-    res.json({ success: true, settings: db.settings });
-  });
+  app.put('/api/settings', wrap(async (req, res) => {
+    const settings = await store.updateSettings(req.body);
+    res.json({ success: true, settings });
+  }));
 
-  // Services
-  app.get('/api/services', (_req: Request, res: Response) => {
-    res.json({ success: true, services: db.services });
-  });
+  // ---------------------------------------------------------------- Services
+  app.get('/api/services', wrap(async (_req, res) => {
+    res.json({ success: true, services: await store.listServices() });
+  }));
 
-  app.put('/api/services/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
-    const index = db.services.findIndex(s => s.id === id);
-    if (index === -1) {
+  app.put('/api/services/:id', wrap(async (req, res) => {
+    const service = await store.updateService(req.params.id, req.body);
+    if (!service) {
       res.status(404).json({ success: false, error: 'Service not found' });
       return;
     }
-    db.services[index] = { ...db.services[index], ...req.body };
-    saveDatabase();
-    res.json({ success: true, service: db.services[index] });
-  });
+    res.json({ success: true, service });
+  }));
 
-  app.post('/api/services', (req: Request, res: Response) => {
+  app.post('/api/services', wrap(async (req, res) => {
     const newService: ServiceItem = {
       id: `serv_${Date.now()}`,
       slug: req.body.slug || `service-${Date.now()}`,
@@ -145,15 +68,14 @@ async function startServer() {
       advantages: req.body.advantages || [],
       faq: req.body.faq || []
     };
-    db.services.push(newService);
-    saveDatabase();
-    res.status(201).json({ success: true, service: newService });
-  });
+    const created = await store.createService(newService);
+    res.status(201).json({ success: true, service: created });
+  }));
 
-  // Products
-  app.get('/api/products', (req: Request, res: Response) => {
+  // ---------------------------------------------------------------- Products
+  app.get('/api/products', wrap(async (req, res) => {
     const { category, search } = req.query;
-    let items = [...db.products];
+    let items = await store.listProducts();
 
     if (category && typeof category === 'string' && category !== 'all') {
       items = items.filter(p => p.category.toLowerCase() === category.toLowerCase());
@@ -161,8 +83,8 @@ async function startServer() {
 
     if (search && typeof search === 'string') {
       const q = search.toLowerCase();
-      items = items.filter(p => 
-        p.name.toLowerCase().includes(q) || 
+      items = items.filter(p =>
+        p.name.toLowerCase().includes(q) ||
         p.reference.toLowerCase().includes(q) ||
         p.brand.toLowerCase().includes(q) ||
         p.shortDescription.toLowerCase().includes(q)
@@ -170,9 +92,9 @@ async function startServer() {
     }
 
     res.json({ success: true, products: items });
-  });
+  }));
 
-  app.post('/api/products', (req: Request, res: Response) => {
+  app.post('/api/products', wrap(async (req, res) => {
     const newProduct: ProductItem = {
       id: `prod_${Date.now()}`,
       slug: req.body.slug || `produit-${Date.now()}`,
@@ -187,89 +109,77 @@ async function startServer() {
       inStock: req.body.inStock ?? true,
       featured: req.body.featured ?? false
     };
-    db.products.push(newProduct);
-    saveDatabase();
-    res.status(201).json({ success: true, product: newProduct });
-  });
+    const created = await store.createProduct(newProduct);
+    res.status(201).json({ success: true, product: created });
+  }));
 
-  app.put('/api/products/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
-    const index = db.products.findIndex(p => p.id === id);
-    if (index === -1) {
+  app.put('/api/products/:id', wrap(async (req, res) => {
+    const product = await store.updateProduct(req.params.id, req.body);
+    if (!product) {
       res.status(404).json({ success: false, error: 'Product not found' });
       return;
     }
-    db.products[index] = { ...db.products[index], ...req.body };
-    saveDatabase();
-    res.json({ success: true, product: db.products[index] });
-  });
+    res.json({ success: true, product });
+  }));
 
-  app.delete('/api/products/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
-    const initialLen = db.products.length;
-    db.products = db.products.filter(p => p.id !== id);
-    if (db.products.length === initialLen) {
+  app.delete('/api/products/:id', wrap(async (req, res) => {
+    const ok = await store.deleteProduct(req.params.id);
+    if (!ok) {
       res.status(404).json({ success: false, error: 'Product not found' });
       return;
     }
-    saveDatabase();
     res.json({ success: true, message: 'Product deleted' });
-  });
+  }));
 
-  // Projects / Réalisations
-  app.get('/api/projects', (_req: Request, res: Response) => {
-    res.json({ success: true, projects: db.projects });
-  });
+  // ---------------------------------------------------- Projects / Réalisations
+  app.get('/api/projects', wrap(async (_req, res) => {
+    res.json({ success: true, projects: await store.listProjects() });
+  }));
 
-  app.put('/api/projects/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
-    const index = db.projects.findIndex(p => p.id === id);
-    if (index === -1) {
+  app.put('/api/projects/:id', wrap(async (req, res) => {
+    const project = await store.updateProject(req.params.id, req.body);
+    if (!project) {
       res.status(404).json({ success: false, error: 'Project not found' });
       return;
     }
-    db.projects[index] = { ...db.projects[index], ...req.body };
-    saveDatabase();
-    res.json({ success: true, project: db.projects[index] });
-  });
+    res.json({ success: true, project });
+  }));
 
-  // Blog
-  app.get('/api/blog', (_req: Request, res: Response) => {
-    res.json({ success: true, blogPosts: db.blogPosts });
-  });
+  // -------------------------------------------------------------------- Blog
+  app.get('/api/blog', wrap(async (_req, res) => {
+    res.json({ success: true, blogPosts: await store.listBlog() });
+  }));
 
-  app.put('/api/blog/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
-    const index = db.blogPosts.findIndex(b => b.id === id);
-    if (index === -1) {
+  app.put('/api/blog/:id', wrap(async (req, res) => {
+    const post = await store.updateBlog(req.params.id, req.body);
+    if (!post) {
       res.status(404).json({ success: false, error: 'Post not found' });
       return;
     }
-    db.blogPosts[index] = { ...db.blogPosts[index], ...req.body };
-    saveDatabase();
-    res.json({ success: true, post: db.blogPosts[index] });
-  });
+    res.json({ success: true, post });
+  }));
 
-  // FAQ
-  app.get('/api/faq', (_req: Request, res: Response) => {
-    res.json({ success: true, faq: db.faq });
-  });
+  // --------------------------------------------------------------------- FAQ
+  app.get('/api/faq', wrap(async (_req, res) => {
+    res.json({ success: true, faq: await store.listFaq() });
+  }));
 
-  // Testimonials
-  app.get('/api/testimonials', (_req: Request, res: Response) => {
-    // Only return validated testimonials to the public
-    res.json({ success: true, testimonials: db.testimonials.filter(t => t.verified) });
-  });
+  // ------------------------------------------------------------ Testimonials
+  app.get('/api/testimonials', wrap(async (_req, res) => {
+    // Public : uniquement les témoignages validés.
+    const all = await store.listTestimonials();
+    res.json({ success: true, testimonials: all.filter(t => t.verified) });
+  }));
 
-  // Maintenance plans
-  app.get('/api/maintenance-plans', (_req: Request, res: Response) => {
-    res.json({ success: true, plans: db.maintenancePlans });
-  });
+  // -------------------------------------------------------- Maintenance plans
+  app.get('/api/maintenance-plans', wrap(async (_req, res) => {
+    res.json({ success: true, plans: await store.listMaintenancePlans() });
+  }));
 
-  // Leads CRM API
-  app.get('/api/leads', (req: Request, res: Response) => {
+  // ---------------------------------------------------------------- Leads CRM
+  app.get('/api/leads', wrap(async (req, res) => {
     const { status, search, service, city } = req.query;
-    let leads = [...db.leads];
+    let leads = await store.listLeads();
 
     if (status && typeof status === 'string' && status !== 'all') {
       leads = leads.filter(l => l.status === status);
@@ -282,7 +192,7 @@ async function startServer() {
     }
     if (search && typeof search === 'string') {
       const q = search.toLowerCase();
-      leads = leads.filter(l => 
+      leads = leads.filter(l =>
         l.name.toLowerCase().includes(q) ||
         l.phone.toLowerCase().includes(q) ||
         (l.email && l.email.toLowerCase().includes(q)) ||
@@ -291,16 +201,15 @@ async function startServer() {
       );
     }
 
-    // Sort newest first
     leads.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     res.json({ success: true, leads });
-  });
+  }));
 
-  app.post('/api/leads', (req: Request, res: Response) => {
+  app.post('/api/leads', wrap(async (req, res) => {
     const { name, phone, email, whatsapp, city, service, description, source, originPage, urgency, details } = req.body;
 
-    // Strict validation
+    // Validation stricte
     if (!name || typeof name !== 'string' || name.trim().length < 2) {
       res.status(400).json({ success: false, error: 'Le nom est requis (minimum 2 caractères).' });
       return;
@@ -310,9 +219,11 @@ async function startServer() {
       return;
     }
 
-    // Check for duplicate submission within last 2 minutes
+    const existing = await store.listLeads();
+
+    // Anti-doublon : même téléphone dans les 2 dernières minutes.
     const twoMinutesAgo = Date.now() - 2 * 60 * 1000;
-    const isDuplicate = db.leads.some(l => 
+    const isDuplicate = existing.some(l =>
       l.phone.replace(/\s+/g, '') === phone.replace(/\s+/g, '') &&
       new Date(l.createdAt).getTime() > twoMinutesAgo
     );
@@ -326,7 +237,7 @@ async function startServer() {
     }
 
     const currentYear = new Date().getFullYear();
-    const sequence = 1000 + db.leads.length + 1;
+    const sequence = 1000 + existing.length + 1;
     const ref = `SLT-${currentYear}-${sequence}`;
 
     const newLead: Lead = {
@@ -357,26 +268,24 @@ async function startServer() {
       ]
     };
 
-    db.leads.unshift(newLead);
-    saveDatabase();
+    const created = await store.createLead(newLead);
 
     res.status(201).json({
       success: true,
-      lead: newLead,
-      reference: newLead.ref,
+      lead: created,
+      reference: created.ref,
       message: 'Demande enregistrée avec succès. Notre équipe vous recontactera rapidement.'
     });
-  });
+  }));
 
-  app.put('/api/leads/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
-    const index = db.leads.findIndex(l => l.id === id);
-    if (index === -1) {
+  app.put('/api/leads/:id', wrap(async (req, res) => {
+    const leads = await store.listLeads();
+    const current = leads.find(l => l.id === req.params.id);
+    if (!current) {
       res.status(404).json({ success: false, error: 'Lead not found' });
       return;
     }
 
-    const current = db.leads[index];
     const { status, priority, assignedTo, internalNotes, followUpDate, actionNote } = req.body;
 
     const historyItems = [...current.history];
@@ -406,7 +315,7 @@ async function startServer() {
       });
     }
 
-    db.leads[index] = {
+    const updated: Lead = {
       ...current,
       status: status || current.status,
       priority: priority || current.priority,
@@ -416,39 +325,25 @@ async function startServer() {
       history: historyItems
     };
 
-    saveDatabase();
-    res.json({ success: true, lead: db.leads[index] });
-  });
+    const saved = await store.saveLead(updated);
+    res.json({ success: true, lead: saved });
+  }));
 
-  app.delete('/api/leads/:id', (req: Request, res: Response) => {
-    const { id } = req.params;
-    const initialLen = db.leads.length;
-    db.leads = db.leads.filter(l => l.id !== id);
-    if (db.leads.length === initialLen) {
+  app.delete('/api/leads/:id', wrap(async (req, res) => {
+    const ok = await store.deleteLead(req.params.id);
+    if (!ok) {
       res.status(404).json({ success: false, error: 'Lead not found' });
       return;
     }
-    saveDatabase();
     res.json({ success: true, message: 'Prospect supprimé' });
-  });
+  }));
 
-  // Export CSV
-  app.get('/api/leads/export-csv', (_req: Request, res: Response) => {
+  // ---------------------------------------------------------------- Export CSV
+  app.get('/api/leads/export-csv', wrap(async (_req, res) => {
+    const leads = await store.listLeads();
     const headers = [
-      'Référence',
-      'Date',
-      'Nom',
-      'Téléphone',
-      'WhatsApp',
-      'Email',
-      'Ville',
-      'Service',
-      'Source',
-      'Statut',
-      'Priorité',
-      'Responsable',
-      'Date de relance',
-      'Description'
+      'Référence', 'Date', 'Nom', 'Téléphone', 'WhatsApp', 'Email', 'Ville',
+      'Service', 'Source', 'Statut', 'Priorité', 'Responsable', 'Date de relance', 'Description'
     ];
 
     const escapeCsv = (val: any) => {
@@ -457,7 +352,7 @@ async function startServer() {
       return `"${str}"`;
     };
 
-    const rows = db.leads.map(l => [
+    const rows = leads.map(l => [
       escapeCsv(l.ref),
       escapeCsv(new Date(l.createdAt).toLocaleDateString('fr-FR')),
       escapeCsv(l.name),
@@ -474,68 +369,54 @@ async function startServer() {
       escapeCsv(l.description)
     ].join(';'));
 
-    // UTF-8 BOM so Excel opens it with French accents cleanly
-    const csvContent = '\uFEFF' + [headers.join(';'), ...rows].join('\r\n');
+    // BOM UTF-8 pour qu'Excel ouvre les accents proprement.
+    const csvContent = '﻿' + [headers.join(';'), ...rows].join('\r\n');
 
     res.setHeader('Content-Type', 'text/csv; charset=utf-8');
     res.setHeader('Content-Disposition', `attachment; filename=leads-slt-services-${new Date().toISOString().slice(0, 10)}.csv`);
     res.status(200).send(csvContent);
-  });
+  }));
 
-  // CRM Statistics
-  app.get('/api/stats', (_req: Request, res: Response) => {
-    const totalLeads = db.leads.length;
-    const newLeads = db.leads.filter(l => l.status === 'nouveau').length;
-    const won = db.leads.filter(l => l.status === 'gagne').length;
-    const qualified = db.leads.filter(l => ['qualifie', 'visite_programmee', 'devis_envoye', 'negociation', 'gagne'].includes(l.status)).length;
-    const inProgress = db.leads.filter(l => ['a_contacter', 'contacte', 'qualifie', 'visite_programmee', 'devis_envoye', 'negociation'].includes(l.status)).length;
+  // -------------------------------------------------------- CRM Statistics
+  app.get('/api/stats', wrap(async (_req, res) => {
+    const leads = await store.listLeads();
+    const totalLeads = leads.length;
+    const newLeads = leads.filter(l => l.status === 'nouveau').length;
+    const won = leads.filter(l => l.status === 'gagne').length;
+    const qualified = leads.filter(l => ['qualifie', 'visite_programmee', 'devis_envoye', 'negociation', 'gagne'].includes(l.status)).length;
+    const inProgress = leads.filter(l => ['a_contacter', 'contacte', 'qualifie', 'visite_programmee', 'devis_envoye', 'negociation'].includes(l.status)).length;
 
     const qualificationRate = totalLeads > 0 ? Math.round((qualified / totalLeads) * 100) : 0;
     const conversionRate = totalLeads > 0 ? Math.round((won / totalLeads) * 100) : 0;
 
-    // By service
     const serviceMap: Record<string, number> = {};
-    db.leads.forEach(l => {
-      serviceMap[l.service] = (serviceMap[l.service] || 0) + 1;
-    });
+    leads.forEach(l => { serviceMap[l.service] = (serviceMap[l.service] || 0) + 1; });
     const leadsByService = Object.entries(serviceMap).map(([service, count]) => ({ service, count }));
 
-    // By city
     const cityMap: Record<string, number> = {};
-    db.leads.forEach(l => {
+    leads.forEach(l => {
       const cityKey = l.city.split('(')[0].trim();
       cityMap[cityKey] = (cityMap[cityKey] || 0) + 1;
     });
     const leadsByCity = Object.entries(cityMap).map(([city, count]) => ({ city, count }));
 
-    // By source
     const sourceMap: Record<string, number> = {};
-    db.leads.forEach(l => {
-      sourceMap[l.source] = (sourceMap[l.source] || 0) + 1;
-    });
+    leads.forEach(l => { sourceMap[l.source] = (sourceMap[l.source] || 0) + 1; });
     const leadsBySource = Object.entries(sourceMap).map(([source, count]) => ({ source, count }));
 
     res.json({
       success: true,
       stats: {
-        totalLeads,
-        newLeads,
-        inProgress,
-        qualified,
-        won,
-        qualificationRate,
-        conversionRate,
-        leadsByService,
-        leadsByCity,
-        leadsBySource
+        totalLeads, newLeads, inProgress, qualified, won,
+        qualificationRate, conversionRate,
+        leadsByService, leadsByCity, leadsBySource
       }
     });
-  });
+  }));
 
-  // Admin Auth endpoint
+  // ---------------------------------------------------------- Admin Auth
   app.post('/api/auth/login', (req: Request, res: Response) => {
     const { username, password } = req.body;
-    // Standard secure admin credential check (supports admin session)
     if ((username === 'admin' && password === 'SltMarrakech2026!') || (username === 'admin' && password === 'admin')) {
       const token = `session_${Date.now()}_${Math.random().toString(36).substring(2)}`;
       res.json({
@@ -545,11 +426,10 @@ async function startServer() {
       });
       return;
     }
-
     res.status(401).json({ success: false, error: 'Identifiants administrateur incorrects.' });
   });
 
-  // Setup Vite in Dev or serve static in Prod
+  // -------------------------------- Vite en dev / statique en prod
   if (process.env.NODE_ENV !== 'production') {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
@@ -570,7 +450,7 @@ async function startServer() {
   }
 
   app.listen(PORT, () => {
-    console.log(`Server ready on port ${PORT}`);
+    console.log(`Server ready on port ${PORT} — stockage: ${store.backend}`);
   });
 }
 
