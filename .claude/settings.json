@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/auto-ship.sh\"",
+            "timeout": 300,
+            "statusMessage": "Auto-ship: commit + push + déploiement prod…"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -9,14 +9,14 @@ interface InteractiveBeforeAfterProps {
   afterImage?: string;
 }
 
-const DEFAULT_BEFORE = "https://images.unsplash.com/photo-1574359411659-15573a27fd0c?auto=format&fit=crop&w=1200&q=70";
-const DEFAULT_AFTER = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=70";
+const DEFAULT_BEFORE = '/assets/pool-before.png';
+const DEFAULT_AFTER = '/assets/pool-hero.png';
 
 export const InteractiveBeforeAfter: React.FC<InteractiveBeforeAfterProps> = ({
-  title = "Rénovation Complète : Avant / Après",
-  subtitle = "Faites glisser le curseur pour visualiser la transformation d'un bien dégradé en espace moderne et sain.",
-  beforeLabel = "Avant : bâti vétuste, fissures et finitions dégradées",
-  afterLabel = "Après : rénovation complète, finitions modernes et durables",
+  title = 'Votre piscine : avant / après',
+  subtitle = 'Faites glisser le curseur pour découvrir une illustration de transformation de piscine.',
+  beforeLabel = 'Avant : bassin en construction',
+  afterLabel = 'Après : piscine aménagée',
   beforeImage = DEFAULT_BEFORE,
   afterImage = DEFAULT_AFTER
 }) => {
@@ -86,7 +86,7 @@ export const InteractiveBeforeAfter: React.FC<InteractiveBeforeAfterProps> = ({
           />
           <div className="absolute top-4 right-4 bg-[#102A43]/85 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-lg border border-white/20 font-medium z-10 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span>TRAVAUX TERMINÉS</span>
+            <span>{afterLabel}</span>
           </div>
         </div>
 
@@ -104,7 +104,7 @@ export const InteractiveBeforeAfter: React.FC<InteractiveBeforeAfterProps> = ({
           <div className="absolute inset-0 bg-slate-900/20" />
           <div className="absolute top-4 left-4 bg-amber-950/85 backdrop-blur-md text-amber-200 text-xs px-3 py-1.5 rounded-lg border border-amber-500/30 font-medium z-10 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-            <span>ÉTAT INITIAL</span>
+            <span>{beforeLabel}</span>
           </div>
         </div>
 

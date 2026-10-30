@@ -133,7 +133,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const getWhatsAppUrl = (customMessage?: string): string => {
     const cleanNumber = settings.whatsapp.replace(/[^0-9]/g, '');
-    const defaultMsg = "Bonjour SLT SERVICES, je souhaite des renseignements sur vos prestations de travaux à Marrakech.";
+    const defaultMsg = "Bonjour SLT SERVICES, je souhaite des renseignements sur vos prestations pour ma piscine à Marrakech.";
     const encoded = encodeURIComponent(customMessage || defaultMsg);
     return `https://wa.me/${cleanNumber}?text=${encoded}`;
   };

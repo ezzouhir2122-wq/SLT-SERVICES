@@ -5,7 +5,7 @@ import { Wrench, PhoneCall, MessageCircle, AlertTriangle, CheckCircle2, Clock, S
 export const DepannagePage: React.FC = () => {
   const { submitLead, settings, getWhatsAppUrl, navigate } = useApp();
   const [formData, setFormData] = useState({
-    issue: 'Infiltration d\'eau / humidité',
+    issue: 'Fuite du bassin',
     urgency: 'immediate',
     city: 'Marrakech',
     name: '',
@@ -26,7 +26,7 @@ export const DepannagePage: React.FC = () => {
       phone: formData.phone,
       whatsapp: formData.whatsapp || formData.phone,
       city: formData.city,
-      service: "Dépannage & travaux d'urgence",
+      service: "Dépannage piscine",
       source: "depannage_urgent",
       urgency: formData.urgency,
       description: `Intervention signalée : ${formData.issue}. ${formData.description}`,
@@ -42,7 +42,7 @@ export const DepannagePage: React.FC = () => {
     }
   };
 
-  const emergencyWhatsApp = `URGENCE BÂTIMENT : Bonjour SLT SERVICES, je signale un problème (${formData.issue}) à ${formData.city}. Contact : ${formData.name} (${formData.phone}). Pouvez-vous intervenir ?`;
+  const emergencyWhatsApp = `DÉPANNAGE PISCINE : Bonjour SLT SERVICES, je signale un problème (${formData.issue}) à ${formData.city}. Contact : ${formData.name} (${formData.phone}). Pouvez-vous intervenir ?`;
 
   if (submittedRef) {
     return (
@@ -96,7 +96,7 @@ export const DepannagePage: React.FC = () => {
           Dépannage & Interventions d'Urgence
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Infiltration, fissure, humidité, panne électrique ou plomberie, petits travaux urgents : nos équipes interviennent rapidement sur Marrakech et ses environs.
+          Fuite du bassin, pompe en panne, filtration défaillante ou équipement à contrôler : décrivez votre problème pour organiser une intervention à Marrakech et ses environs.
         </p>
       </div>
 
@@ -111,7 +111,7 @@ export const DepannagePage: React.FC = () => {
               </span>
               <h3 className="text-xl font-bold mt-1 text-white">Besoin d'aide immédiate ?</h3>
               <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                Une infiltration ou une fissure non traitée peut vite s'aggraver. Appelez notre équipe pour une intervention rapide.
+                Une perte d’eau ou une panne de filtration ? Contactez notre équipe pour examiner votre piscine et organiser une intervention.
               </p>
             </div>
 
@@ -174,12 +174,12 @@ export const DepannagePage: React.FC = () => {
                 onChange={(e) => setFormData({ ...formData, issue: e.target.value })}
                 className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
               >
-                <option value="Infiltration d'eau / humidité">Infiltration d'eau / humidité (toiture, mur, terrasse)</option>
-                <option value="Fissures de structure ou façade">Fissures de structure ou de façade</option>
-                <option value="Problème d'étanchéité">Problème d'étanchéité (toiture-terrasse, salle d'eau)</option>
-                <option value="Panne électrique">Panne électrique / tableau / court-circuit</option>
-                <option value="Problème de plomberie">Fuite ou problème de plomberie</option>
-                <option value="Réparation maçonnerie / finitions">Réparation maçonnerie, plâtre ou peinture</option>
+                <option value="Fuite du bassin">Fuite du bassin ou perte d’eau</option>
+                <option value="Fissure du bassin">Fissure du bassin</option>
+                <option value="Problème d’étanchéité">Problème d’étanchéité ou de revêtement</option>
+                <option value="Pompe en panne">Pompe ou coffret de commande en panne</option>
+                <option value="Filtration défaillante">Filtration défaillante</option>
+                <option value="Équipement à réparer">Robot, éclairage ou équipement à réparer</option>
               </select>
             </div>
 

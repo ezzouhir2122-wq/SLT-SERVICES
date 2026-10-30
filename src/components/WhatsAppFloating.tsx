@@ -7,20 +7,20 @@ export const WhatsAppFloating: React.FC = () => {
   const [minimized, setMinimized] = useState(false);
 
   // Dynamic contextual message depending on the current page
-  let contextualMessage = `Bonjour ${settings.companyName}, je souhaite me renseigner sur vos prestations de travaux.`;
+  let contextualMessage = `Bonjour ${settings.companyName}, je souhaite me renseigner sur vos services pour ma piscine.`;
 
   if (currentPath === '/devis') {
-    contextualMessage = "Bonjour, je souhaite obtenir une étude chiffrée pour un projet de travaux.";
+    contextualMessage = "Bonjour, je souhaite obtenir une étude chiffrée pour mon projet de piscine.";
   } else if (currentPath === '/depannage') {
-    contextualMessage = "Bonjour, j'ai besoin d'une intervention rapide pour des travaux divers ou une urgence bâtiment (infiltration, fissure, panne…).";
+    contextualMessage = "Bonjour, ma piscine nécessite une intervention : fuite du bassin, panne de pompe ou problème de filtration.";
   } else if (currentPath === '/maintenance') {
-    contextualMessage = "Bonjour, je souhaite recevoir une proposition pour un contrat de maintenance de bâtiment.";
-  } else if (currentPath.includes('/services/gros-oeuvre-construction')) {
-    contextualMessage = "Bonjour, je souhaite obtenir un devis pour un projet de construction / gros œuvre.";
-  } else if (currentPath.includes('/services/renovation-rehabilitation')) {
-    contextualMessage = "Bonjour, je souhaite des conseils et un devis pour un projet de rénovation.";
+    contextualMessage = "Bonjour, je souhaite recevoir une proposition pour un contrat d’entretien de piscine.";
+  } else if (currentPath.includes('/services/construction-piscines')) {
+    contextualMessage = "Bonjour, je souhaite obtenir un devis pour la construction de ma piscine.";
+  } else if (currentPath.includes('/services/renovation-reparation')) {
+    contextualMessage = "Bonjour, je souhaite des conseils et un devis pour rénover ma piscine.";
   } else if (currentPath.includes('/services/')) {
-    contextualMessage = "Bonjour, je souhaite un devis pour des travaux (construction, rénovation, finitions…).";
+    contextualMessage = "Bonjour, je souhaite un devis pour ma piscine : construction, rénovation, équipements ou entretien.";
   } else if (currentPath.startsWith('/equipements') && params?.slug) {
     contextualMessage = `Bonjour, je souhaite un devis pour la prestation : ${params.name || params.slug}`;
   }

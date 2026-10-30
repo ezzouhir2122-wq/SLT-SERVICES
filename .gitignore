@@ -12,3 +12,4 @@ data/db.json
 
 # Playwright MCP test artifacts
 .playwright-mcp/
+.vercel

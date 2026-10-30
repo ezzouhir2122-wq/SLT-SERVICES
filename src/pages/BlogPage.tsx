@@ -7,7 +7,7 @@ export const BlogPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
-  const categories = ['all', 'Construction', 'Rénovation', 'Étanchéité'];
+  const categories = ['all', 'Construction', 'Entretien', 'Équipements'];
 
   const filteredPosts = initialBlogPosts.filter(p => {
     if (selectedCategory === 'all') return true;
@@ -22,15 +22,15 @@ export const BlogPage: React.FC = () => {
           Conseils Techniques
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#102A43] mt-2">
-          Conseils Travaux & Bâtiment
+          Conseils Piscine & Équipements
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Retrouvez nos conseils de construction, de rénovation et d'entretien pour réussir vos projets et préserver vos bâtiments.
+          Retrouvez nos conseils pour concevoir, équiper et entretenir votre piscine.
         </p>
       </div>
 
       {/* Categories */}
-      <div className="flex items-center justify-center gap-1.5 p-1 bg-slate-100 rounded-xl w-fit mx-auto">
+      <div className="flex flex-wrap items-center justify-center gap-1.5 p-1 bg-slate-100 rounded-xl w-fit max-w-full mx-auto">
         {categories.map(cat => (
           <button
             key={cat}

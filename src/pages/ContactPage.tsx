@@ -47,7 +47,7 @@ export const ContactPage: React.FC = () => {
           Contact & Accès Agence
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Une question sur vos travaux, un projet à étudier ou une demande de devis ? Nos conseillers sont à votre entière disposition.
+          Une question sur votre piscine, un bassin à concevoir ou un équipement à remplacer ? Nos conseillers sont à votre entière disposition.
         </p>
       </div>
 
@@ -224,7 +224,7 @@ export const ContactPage: React.FC = () => {
                   >
                     <option value="Renseignement général">Renseignement général</option>
                     <option value="Demande de devis projet">Demande d'étude ou devis pour un projet</option>
-                    <option value="Demande de prix prestation">Prix d'une prestation / matériau</option>
+                    <option value="Demande de prix équipement">Prix d’un équipement de piscine</option>
                     <option value="Proposition de partenariat pro">Partenariat promoteur / architecte / syndic</option>
                   </select>
                 </div>

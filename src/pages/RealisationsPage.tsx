@@ -206,7 +206,7 @@ export const RealisationsPage: React.FC<{ projectSlug?: string }> = ({ projectSl
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-100">
               <span className="text-[11px] text-slate-400">
-                Chantier témoin réalisé sous maîtrise d'œuvre conforme aux règles de l'art
+                Projet d’inspiration présenté à titre illustratif
               </span>
               <button
                 onClick={() => {

@@ -1,0 +1,134 @@
+/* Pool identity and compact composition from the supplied reference. */
+.quote-form-shell { padding: 26px; background: #fff; border: 1px solid #e0edf4; border-radius: 15px; }
+.quote-form-shell h3 { font-size: 23px; font-weight: 800; }
+.quote-form-shell .quote-form-intro { font-size: 12px; line-height: 1.7; margin: 9px 0 20px; }
+.pool-devis-form .quote-form-shell { background: none; border: 0; padding: 0; }
+.pool-home .slt-quote-panel .quote-form-shell { background: none; border: 0; padding: 0; }
+.pool-footer { background: #063551; color: #d9e8ef; padding: 45px 0 28px; }
+.pool-footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 35px; }
+.pool-footer-brand { display: flex; align-items: center; gap: 10px; color: #fff; font-size: 22px; margin-bottom: 13px; }
+.pool-footer-brand svg { color: #4fd3ec; }
+.pool-footer h3 { color: #fff; font-size: 13px; font-weight: 800; margin-bottom: 16px; }
+.pool-footer p, .pool-footer button, .pool-footer a { font-size: 11px; line-height: 1.9; }
+.pool-footer button { display: block; text-align: left; margin-bottom: 6px; }
+.pool-footer a { display: flex; align-items: center; gap: 7px; margin-block: 6px; }
+.pool-footer .slt-text-link { color: #77e7f2; margin-top: 15px; }
+.pool-footer p > svg { display: inline; vertical-align: middle; }
+.pool-footer-bottom { border-top: 1px solid #ffffff22; margin-top: 30px; padding-top: 22px; display: flex; justify-content: space-between; gap: 20px; font-size: 10px; }
+.pool-footer-bottom > div { display: flex; gap: 20px; }
+.pool-devis-page { display: grid; grid-template-columns: 1.2fr 1fr; gap: 70px; padding-block: 60px; align-items: center; }
+.pool-devis-intro h1, .pool-about-page h1 { font-size: clamp(32px, 4vw, 52px); line-height: 1.1; font-weight: 800; margin: 12px 0 20px; color: #073b59; }
+.pool-devis-intro > p, .pool-about-page > p { font-size: 14px; line-height: 1.8; color: #597588; margin-bottom: 25px; }
+.pool-devis-intro > img { width: 100%; height: 260px; border-radius: 15px; object-fit: cover; }
+.pool-devis-intro > div { display: flex; gap: 24px; padding-top: 17px; color: #008bae; font-size: 11px; }
+.pool-devis-intro > div > span { display: flex; gap: 8px; align-items: center; }
+.pool-devis-form { padding: 35px; background: linear-gradient(145deg, #053d65, #0088b5); border-radius: 18px; color: #fff; }
+.pool-devis-form h3 { font-size: 28px; font-weight: 800; }
+.pool-devis-form .quote-form-intro { font-size: 13px; margin-block: 12px 22px; line-height: 1.7; }
+.pool-devis-form input, .pool-devis-form select { min-height: 44px; }
+.pool-about-page { padding-block: 50px; }
+.pool-about-page > img { width: 100%; height: 350px; border-radius: 16px; object-fit: cover; margin-block: 25px; }
+.pool-about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-block: 30px; }
+.pool-about-grid > div { padding: 25px; border: 1px solid #dceaf2; border-radius: 14px; background: #fff; }
+.pool-about-grid svg { color: #00a3cc; margin-bottom: 15px; }
+.pool-about-grid h2 { font-size: 16px; font-weight: 800; margin-bottom: 10px; }
+.pool-about-grid p { font-size: 12px; line-height: 1.8; color: #597588; }
+@media (max-width: 750px) { .pool-devis-page { grid-template-columns: 1fr; gap: 30px; padding-block: 35px; } .pool-footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; } .pool-footer-bottom { flex-direction: column; } .pool-about-grid { grid-template-columns: 1fr; } }
+@media (max-width: 400px) { .pool-footer-grid { grid-template-columns: 1fr; } .pool-devis-form { padding: 24px 18px; } }
+.pool-equipment-image { display: block; width: 100%; height: 100%; background-repeat: no-repeat; background-size: 300% 200%; background-color: #fff; }
+.slt-product-card > .pool-equipment-image { display: block; padding: 0; background-size: 300% 200%; background-repeat: no-repeat; }
+.slt-header .slt-brand-icon { background: none; color: #008cbd; box-shadow: none; width: 58px; height: 44px; }
+.slt-header .slt-brand strong { letter-spacing: -.035em; font-size: 26px; }
+.slt-header .slt-brand small { font-size: 7px; letter-spacing: .02em; }
+.slt-header .slt-desktop-nav button { display: flex; align-items: center; gap: 4px; }
+.pool-home .slt-hero { min-height: 440px; }
+.pool-home .slt-hero-content { padding-block: 68px 26px; }
+.pool-home .slt-hero-photo { object-position: center 58%; }
+.pool-home .slt-hero-shade { background: linear-gradient(90deg, #002f4eea 0%, #003f5b9c 34%, #00435f12 72%), linear-gradient(0deg, #00466b66, transparent 45%); }
+.pool-home .slt-hero h1 { font-size: clamp(45px, 4.25vw, 64px); margin-block: 10px 16px; }
+.pool-home .slt-hero-content > p { font-size: 13px; line-height: 1.55; }
+.pool-home .slt-hero-actions { margin-top: 18px; }
+.pool-home .slt-hero-actions .slt-btn { padding: 10px 22px; }
+.pool-home .slt-hero-promises { margin-top: 22px; gap: 32px; }
+.pool-home .slt-main-grid { grid-template-columns: minmax(0, 1fr) 290px; gap: 22px; padding-top: 22px; padding-bottom: 28px; }
+.pool-home .slt-section-head { margin-bottom: 15px; }
+.pool-home .slt-section-head h2 { font-size: 22px; }
+.pool-home .slt-service-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 11px; }
+.pool-home .slt-service-image { height: 112px; }
+.pool-home .slt-service-copy { padding: 7px 11px 28px; }
+.pool-home .slt-service-copy h3 { font-size: 13px; line-height: 1.3; min-height: 34px; }
+.pool-home .slt-service-copy p { font-size: 10px; line-height: 1.4; -webkit-line-clamp: 4; }
+.pool-home .slt-service-icon { width: 34px; height: 34px; margin-left: 10px; border-radius: 8px; }
+.pool-home .slt-section + .slt-section { margin-top: 23px; }
+.pool-home .pool-projects { display: grid; grid-template-columns: .95fr 1.2fr; align-items: center; gap: 20px; }
+.pool-home .pool-projects-content { min-width: 0; }
+.pool-home .pool-projects .slt-section-head { flex-wrap: wrap; gap: 7px; }
+.pool-home .pool-projects .slt-section-head h2 { font-size: 21px; }
+.pool-home .slt-before-after .aspect-\[16\/9\] { aspect-ratio: 2.2; }
+.pool-home .slt-before-after > div > div:last-child { display: none; }
+.pool-home .slt-project-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.pool-home .slt-project-card { min-height: 93px; }
+.pool-project-caption { position: absolute; inset: auto 0 0; color: #fff; padding: 16px 7px 7px; font-size: 8px; line-height: 1.3; opacity: 0; background: linear-gradient(transparent, #00344ad9); transition: opacity .2s; }
+.pool-home .slt-project-card:hover .pool-project-caption, .pool-home .slt-project-card:focus-visible .pool-project-caption { opacity: 1; }
+.pool-home .slt-product-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.pool-home .slt-product-card { background: #fff; border-color: #f1f5f7; }
+.pool-home .slt-product-card .pool-equipment-image { height: 98px; }
+.pool-home .slt-product-card > span:last-child { font-size: 9px; padding: 9px 6px; }
+.pool-home .slt-sidebar { padding-top: 135px; }
+.pool-home .slt-quote-panel { border-width: 5px; border-radius: 18px; padding: 22px 18px 16px; }
+.pool-home .slt-sidebar-note { margin-top: 18px; padding: 18px; }
+.pool-home .slt-quote-panel h3 { font-size: 22px; font-weight: 800; color: #fff; }
+.pool-home .slt-quote-panel .quote-form-intro { font-size: 11px; line-height: 1.5; margin: 7px 0 14px; color: #f2fbff; }
+.pool-quote-form { display: grid; gap: 10px; }
+.pool-home .slt-quote-panel .pool-quote-form { gap: 10px; }
+.pool-home .slt-quote-panel .pool-quote-fields, .pool-quote-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.pool-quote-fields > div { min-width: 0; }
+.pool-quote-form input, .pool-quote-form select, .pool-quote-form textarea { width: 100%; background: #fff; color: #22465e; border: 1px solid #dcebf3; border-radius: 8px; padding: 10px; font-size: 11px; }
+.pool-home .slt-quote-panel input, .pool-home .slt-quote-panel select { min-height: 35px; padding: 8px; font-size: 10px; }
+.pool-quote-form textarea { resize: vertical; min-height: 70px; }
+.pool-quote-form button { width: 100%; }
+.pool-quote-form button:disabled { opacity: .65; cursor: wait; }
+.pool-quote-form .pool-privacy { font-size: 8px; line-height: 1.5; opacity: .8; }
+.pool-quote-form [role=alert] { color: #ffdfbf; font-size: 11px; }
+.pool-quote-success { display: grid; gap: 15px; text-align: center; justify-items: center; }
+.pool-home .slt-faq { border-top: 1px solid #e9f1f5; padding-top: 35px; }
+@media (max-width: 1250px) {
+  .slt-header .slt-desktop-nav { gap: 13px; }
+  .slt-header .slt-brand strong { font-size: 23px; }
+  .pool-home .slt-main-grid { grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; }
+  .pool-home .slt-service-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pool-home .slt-product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pool-home .pool-projects { grid-template-columns: 1fr; }
+  .pool-home .slt-sidebar { padding-top: 90px; }
+}
+@media (max-width: 950px) {
+  .pool-home .slt-main-grid { grid-template-columns: 1fr; }
+  .pool-home .slt-sidebar { padding-top: 0; }
+  .pool-home .slt-sidebar-note { margin-top: 0; }
+  .pool-home .pool-projects { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .slt-header .slt-brand-icon { width: 42px; }
+  .slt-header .slt-brand-icon svg { width: 40px; }
+  .slt-header .slt-brand strong { font-size: 20px; }
+  .slt-header .slt-brand small { font-size: 5px; }
+  .pool-home .slt-hero { min-height: 560px; }
+  .pool-home .slt-hero-photo { object-position: 62% center; }
+  .pool-home .slt-hero-content { padding-block: 64px 30px; }
+  .pool-home .slt-hero-shade { background: linear-gradient(90deg, #003653d9, #003d5d55), linear-gradient(0deg, #005274e6, transparent); }
+  .pool-home .slt-hero h1 { font-size: clamp(40px, 11.8vw, 52px); margin-top: 18px; }
+  .pool-home .slt-hero-content > p { font-size: 13px; line-height: 1.6; }
+  .pool-desktop-break { display: none; }
+  .pool-home .slt-hero-promises { gap: 12px; margin-top: 26px; }
+  .pool-home .slt-hero-promises p { font-size: 9px; }
+  .pool-home .slt-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pool-home .slt-service-copy h3 { min-height: auto; }
+  .pool-home .slt-service-copy p { min-height: 29px; }
+  .pool-home .slt-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pool-home .pool-projects { grid-template-columns: 1fr; gap: 18px; }
+  .pool-home .slt-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pool-home .slt-project-card { min-height: 125px; }
+  .pool-home .slt-section-head h2 { font-size: 22px; }
+  .pool-home .slt-quote-panel { padding: 25px 22px; }
+  .pool-home .slt-quote-panel input, .pool-home .slt-quote-panel select { font-size: 12px; min-height: 42px; }
+}

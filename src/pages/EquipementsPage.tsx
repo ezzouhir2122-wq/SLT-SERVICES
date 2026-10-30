@@ -1,3 +1,4 @@
+import { PoolImage } from '../components/PoolImage';
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { initialProducts } from '../data/initialData';
@@ -23,10 +24,12 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
 
   const categories = [
     'all',
-    'Gros œuvre',
-    'Finitions',
-    'Étanchéité',
-    'Menuiserie'
+    'Pompes',
+    'Filtration',
+    'Nettoyage',
+    'Éclairage',
+    'Accessoires',
+    'Pièces détachées'
   ];
 
   const filteredProducts = initialProducts.filter(p => {
@@ -48,7 +51,7 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
       name: inquiryForm.name,
       phone: inquiryForm.phone,
       city: inquiryForm.city,
-      service: "Demande de devis prestation",
+      service: "Demande de devis équipement piscine",
       source: "fiche_produit",
       description: `Demande de devis pour ${selectedProduct.name} (${selectedProduct.reference})`,
       details: {
@@ -69,13 +72,13 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto">
         <span className="text-xs font-semibold tracking-wider text-[#0077B6] uppercase">
-          Prestations & Matériaux
+          Équipements de piscine
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#102A43] mt-2">
-          Nos Prestations & Tarifs indicatifs
+          Des équipements fiables et performants
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Prestations du bâtiment, du gros œuvre aux finitions, avec tarifs indicatifs au m². Le prix définitif est établi après visite et métré.
+          Pompes, filtres à sable, robots nettoyeurs, éclairage LED, skimmers et pièces détachées : une sélection adaptée à votre piscine.
         </p>
       </div>
 
@@ -86,7 +89,7 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Rechercher une prestation, un matériau, une référence..."
+            placeholder="Rechercher un équipement, une référence..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full text-xs sm:text-sm pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0077B6]"
@@ -135,7 +138,7 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
                   onClick={() => setSelectedProduct(product)}
                   className="h-36 overflow-hidden cursor-pointer"
                 >
-                  <img
+                  <PoolImage
                     src={product.image}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -181,7 +184,7 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
                       ? 'Prix sur devis'
                       : `${product.price.toLocaleString('fr-FR')} MAD/m² HT`}
                   </span>
-                  <span className="text-[11px] text-emerald-600 font-medium">Disponible</span>
+                  <span className="text-[11px] text-slate-500 font-medium">Sur demande</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 pt-2">
@@ -231,7 +234,7 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
 
             {selectedProduct.image && (
               <div className="rounded-2xl overflow-hidden mb-5 aspect-[16/9] border border-slate-200">
-                <img
+                <PoolImage
                   src={selectedProduct.image}
                   alt={selectedProduct.name}
                   className="w-full h-full object-cover"
@@ -270,7 +273,7 @@ export const EquipementsPage: React.FC<{ productSlug?: string }> = ({ productSlu
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <a
-                  href={getWhatsAppUrl(`Bonjour, je souhaite des informations et un devis pour la prestation : ${selectedProduct.name} (Réf : ${selectedProduct.reference})`)}
+                  href={getWhatsAppUrl(`Bonjour, je souhaite des informations et un devis pour la équipement : ${selectedProduct.name} (Réf : ${selectedProduct.reference})`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 transition-colors"

@@ -1,3 +1,4 @@
+import { PoolImage } from '../components/PoolImage';
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { initialServices, initialProjects } from '../data/initialData';
@@ -9,6 +10,12 @@ import {
   Paintbrush,
   Zap,
   Wrench,
+  Droplets,
+  BrickWall,
+  Leaf,
+  Settings,
+  Filter,
+  Sparkles,
   CheckCircle2,
   AlertTriangle,
   ArrowRight,
@@ -23,13 +30,18 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
   const getServiceIcon = (iconName: string) => {
     const cls = "w-6 h-6 text-[#0077B6]";
     switch (iconName) {
+      case 'BrickWall': return <BrickWall className={cls} />;
+      case 'Leaf': return <Leaf className={cls} />;
+      case 'Settings': return <Settings className={cls} />;
+      case 'Filter': return <Filter className={cls} />;
+      case 'Sparkles': return <Sparkles className={cls} />;
       case 'Building2': return <Building2 className={cls} />;
       case 'Hammer': return <Hammer className={cls} />;
       case 'Trees': return <Trees className={cls} />;
       case 'Paintbrush': return <Paintbrush className={cls} />;
       case 'Zap': return <Zap className={cls} />;
       case 'Wrench': return <Wrench className={cls} />;
-      default: return <Building2 className={cls} />;
+      default: return <Droplets className={cls} />;
     }
   };
 
@@ -40,8 +52,8 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
 
   if (activeService) {
     const relatedProjects = initialProjects.filter(p => {
-      if (activeService.slug === 'gros-oeuvre-construction') return p.category === 'construction';
-      if (activeService.slug === 'renovation-rehabilitation') return p.category === 'renovation';
+      if (activeService.slug === 'construction-piscines') return p.category === 'construction';
+      if (activeService.slug === 'renovation-reparation') return p.category === 'renovation';
       if (activeService.slug === 'amenagement-exterieur') return p.category === 'amenagement';
       return true;
     }).slice(0, 2);
@@ -91,7 +103,7 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
 
             {activeService.image && (
               <div className="mt-10 rounded-2xl overflow-hidden shadow-lg border border-slate-200 aspect-[21/9]">
-                <img
+                <PoolImage
                   src={activeService.image}
                   alt={activeService.title}
                   className="w-full h-full object-cover"
@@ -244,7 +256,7 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
           Notre Savoir-faire
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#102A43] mt-2">
-          Nos Services & Prestations
+          Des solutions complètes pour votre piscine
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
           Une équipe dédiée pour chaque étape de votre projet de construction ou de rénovation, à Marrakech et sa région.
@@ -260,7 +272,7 @@ export const ServicesPage: React.FC<{ serviceSlug?: string }> = ({ serviceSlug }
           >
             {service.image && (
               <div className="h-40 overflow-hidden">
-                <img
+                <PoolImage
                   src={service.image}
                   alt={service.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

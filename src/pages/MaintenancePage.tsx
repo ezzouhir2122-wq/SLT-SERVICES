@@ -5,12 +5,12 @@ import { Check, ShieldCheck, MessageCircle, FileText, Calendar } from 'lucide-re
 
 export const MaintenancePage: React.FC = () => {
   const { navigate, getWhatsAppUrl, submitLead, settings } = useApp();
-  const [selectedPlan, setSelectedPlan] = useState<string>('Contrat Entretien Particulier');
+  const [selectedPlan, setSelectedPlan] = useState<string>('Essentiel');
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     city: 'Marrakech',
-    propertyType: 'Villa résidentielle'
+    propertyType: 'Piscine privée'
   });
   const [loading, setLoading] = useState(false);
   const [submittedRef, setSubmittedRef] = useState<string | null>(null);
@@ -50,7 +50,7 @@ export const MaintenancePage: React.FC = () => {
           Contrats d'Entretien & Maintenance
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          Préservez durablement vos bâtiments avec un suivi régulier : étanchéité, petites réparations, entretien des parties communes et des extérieurs.
+          Profitez de votre piscine avec un suivi régulier : nettoyage du bassin, contrôle de la filtration, qualité de l’eau et entretien des équipements.
         </p>
       </div>
 
@@ -158,17 +158,17 @@ export const MaintenancePage: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                    Type de bien *
+                    Type de piscine *
                   </label>
                   <select
                     value={formData.propertyType}
                     onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
                     className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white"
                   >
-                    <option value="Villa résidentielle">Villa / maison individuelle</option>
-                    <option value="Appartement">Appartement</option>
-                    <option value="Immeuble / copropriété">Immeuble / copropriété (syndic)</option>
-                    <option value="Local commercial">Local commercial / bureaux</option>
+                    <option value="Piscine privée">Piscine de villa</option>
+                    <option value="Piscine de riad">Piscine de riad</option>
+                    <option value="Piscine collective / copropriété">Piscine collective / copropriété (syndic)</option>
+                    <option value="Piscine professionnelle">Piscine professionnelle</option>
                     <option value="Établissement / hôtel">Établissement / hôtel</option>
                   </select>
                 </div>
