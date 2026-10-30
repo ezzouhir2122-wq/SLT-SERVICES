@@ -55,6 +55,20 @@
 .pool-home .slt-hero-actions { margin-top: 18px; }
 .pool-home .slt-hero-actions .slt-btn { padding: 10px 22px; }
 .pool-home .slt-hero-promises { margin-top: 22px; gap: 32px; }
+/* Mockup smartphone flottant à droite du hero (vision pro) */
+.pool-home .slt-hero { min-height: 468px; }
+.slt-hero-mockup {
+  position: absolute;
+  right: clamp(16px, 6vw, 150px);
+  bottom: 0;
+  height: min(90%, 420px);
+  width: auto;
+  border-radius: 24px;
+  box-shadow: 0 26px 60px rgba(0, 18, 38, .55);
+  z-index: 1;
+}
+@media (max-width: 1100px) { .slt-hero-mockup { right: 20px; height: min(80%, 360px); } }
+@media (max-width: 900px) { .slt-hero-mockup { display: none; } }
 .pool-home .slt-main-grid { grid-template-columns: minmax(0, 1fr) 290px; gap: 22px; padding-top: 22px; padding-bottom: 28px; }
 .pool-home .slt-section-head { margin-bottom: 15px; }
 .pool-home .slt-section-head h2 { font-size: 22px; }

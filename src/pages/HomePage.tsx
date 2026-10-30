@@ -31,6 +31,7 @@ export const HomePage: React.FC = () => {
           <div><span><ShieldCheck /></span><p>Équipements<br /><strong>adaptés à vos besoins</strong></p></div>
         </div>
       </div>
+      <img className="slt-hero-mockup" src="/assets/mockup-mobile.png" alt="Aperçu du site SLT SERVICES sur smartphone" loading="lazy" />
     </section>
 
     <div className="slt-container slt-main-grid">
