@@ -84,6 +84,7 @@ export interface ProductItem {
   brand: string;
   category: string;
   price?: number;
+  quantity?: number;
   isPriceOnDemand: boolean;
   shortDescription: string;
   image?: string;

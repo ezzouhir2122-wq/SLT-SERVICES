@@ -24,7 +24,10 @@ import {
   Eye,
   Trash2,
   X,
-  Plus
+  Plus,
+  Pencil,
+  Image as ImageIcon,
+  Boxes
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -58,6 +61,8 @@ export const AdminDashboard: React.FC = () => {
   // Products and Services in CMS
   const [productsList, setProductsList] = useState<ProductItem[]>([]);
   const [servicesList, setServicesList] = useState<ServiceItem[]>([]);
+  const [editingProduct, setEditingProduct] = useState<ProductItem | null>(null);
+  const [productSaving, setProductSaving] = useState(false);
 
   // Settings form
   const [settingsForm, setSettingsForm] = useState(settings);
@@ -218,6 +223,45 @@ export const AdminDashboard: React.FC = () => {
     const success = await updateSettings(settingsForm);
     if (success) {
       showToast('Paramètres de l\'entreprise enregistrés.', 'success');
+    }
+  };
+
+  const handleSaveProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProduct) return;
+    setProductSaving(true);
+    try {
+      const res = await fetch(`/api/products/${editingProduct.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders },
+        body: JSON.stringify({
+          ...editingProduct,
+          price: editingProduct.isPriceOnDemand ? null : editingProduct.price,
+          quantity: editingProduct.quantity === undefined ? null : Math.max(0, editingProduct.quantity)
+        })
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Mise à jour impossible');
+      setEditingProduct(null);
+      showToast('Produit mis à jour.', 'success');
+      fetchProducts();
+    } catch {
+      showToast('Impossible de mettre à jour ce produit.', 'error');
+    } finally {
+      setProductSaving(false);
+    }
+  };
+
+  const handleDeleteProduct = async (product: ProductItem) => {
+    if (!window.confirm(`Supprimer définitivement « ${product.name} » ?`)) return;
+    try {
+      const res = await fetch(`/api/products/${product.id}`, { method: 'DELETE', headers: adminHeaders });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Suppression impossible');
+      showToast('Produit supprimé.', 'info');
+      fetchProducts();
+    } catch {
+      showToast('Impossible de supprimer ce produit.', 'error');
     }
   };
 
@@ -819,34 +863,92 @@ export const AdminDashboard: React.FC = () => {
             <span className="text-xs text-slate-500">{productsList.length} articles référencés</span>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase text-[11px]">
                 <tr>
+                  <th className="py-3 px-4 w-16"><ImageIcon className="w-4 h-4" aria-label="Image" /></th>
                   <th className="py-3 px-4">Réf</th>
                   <th className="py-3 px-4">Nom Produit</th>
                   <th className="py-3 px-4">Catégorie</th>
                   <th className="py-3 px-4">Prix</th>
+                  <th className="py-3 px-4">Quantité</th>
                   <th className="py-3 px-4">Disponibilité</th>
+                  <th className="py-3 px-4 text-right"><span className="sr-only">Actions</span></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {productsList.map(prod => (
                   <tr key={prod.id} className="hover:bg-slate-50">
+                    <td className="py-2 px-4">
+                      <div className="w-9 h-9 overflow-hidden rounded-lg bg-sky-50 border border-sky-100 flex items-center justify-center">
+                        {prod.image ? <img src={prod.image} alt="" className="w-full h-full object-cover" /> : <ImageIcon className="w-4 h-4 text-sky-500" />}
+                      </div>
+                    </td>
                     <td className="py-3 px-4 font-mono text-slate-500">{prod.reference}</td>
                     <td className="py-3 px-4 font-bold text-slate-900">{prod.name}</td>
                     <td className="py-3 px-4 text-slate-600">{prod.category}</td>
                     <td className="py-3 px-4 font-mono font-medium">
-                      {prod.price ? `${prod.price.toLocaleString('fr-FR')} MAD` : 'Sur demande'}
+                      {!prod.isPriceOnDemand && typeof prod.price === 'number' ? `${prod.price.toLocaleString('fr-FR')} MAD` : 'Sur demande'}
+                    </td>
+                    <td className="py-3 px-4 font-mono text-slate-700">{typeof prod.quantity === 'number' ? prod.quantity : '—'}</td>
+                    <td className="py-3 px-4">
+                      <span className={`text-[11px] font-semibold ${prod.inStock ? 'text-emerald-700' : 'text-slate-500'}`}>{prod.inStock ? 'En stock' : 'Sur commande'}</span>
                     </td>
                     <td className="py-3 px-4">
-                      <span className="text-[11px] font-semibold text-emerald-700">En stock</span>
+                      <div className="flex items-center justify-end gap-1">
+                        <button type="button" onClick={() => setEditingProduct({ ...prod })} className="p-2 text-sky-700 hover:bg-sky-50 rounded-lg transition-colors" title={`Modifier ${prod.name}`} aria-label={`Modifier ${prod.name}`}><Pencil className="w-4 h-4" /></button>
+                        <button type="button" onClick={() => handleDeleteProduct(prod)} className="p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title={`Supprimer ${prod.name}`} aria-label={`Supprimer ${prod.name}`}><Trash2 className="w-4 h-4" /></button>
+                      </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {editingProduct && (
+        <div className="fixed inset-0 z-50 bg-slate-950/45 p-4 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+          <form onSubmit={handleSaveProduct} className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
+            <div className="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-sky-50 text-sky-700 flex items-center justify-center"><Boxes className="w-4 h-4" /></div>
+                <div><h3 id="product-modal-title" className="font-bold text-slate-900">Modifier le produit</h3><p className="text-xs text-slate-500">Informations visibles dans le catalogue.</p></div>
+              </div>
+              <button type="button" onClick={() => setEditingProduct(null)} className="p-2 rounded-lg text-slate-500 hover:bg-slate-100" aria-label="Fermer"><X className="w-5 h-5" /></button>
+            </div>
+
+            <div className="p-6 space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <label className="block text-xs font-semibold text-slate-700">Nom du produit<input required value={editingProduct.name} onChange={e => setEditingProduct({ ...editingProduct, name: e.target.value })} className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-normal" /></label>
+                <label className="block text-xs font-semibold text-slate-700">Référence<input required value={editingProduct.reference} onChange={e => setEditingProduct({ ...editingProduct, reference: e.target.value })} className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-normal" /></label>
+                <label className="block text-xs font-semibold text-slate-700">Catégorie<input required value={editingProduct.category} onChange={e => setEditingProduct({ ...editingProduct, category: e.target.value })} className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-normal" /></label>
+                <label className="block text-xs font-semibold text-slate-700">Quantité disponible<input type="number" min="0" value={editingProduct.quantity ?? ''} onChange={e => setEditingProduct({ ...editingProduct, quantity: e.target.value === '' ? undefined : Number(e.target.value) })} className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-normal" placeholder="Ex. 12" /></label>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
+                <label className="block text-xs font-semibold text-slate-700">Prix (MAD)<input type="number" min="0" disabled={editingProduct.isPriceOnDemand} value={editingProduct.price ?? ''} onChange={e => setEditingProduct({ ...editingProduct, price: e.target.value === '' ? undefined : Number(e.target.value) })} className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-normal disabled:bg-slate-100 disabled:text-slate-400" placeholder="Ex. 2500" /></label>
+                <div className="space-y-3 pb-1">
+                  <label className="flex items-center gap-2 text-xs font-medium text-slate-700 cursor-pointer"><input type="checkbox" checked={editingProduct.isPriceOnDemand} onChange={e => setEditingProduct({ ...editingProduct, isPriceOnDemand: e.target.checked })} className="rounded border-slate-300 text-[#0077B6]" />Prix sur demande</label>
+                  <label className="flex items-center gap-2 text-xs font-medium text-slate-700 cursor-pointer"><input type="checkbox" checked={editingProduct.inStock} onChange={e => setEditingProduct({ ...editingProduct, inStock: e.target.checked })} className="rounded border-slate-300 text-[#0077B6]" />Disponible en stock</label>
+                </div>
+              </div>
+
+              <label className="block text-xs font-semibold text-slate-700">URL de l'image
+                <div className="mt-1.5 flex gap-3 items-center">
+                  <div className="w-12 h-12 shrink-0 overflow-hidden rounded-lg bg-sky-50 border border-sky-100 flex items-center justify-center">{editingProduct.image ? <img src={editingProduct.image} alt="Aperçu" className="w-full h-full object-cover" /> : <ImageIcon className="w-5 h-5 text-sky-500" />}</div>
+                  <input type="url" value={editingProduct.image ?? ''} onChange={e => setEditingProduct({ ...editingProduct, image: e.target.value || undefined })} className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-normal" placeholder="https://… ou /assets/produit.jpg" />
+                </div>
+              </label>
+            </div>
+
+            <div className="sticky bottom-0 bg-white border-t border-slate-100 px-6 py-4 flex justify-end gap-3">
+              <button type="button" onClick={() => setEditingProduct(null)} className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">Annuler</button>
+              <button type="submit" disabled={productSaving} className="px-4 py-2.5 text-xs font-semibold text-white bg-[#0077B6] hover:bg-[#005f94] disabled:opacity-60 rounded-lg inline-flex items-center gap-2"><Save className="w-4 h-4" />{productSaving ? 'Enregistrement…' : 'Enregistrer'}</button>
+            </div>
+          </form>
         </div>
       )}
 
