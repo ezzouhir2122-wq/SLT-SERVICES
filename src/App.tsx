@@ -7,6 +7,7 @@ import { Footer } from './components/Footer';
 import { WhatsAppFloating } from './components/WhatsAppFloating';
 import { MobileCtaBar } from './components/MobileCtaBar';
 import { CookieConsent } from './components/CookieConsent';
+import { InstallPrompt } from './components/InstallPrompt';
 
 // Pages
 import { HomePage } from './pages/HomePage';
@@ -112,6 +113,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
+      <InstallPrompt />
       <Header />
       <main className="flex-1">
         {renderCurrentPage()}

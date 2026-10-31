@@ -63,6 +63,7 @@ SLT SERVICES souhaite disposer d'une présence digitale professionnelle pour pr�
 - Bouton WhatsApp flottant et barre d'action mobile (appel / WhatsApp / devis).
 - Mini-formulaire de devis rapide (nom, téléphone, ville, service, message).
 - Bandeau de consentement cookies (RGPD / CNDP) conditionné à l'activation d'un suivi analytics.
+- **Application installable (PWA)** : manifeste, service worker (cache hors-ligne léger), icônes, bandeau « Installer l'application » (Android/desktop) et astuce iOS. Parcours self-service : lien WhatsApp → ouverture → installation → connexion à l'espace admin, sans assistance technique.
 - Pied de page (services, liens, contact, réseaux).
 
 ### 3.2 Génération de prospects (leads)
