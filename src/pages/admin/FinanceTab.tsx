@@ -215,8 +215,9 @@ const finCss = `
 .fin-meta{ margin-top:14px; line-height:1.9; }
 .fin-num{ font-weight:700; }
 .fin-validity{ font-style:italic; }
-.fin-table{ width:100%; border-collapse:collapse; margin-top:20px; }
-.fin-table th,.fin-table td{ border:1px solid #000; padding:5px 7px; text-align:center; vertical-align:middle; }
+.fin-table{ width:100%; border-collapse:collapse; margin-top:20px; table-layout:fixed; }
+.fin-table th,.fin-table td{ border:1px solid #000; padding:5px 7px; text-align:center; vertical-align:middle; word-wrap:break-word; }
+.fin-table td input{ width:100%; box-sizing:border-box; }
 .fin-table th{ font-weight:700; }
 .fin-desc{ text-align:left; }
 .fin-linetot,.fin-totval{ font-weight:700; text-align:center; }

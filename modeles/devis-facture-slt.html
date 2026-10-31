@@ -56,8 +56,8 @@
   [contenteditable]:empty:before{content:attr(data-ph); color:#9aa5b1; font-style:italic;}
 
   /* Tableau */
-  table.items{width:100%; border-collapse:collapse; margin-top:26px;}
-  table.items th, table.items td{border:1px solid var(--line); padding:6px 8px; text-align:center; vertical-align:middle;}
+  table.items{width:100%; border-collapse:collapse; margin-top:26px; table-layout:fixed;}
+  table.items th, table.items td{border:1px solid var(--line); padding:6px 8px; text-align:center; vertical-align:middle; word-wrap:break-word;}
   table.items th{font-weight:700;}
   table.items td.desc{text-align:left;}
   table.items input{
