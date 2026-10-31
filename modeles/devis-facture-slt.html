@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Devis / Facture — SLT SERVICES</title>
+<style>
+  :root{
+    --blue:#1d3a8a;      /* bleu identité SLT */
+    --ink:#111;
+    --line:#000;
+    --muted:#444;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:#e9edf2; color:var(--ink);
+    font-family:"Times New Roman", Georgia, serif; font-size:13px;
+  }
+
+  /* -------- Barre d'outils (non imprimée) -------- */
+  .toolbar{
+    position:sticky; top:0; z-index:10;
+    background:#102A43; color:#fff; padding:10px 16px;
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    font-family:Arial, sans-serif; font-size:13px;
+  }
+  .toolbar button{
+    border:0; border-radius:7px; padding:8px 14px; font-weight:600; cursor:pointer;
+    font-family:inherit; font-size:13px;
+  }
+  .btn-type{background:#33506e; color:#cfe3f2;}
+  .btn-type.active{background:#00B4D8; color:#03233a;}
+  .btn-act{background:#2563eb; color:#fff;}
+  .btn-print{background:#16a34a; color:#fff; margin-left:auto;}
+  .toolbar .hint{color:#9fb3c8; font-size:12px;}
+
+  /* -------- Page A4 -------- */
+  .page{
+    width:210mm; min-height:297mm; margin:18px auto; background:#fff;
+    padding:14mm 14mm 10mm; position:relative;
+    box-shadow:0 2px 14px rgba(0,0,0,.18);
+    display:flex; flex-direction:column;
+  }
+
+  /* En-tête : logo + activité */
+  .head{display:flex; gap:14px; align-items:flex-start;}
+  .head img{width:150px; height:auto; object-fit:contain;}
+  .activity{font-style:italic; color:var(--blue); font-weight:700; line-height:1.35; font-size:12.5px; padding-top:6px;}
+  .activity .big{font-size:15px;}
+
+  .doc-date{text-align:right; margin-top:26px;}
+  .doc-meta{margin-top:18px; line-height:1.9;}
+  .doc-meta .num{font-weight:700;}
+  [contenteditable]{outline:none;}
+  [contenteditable]:focus{background:#eef6ff;}
+
+  /* Tableau */
+  table.items{width:100%; border-collapse:collapse; margin-top:26px;}
+  table.items th, table.items td{border:1px solid var(--line); padding:6px 8px; text-align:center; vertical-align:middle;}
+  table.items th{font-weight:700;}
+  table.items td.desc{text-align:left;}
+  table.items input{
+    border:0; width:100%; text-align:center; font:inherit; background:transparent;
+  }
+  table.items td.desc [contenteditable]{min-height:18px;}
+  .tot-label{text-align:center; font-style:italic; font-weight:700;}
+  .tot-val{font-weight:700; text-align:center;}
+  .row-tools{display:flex; gap:6px; margin-top:6px;}
+  .row-tools button{font-family:Arial; font-size:12px; border:1px solid #cbd5e1; background:#f1f5f9; border-radius:6px; padding:4px 10px; cursor:pointer;}
+  .del-col{width:26px;}
+  .del-btn{border:0;background:transparent;color:#c0392b;cursor:pointer;font-size:15px;line-height:1;}
+
+  .en-lettres{margin-top:22px; line-height:1.8;}
+  .reglement{margin-top:6px;}
+  .devis-only{display:none;}
+  body.is-devis .devis-only{display:block;}
+  body.is-facture .facture-only{display:block;}
+
+  .sign{margin-top:26px; text-align:center; font-weight:700;}
+  .sign-zone{height:120px;}
+
+  /* Pied légal */
+  .legal{
+    margin-top:auto; border-top:1.5px solid var(--blue); padding-top:6px;
+    text-align:center; color:var(--blue); font-size:10px; line-height:1.4; font-weight:600;
+  }
+  .legal .name{font-weight:800;}
+
+  @media print{
+    body{background:#fff;}
+    .toolbar{display:none;}
+    .row-tools, .del-col{display:none !important;}
+    .page{width:auto; min-height:auto; margin:0; padding:10mm 12mm; box-shadow:none;}
+    table.items input, [contenteditable]{background:transparent !important;}
+    @page{size:A4; margin:8mm;}
+  }
+</style>
+</head>
+<body class="is-facture">
+
+  <div class="toolbar">
+    <span style="font-weight:700;margin-right:6px;">Type :</span>
+    <button class="btn-type active" id="t-facture" onclick="setType('facture')">Facture</button>
+    <button class="btn-type" id="t-devis" onclick="setType('devis')">Devis</button>
+    <button class="btn-act" onclick="addRow()">+ Ligne</button>
+    <span class="hint">Remplis les champs · les totaux se calculent seuls</span>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button>
+  </div>
+
+  <div class="page">
+    <!-- En-tête -->
+    <div class="head">
+      <img src="logo-slt.png" alt="SLT SERVICES" />
+      <div class="activity">
+        <span class="big">S</span>ociété Spécialisée dans les Travaux de Constructions, les Infrastructures,
+        Rénovation, Terrassement, Assainissement, Aménagement, Construction et Entretien des Routes
+        et Travaux de Tous Corps d'Etat
+      </div>
+    </div>
+
+    <div class="doc-date">Marrakech , le <span contenteditable="true">30-09-2026</span></div>
+
+    <div class="doc-meta">
+      <div class="num"><span class="doc-title">Facture</span> N° : <span contenteditable="true">002-092026</span></div>
+      <div>Client : <span contenteditable="true">Ste BELLE SOURCES SARL</span></div>
+      <div>ICE : <span contenteditable="true">002837306000040</span></div>
+      <div class="devis-only">Devis valable 30 jours à compter de la date d'émission.</div>
+    </div>
+
+    <!-- Tableau -->
+    <table class="items" id="items">
+      <thead>
+        <tr>
+          <th style="width:36px;">N°</th>
+          <th>DESIGNATION</th>
+          <th style="width:46px;">U</th>
+          <th style="width:70px;">QT</th>
+          <th style="width:90px;">PRIX U HT</th>
+          <th style="width:110px;">TOTAL HT</th>
+          <th class="del-col"></th>
+        </tr>
+      </thead>
+      <tbody id="rows"><!-- lignes injectées --></tbody>
+      <tfoot>
+        <tr>
+          <td class="tot-label" colspan="5">TOTAL HT</td>
+          <td class="tot-val" id="totHT">0.00</td><td class="del-col"></td>
+        </tr>
+        <tr>
+          <td class="tot-label" colspan="5">TVA <span contenteditable="true" id="tvaRate" oninput="recalc()">20</span>%</td>
+          <td class="tot-val" id="totTVA">0.00</td><td class="del-col"></td>
+        </tr>
+        <tr>
+          <td class="tot-label" colspan="5">TOTAL TTC</td>
+          <td class="tot-val" id="totTTC">0.00</td><td class="del-col"></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="en-lettres">
+      Arrêtée la présente <span class="doc-title-lc">facture</span> à la somme de :
+      <strong><span id="lettres">zéro</span> Dhs</strong>
+    </div>
+
+    <div class="reglement">Mode de règlement : <span contenteditable="true">virement le 15-09-2026</span></div>
+
+    <div class="sign">
+      Signature
+      <div class="sign-zone"></div>
+    </div>
+
+    <!-- Pied légal -->
+    <div class="legal">
+      <span class="name">SLT SERVICES</span> S.A.R.L - Capital 1 000 000,00 DHS. Adresse du Siège : N° 484 BUREAU N° 26 QI SIDI GHANEM
+      MARRAKECH &nbsp;·&nbsp; C.N.S.S : 5535817 &nbsp;·&nbsp; R.C N° : 151233 &nbsp;·&nbsp; Patente N° : 64003383 &nbsp;·&nbsp; IF : 66003383 &nbsp;·&nbsp;
+      ICE 003540448000046 &nbsp;·&nbsp; Tél/fax : +212 661 586 841 &nbsp;·&nbsp; C.B : 007 450 00 13468000001409 61 - ATTIJARIWAFABANK Q-I SIDI GHANEM MARRAKECH
+    </div>
+  </div>
+
+<script>
+/* ---------- Lignes du tableau ---------- */
+const DEFAULT_ROWS = [
+  { desc:"Travaux de Dallage yc terrassement acier et TV", u:"M2", qt:"74.07", pu:"450.00" },
+];
+
+function rowHtml(r){
+  return `<tr>
+    <td class="idx"></td>
+    <td class="desc"><span contenteditable="true">${r.desc||''}</span></td>
+    <td><input class="u" value="${r.u||''}" /></td>
+    <td><input class="qt" value="${r.qt||''}" inputmode="decimal" oninput="recalc()" /></td>
+    <td><input class="pu" value="${r.pu||''}" inputmode="decimal" oninput="recalc()" /></td>
+    <td class="lineTot">0.00</td>
+    <td class="del-col"><button class="del-btn" title="Supprimer" onclick="delRow(this)">✕</button></td>
+  </tr>`;
+}
+function addRow(data){
+  document.getElementById('rows').insertAdjacentHTML('beforeend', rowHtml(data||{}));
+  recalc();
+}
+function delRow(btn){ btn.closest('tr').remove(); recalc(); }
+
+/* ---------- Nombres ---------- */
+function num(v){
+  if(!v) return 0;
+  return parseFloat(String(v).replace(/\s/g,'').replace(',', '.')) || 0;
+}
+function fmt(x){
+  const [i,d] = x.toFixed(2).split('.');
+  return i.replace(/\B(?=(\d{3})+(?!\d))/g,' ') + '.' + d;
+}
+
+/* ---------- Montant en lettres (français) ---------- */
+const U=['zéro','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize','dix-sept','dix-huit','dix-neuf'];
+const D=['','dix','vingt','trente','quarante','cinquante','soixante'];
+function below100(n){
+  if(n<20) return U[n];
+  const d=Math.floor(n/10), u=n%10;
+  if(d>=2 && d<=6){
+    let b=D[d];
+    if(u===0) return b;
+    if(u===1) return b+' et un';
+    return b+'-'+U[u];
+  }
+  if(d===7){ if(n===71) return 'soixante et onze'; return 'soixante-'+U[n-60]; }
+  if(d===8){ if(u===0) return 'quatre-vingts'; return 'quatre-vingt-'+U[u]; }
+  if(d===9){ return 'quatre-vingt-'+U[n-80]; }
+}
+function below1000(n){
+  const c=Math.floor(n/100), r=n%100; let s='';
+  if(c>0){ s += (c>1? U[c]+' ':'') + 'cent'; if(c>1 && r===0) s+='s'; if(r>0) s+=' '; }
+  if(r>0) s += below100(r);
+  return s;
+}
+function enLettres(n){
+  n=Math.floor(n);
+  if(n===0) return 'zéro';
+  const md=Math.floor(n/1e9); n%=1e9;
+  const mi=Math.floor(n/1e6); n%=1e6;
+  const ml=Math.floor(n/1000); n%=1000;
+  const parts=[];
+  if(md>0) parts.push(below1000(md)+' milliard'+(md>1?'s':''));
+  if(mi>0) parts.push(below1000(mi)+' million'+(mi>1?'s':''));
+  if(ml>0) parts.push(ml===1?'mille':below1000(ml)+' mille');
+  if(n>0) parts.push(below1000(n));
+  return parts.join(' ');
+}
+function montantLettres(ttc){
+  const dh=Math.floor(ttc);
+  const cent=Math.round((ttc-dh)*100);
+  let s = enLettres(dh) + ' dirham' + (dh>1?'s':'');
+  if(cent>0) s += ' et ' + enLettres(cent) + ' centime' + (cent>1?'s':'');
+  return s.charAt(0).toUpperCase()+s.slice(1);
+}
+
+/* ---------- Recalcul ---------- */
+function recalc(){
+  let ht=0, i=0;
+  document.querySelectorAll('#rows tr').forEach(tr=>{
+    i++;
+    tr.querySelector('.idx').textContent = i;
+    const q=num(tr.querySelector('.qt').value);
+    const p=num(tr.querySelector('.pu').value);
+    const t=q*p; ht+=t;
+    tr.querySelector('.lineTot').textContent = fmt(t);
+  });
+  const rate = num(document.getElementById('tvaRate').textContent)/100;
+  const tva = ht*rate;
+  const ttc = ht+tva;
+  document.getElementById('totHT').textContent = fmt(ht);
+  document.getElementById('totTVA').textContent = fmt(tva);
+  document.getElementById('totTTC').textContent = fmt(ttc);
+  document.getElementById('lettres').textContent = montantLettres(ttc);
+}
+
+/* ---------- Type de document ---------- */
+function setType(type){
+  document.body.className = type==='devis' ? 'is-devis' : 'is-facture';
+  document.getElementById('t-devis').classList.toggle('active', type==='devis');
+  document.getElementById('t-facture').classList.toggle('active', type==='facture');
+  const titre = type==='devis' ? 'Devis' : 'Facture';
+  document.querySelectorAll('.doc-title').forEach(e=>e.textContent=titre);
+  document.querySelectorAll('.doc-title-lc').forEach(e=>e.textContent=titre.toLowerCase());
+  document.title = titre + ' — SLT SERVICES';
+}
+
+/* ---------- Init ---------- */
+DEFAULT_ROWS.forEach(addRow);
+setType('facture');
+recalc();
+</script>
+</body>
+</html>
