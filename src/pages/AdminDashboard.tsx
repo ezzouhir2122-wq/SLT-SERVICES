@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { Lead, LeadStatus, LeadPriority, CRMStats, ProductItem, ServiceItem } from '../types';
+import { FinanceTab, FinancePrefill } from './admin/FinanceTab';
 import {
   Users,
   TrendingUp,
@@ -28,7 +29,8 @@ import {
   Pencil,
   Image as ImageIcon,
   Boxes,
-  Upload
+  Upload,
+  Globe2
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -40,7 +42,10 @@ export const AdminDashboard: React.FC = () => {
   const [loginLoading, setLoginLoading] = useState(false);
 
   // Active dashboard tab
-  const [activeTab, setActiveTab] = useState<'overview' | 'leads' | 'products' | 'services' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'leads' | 'products' | 'services' | 'finance' | 'settings'>('overview');
+
+  // Pré-remplissage du générateur de devis depuis un lead.
+  const [financePrefill, setFinancePrefill] = useState<FinancePrefill | null>(null);
 
   // Leads state
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -411,23 +416,16 @@ export const AdminDashboard: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Top Admin Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
-        <div className="flex items-center gap-3">
-          <img src="/assets/logo-slt-mark.png" alt={settings.companyName} className="h-11 w-auto hidden sm:block" />
-          <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-[#0077B6] uppercase">
-            <span>Administration CRM</span>
-            <span aria-hidden="true">·</span>
-            <span>{settings.companyName}</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#102A43] mt-0.5">
-            Tableau de Bord Commercial
-          </h1>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
+      {/* Admin utility actions: no duplicate brand or page heading. */}
+      <div className="flex flex-wrap justify-end gap-2 border-b border-slate-200 pb-5">
+          <button
+            type="button"
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-[#0077B6] bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors"
+          >
+            <Globe2 className="w-4 h-4" />
+            <span>Voir le site</span>
+          </button>
           <button
             type="button"
             onClick={handleExportLeads}
@@ -444,12 +442,11 @@ export const AdminDashboard: React.FC = () => {
             <LogOut className="w-4 h-4" />
             <span>Déconnexion</span>
           </button>
-        </div>
       </div>
 
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
       {/* Navigation: side rail on desktop, compact row on mobile */}
-      <nav className="order-1 flex w-full gap-2 overflow-x-auto border-b border-slate-200 pb-px lg:order-2 lg:sticky lg:top-6 lg:w-64 lg:shrink-0 lg:flex-col lg:overflow-visible lg:rounded-2xl lg:border lg:border-slate-200 lg:bg-white lg:p-3 lg:shadow-sm" aria-label="Navigation du tableau de bord">
+      <nav className="order-1 flex w-full gap-2 overflow-x-auto border-b border-slate-200 pb-px lg:sticky lg:top-6 lg:w-64 lg:shrink-0 lg:flex-col lg:overflow-visible lg:rounded-2xl lg:border lg:border-slate-200 lg:bg-white lg:p-3 lg:shadow-sm" aria-label="Navigation du tableau de bord">
         <div className="hidden px-3 pb-2 pt-1 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 lg:block">Navigation</div>
         <button
           onClick={() => setActiveTab('overview')}
@@ -500,6 +497,18 @@ export const AdminDashboard: React.FC = () => {
         </button>
 
         <button
+          onClick={() => setActiveTab('finance')}
+          className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-xs font-semibold whitespace-nowrap transition-colors lg:w-full ${
+            activeTab === 'finance'
+              ? 'bg-[#0077B6] text-white shadow-sm'
+              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+          }`}
+        >
+          <FileText className="w-4 h-4" />
+          <span>Finance — Devis & Factures</span>
+        </button>
+
+        <button
           onClick={() => setActiveTab('settings')}
           className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-xs font-semibold whitespace-nowrap transition-colors lg:w-full ${
             activeTab === 'settings'
@@ -512,7 +521,7 @@ export const AdminDashboard: React.FC = () => {
         </button>
       </nav>
 
-      <main className="order-2 min-w-0 flex-1 space-y-8 lg:order-1">
+      <main className="order-2 min-w-0 flex-1 space-y-8">
 
       {/* TAB 1: OVERVIEW & REAL STATS */}
       {activeTab === 'overview' && stats && (
@@ -770,6 +779,18 @@ export const AdminDashboard: React.FC = () => {
                 <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Message WhatsApp</span>
               </a>
+
+              <button
+                onClick={() => {
+                  setFinancePrefill({ client: selectedLead.name, objet: selectedLead.service, ref: selectedLead.ref });
+                  setSelectedLead(null);
+                  setActiveTab('finance');
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0077B6]/10 hover:bg-[#0077B6]/20 text-[#0077B6] font-semibold border border-[#0077B6]/20"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Créer un devis</span>
+              </button>
             </div>
 
             {/* Lead Description & Details */}
@@ -1023,6 +1044,9 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* TAB: FINANCE — Devis & Factures */}
+      {activeTab === 'finance' && <FinanceTab prefill={financePrefill} />}
 
       {/* TAB 5: SETTINGS CMS */}
       {activeTab === 'settings' && (
