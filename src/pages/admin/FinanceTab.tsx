@@ -5,6 +5,8 @@ export interface FinancePrefill {
   client?: string;
   objet?: string;
   ref?: string;
+  phone?: string;
+  city?: string;
 }
 
 interface Line { desc: string; u: string; qt: string; pu: string; }
@@ -69,6 +71,7 @@ export const FinanceTab: React.FC<{ prefill?: FinancePrefill | null }> = ({ pref
   const [num, setNum] = useState(`001-${init.mmYYYY}`);
   const [client, setClient] = useState('');
   const [address, setAddress] = useState('');
+  const [tel, setTel] = useState('');
   const [ice, setIce] = useState('');
   const [objet, setObjet] = useState('');
   const [tvaRate, setTvaRate] = useState('20');
@@ -80,6 +83,8 @@ export const FinanceTab: React.FC<{ prefill?: FinancePrefill | null }> = ({ pref
     if (!prefill) return;
     if (prefill.client) setClient(prefill.client);
     if (prefill.objet) setObjet(prefill.objet);
+    if (prefill.city) setAddress(prefill.city);
+    if (prefill.phone) setTel(prefill.phone);
   }, [prefill]);
 
   const { ht, tva, ttc } = useMemo(() => {
@@ -138,7 +143,8 @@ export const FinanceTab: React.FC<{ prefill?: FinancePrefill | null }> = ({ pref
         <div className="fin-meta">
           <div className="fin-num">{titre} N° : <input className="fin-field" style={{ width: 130 }} value={num} onChange={e => setNum(e.target.value)} /></div>
           <div>Client : <input className="fin-field fin-grow" value={client} placeholder="Nom du client" onChange={e => setClient(e.target.value)} /></div>
-          <div>Adresse : <input className="fin-field fin-grow" value={address} placeholder="Adresse du client" onChange={e => setAddress(e.target.value)} /></div>
+          <div>Adresse : <input className="fin-field fin-grow" value={address} placeholder="Adresse / ville du client" onChange={e => setAddress(e.target.value)} /></div>
+          <div>Tél. : <input className="fin-field fin-grow" value={tel} placeholder="Téléphone du client" onChange={e => setTel(e.target.value)} /></div>
           <div>ICE : <input className="fin-field fin-grow" value={ice} placeholder="ICE du client" onChange={e => setIce(e.target.value)} /></div>
           <div>Objet : <input className="fin-field fin-grow" value={objet} placeholder="Objet des travaux" onChange={e => setObjet(e.target.value)} /></div>
           {docType === 'devis' && <div className="fin-validity">Devis valable 30 jours à compter de la date d'émission.</div>}

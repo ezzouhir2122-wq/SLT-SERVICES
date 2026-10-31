@@ -782,7 +782,7 @@ export const AdminDashboard: React.FC = () => {
 
               <button
                 onClick={() => {
-                  setFinancePrefill({ client: selectedLead.name, objet: selectedLead.service, ref: selectedLead.ref });
+                  setFinancePrefill({ client: selectedLead.name, objet: selectedLead.service, ref: selectedLead.ref, phone: selectedLead.phone, city: selectedLead.city });
                   setSelectedLead(null);
                   setActiveTab('finance');
                 }}
