@@ -54,6 +54,14 @@ export const BlogPage: React.FC = () => {
             className="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer group"
           >
             <div>
+              {post.heroImage && (
+                <img
+                  src={post.heroImage}
+                  alt={post.title}
+                  loading="lazy"
+                  className="w-full h-40 object-cover rounded-xl mb-5 group-hover:opacity-95 transition-opacity"
+                />
+              )}
               <div className="flex items-center gap-2 text-[11px] text-slate-400 mb-3">
                 <span className="font-semibold text-[#0077B6]">{post.category}</span>
                 <span aria-hidden="true">·</span>
