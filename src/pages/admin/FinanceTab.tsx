@@ -198,8 +198,9 @@ export const FinanceTab: React.FC<{ prefill?: FinancePrefill | null }> = ({ pref
 };
 
 const finCss = `
-.fin-doc{ background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:22px 26px;
-  font-family:"Times New Roman", Georgia, serif; color:#111; font-size:13px; max-width:800px; }
+.fin-doc{ background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:22px 26px 18px;
+  font-family:"Times New Roman", Georgia, serif; color:#111; font-size:13px; max-width:800px;
+  display:flex; flex-direction:column; min-height:1040px; }
 .fin-field{ border:0; background:transparent; font:inherit; color:inherit; padding:0 2px; outline:none; }
 .fin-field:focus{ background:#eef6ff; }
 .fin-field::placeholder{ color:#9aa5b1; font-style:italic; }
@@ -224,7 +225,7 @@ const finCss = `
 .fin-reg{ margin-top:6px; }
 .fin-sign{ margin-top:22px; text-align:center; font-weight:700; }
 .fin-sign-zone{ height:90px; }
-.fin-legal{ margin-top:18px; border-top:1.5px solid #1d3a8a; padding-top:6px; text-align:center;
+.fin-legal{ margin-top:auto; border-top:1.5px solid #1d3a8a; padding-top:6px; text-align:center;
   color:#1d3a8a; font-size:10px; line-height:1.4; font-weight:600; }
 .fin-name{ font-weight:800; }
 .fin-del{ width:28px; }
@@ -232,7 +233,9 @@ const finCss = `
 @media print{
   body *{ visibility:hidden !important; }
   #fin-doc, #fin-doc *{ visibility:visible !important; }
-  #fin-doc{ position:absolute; left:0; top:0; width:100%; max-width:none; border:0; border-radius:0; padding:8mm 12mm; }
+  #fin-doc{ position:absolute; left:0; top:0; width:100%; max-width:none; min-height:auto; border:0; border-radius:0; padding:8mm 12mm 26mm; display:block; }
+  /* Bandeau légal collé en pied de page imprimée */
+  .fin-legal{ position:fixed; left:12mm; right:12mm; bottom:6mm; margin-top:0; background:#fff; }
   .fin-del{ display:none !important; }
   .fin-field:focus{ background:transparent !important; }
 }

@@ -91,8 +91,10 @@
     body{background:#fff;}
     .toolbar{display:none;}
     .row-tools, .del-col{display:none !important;}
-    .page{width:auto; min-height:auto; margin:0; padding:10mm 12mm; box-shadow:none;}
+    .page{width:auto; min-height:auto; margin:0; padding:10mm 12mm 26mm; box-shadow:none;}
     table.items input, [contenteditable]{background:transparent !important;}
+    /* Bandeau légal collé en pied de page imprimée */
+    .legal{position:fixed; left:12mm; right:12mm; bottom:6mm; margin-top:0; background:#fff;}
     @page{size:A4; margin:8mm;}
   }
 </style>
