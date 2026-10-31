@@ -53,6 +53,7 @@
   .doc-meta .num{font-weight:700;}
   [contenteditable]{outline:none;}
   [contenteditable]:focus{background:#eef6ff;}
+  [contenteditable]:empty:before{content:attr(data-ph); color:#9aa5b1; font-style:italic;}
 
   /* Tableau */
   table.items{width:100%; border-collapse:collapse; margin-top:26px;}
@@ -103,6 +104,7 @@
     <button class="btn-type active" id="t-facture" onclick="setType('facture')">Facture</button>
     <button class="btn-type" id="t-devis" onclick="setType('devis')">Devis</button>
     <button class="btn-act" onclick="addRow()">+ Ligne</button>
+    <button class="btn-act" onclick="autoDateNum()" title="Met la date du jour et un N° basé sur le mois/année">Date + N° du jour</button>
     <span class="hint">Remplis les champs · les totaux se calculent seuls</span>
     <button class="btn-print" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button>
   </div>
@@ -118,12 +120,14 @@
       </div>
     </div>
 
-    <div class="doc-date">Marrakech , le <span contenteditable="true">30-09-2026</span></div>
+    <div class="doc-date">Marrakech , le <span contenteditable="true" id="docDate">30-09-2026</span></div>
 
     <div class="doc-meta">
-      <div class="num"><span class="doc-title">Facture</span> N° : <span contenteditable="true">002-092026</span></div>
-      <div>Client : <span contenteditable="true">Ste BELLE SOURCES SARL</span></div>
-      <div>ICE : <span contenteditable="true">002837306000040</span></div>
+      <div class="num"><span class="doc-title">Facture</span> N° : <span contenteditable="true" id="docNum">002-092026</span></div>
+      <div>Client : <span contenteditable="true" data-ph="Nom du client">Ste BELLE SOURCES SARL</span></div>
+      <div>Adresse : <span contenteditable="true" data-ph="Adresse du client"></span></div>
+      <div>ICE : <span contenteditable="true" data-ph="ICE du client">002837306000040</span></div>
+      <div>Objet : <span contenteditable="true" data-ph="Objet des travaux">Travaux de dallage</span></div>
       <div class="devis-only">Devis valable 30 jours à compter de la date d'émission.</div>
     </div>
 
@@ -158,7 +162,7 @@
     </table>
 
     <div class="en-lettres">
-      Arrêtée la présente <span class="doc-title-lc">facture</span> à la somme de :
+      <span id="arretePhrase">Arrêtée la présente facture à la somme de :</span>
       <strong><span id="lettres">zéro</span> Dhs</strong>
     </div>
 
@@ -280,13 +284,27 @@ function setType(type){
   document.getElementById('t-facture').classList.toggle('active', type==='facture');
   const titre = type==='devis' ? 'Devis' : 'Facture';
   document.querySelectorAll('.doc-title').forEach(e=>e.textContent=titre);
-  document.querySelectorAll('.doc-title-lc').forEach(e=>e.textContent=titre.toLowerCase());
+  document.getElementById('arretePhrase').textContent = type==='devis'
+    ? 'Arrêté le présent devis à la somme de :'
+    : 'Arrêtée la présente facture à la somme de :';
   document.title = titre + ' — SLT SERVICES';
+}
+
+/* ---------- Date + numéro automatiques ---------- */
+function autoDateNum(){
+  const n=new Date(), p=x=>String(x).padStart(2,'0');
+  const dd=p(n.getDate()), mm=p(n.getMonth()+1), yyyy=n.getFullYear();
+  // Conserve le numéro de séquence déjà saisi (partie avant le tiret), sinon 001.
+  const cur=document.getElementById('docNum').textContent.trim();
+  const seq=(cur.split('-')[0] || '001').replace(/[^0-9]/g,'') || '001';
+  document.getElementById('docDate').textContent = `${dd}-${mm}-${yyyy}`;
+  document.getElementById('docNum').textContent = `${seq}-${mm}${yyyy}`;
 }
 
 /* ---------- Init ---------- */
 DEFAULT_ROWS.forEach(addRow);
 setType('facture');
+autoDateNum();
 recalc();
 </script>
 </body>
