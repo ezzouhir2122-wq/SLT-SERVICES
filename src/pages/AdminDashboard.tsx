@@ -447,14 +447,16 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Tabs navigation */}
-      <div className="flex items-center gap-2 border-b border-slate-200 overflow-x-auto pb-px">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+      {/* Navigation: side rail on desktop, compact row on mobile */}
+      <nav className="order-1 flex w-full gap-2 overflow-x-auto border-b border-slate-200 pb-px lg:order-2 lg:sticky lg:top-6 lg:w-64 lg:shrink-0 lg:flex-col lg:overflow-visible lg:rounded-2xl lg:border lg:border-slate-200 lg:bg-white lg:p-3 lg:shadow-sm" aria-label="Navigation du tableau de bord">
+        <div className="hidden px-3 pb-2 pt-1 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 lg:block">Navigation</div>
         <button
           onClick={() => setActiveTab('overview')}
-          className={`flex items-center gap-2 py-3 px-4 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors ${
+          className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-xs font-semibold whitespace-nowrap transition-colors lg:w-full ${
             activeTab === 'overview'
-              ? 'border-[#0077B6] text-[#0077B6]'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              ? 'bg-[#0077B6] text-white shadow-sm'
+              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
           }`}
         >
           <TrendingUp className="w-4 h-4" />
@@ -463,10 +465,10 @@ export const AdminDashboard: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('leads')}
-          className={`flex items-center gap-2 py-3 px-4 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors ${
+          className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-xs font-semibold whitespace-nowrap transition-colors lg:w-full ${
             activeTab === 'leads'
-              ? 'border-[#0077B6] text-[#0077B6]'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              ? 'bg-[#0077B6] text-white shadow-sm'
+              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
           }`}
         >
           <Users className="w-4 h-4" />
@@ -475,10 +477,10 @@ export const AdminDashboard: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('products')}
-          className={`flex items-center gap-2 py-3 px-4 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors ${
+          className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-xs font-semibold whitespace-nowrap transition-colors lg:w-full ${
             activeTab === 'products'
-              ? 'border-[#0077B6] text-[#0077B6]'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              ? 'bg-[#0077B6] text-white shadow-sm'
+              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
           }`}
         >
           <Package className="w-4 h-4" />
@@ -487,10 +489,10 @@ export const AdminDashboard: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('services')}
-          className={`flex items-center gap-2 py-3 px-4 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors ${
+          className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-xs font-semibold whitespace-nowrap transition-colors lg:w-full ${
             activeTab === 'services'
-              ? 'border-[#0077B6] text-[#0077B6]'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              ? 'bg-[#0077B6] text-white shadow-sm'
+              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
           }`}
         >
           <Layers className="w-4 h-4" />
@@ -499,16 +501,18 @@ export const AdminDashboard: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('settings')}
-          className={`flex items-center gap-2 py-3 px-4 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors ${
+          className={`flex items-center gap-2 rounded-lg px-3 py-2.5 text-xs font-semibold whitespace-nowrap transition-colors lg:w-full ${
             activeTab === 'settings'
-              ? 'border-[#0077B6] text-[#0077B6]'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              ? 'bg-[#0077B6] text-white shadow-sm'
+              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
           }`}
         >
           <Settings className="w-4 h-4" />
           <span>Paramètres de l'Entreprise</span>
         </button>
-      </div>
+      </nav>
+
+      <main className="order-2 min-w-0 flex-1 space-y-8 lg:order-1">
 
       {/* TAB 1: OVERVIEW & REAL STATS */}
       {activeTab === 'overview' && stats && (
@@ -1102,6 +1106,8 @@ export const AdminDashboard: React.FC = () => {
           </form>
         </div>
       )}
+      </main>
+      </div>
     </div>
   );
 };
