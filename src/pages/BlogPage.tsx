@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { initialBlogPosts } from '../data/initialData';
-import { BlogPost } from '../types';
-import { BookOpen, Clock, Calendar, ArrowRight, X } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { useApp } from '../context/AppContext';
 
 export const BlogPage: React.FC = () => {
+  const { navigate } = useApp();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   const categories = ['all', 'Construction', 'Entretien', 'Équipements'];
 
   const filteredPosts = initialBlogPosts.filter(p => {
+    if (p.isDraft) return false;
     if (selectedCategory === 'all') return true;
     return p.category.toLowerCase() === selectedCategory.toLowerCase();
   });
@@ -49,7 +50,7 @@ export const BlogPage: React.FC = () => {
         {filteredPosts.map(post => (
           <article
             key={post.id}
-            onClick={() => setSelectedPost(post)}
+            onClick={() => navigate(`/blog/${post.slug}`)}
             className="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer group"
           >
             <div>
@@ -78,49 +79,6 @@ export const BlogPage: React.FC = () => {
           </article>
         ))}
       </div>
-
-      {/* Post Modal View */}
-      {selectedPost && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-10 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div>
-                <div className="flex items-center gap-2 text-xs text-[#0077B6] font-semibold mb-1">
-                  <span>{selectedPost.category}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{selectedPost.readTime}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{selectedPost.publishedAt}</span>
-                </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-[#102A43]">
-                  {selectedPost.title}
-                </h2>
-              </div>
-              <button
-                onClick={() => setSelectedPost(null)}
-                className="text-slate-400 hover:text-slate-600 p-1"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed pt-4 border-t border-slate-100">
-              {selectedPost.content.map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
-            </div>
-
-            <div className="pt-6 mt-6 border-t border-slate-100 text-right">
-              <button
-                onClick={() => setSelectedPost(null)}
-                className="px-5 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl"
-              >
-                Fermer l'article
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

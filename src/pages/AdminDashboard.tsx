@@ -27,7 +27,8 @@ import {
   Plus,
   Pencil,
   Image as ImageIcon,
-  Boxes
+  Boxes,
+  Upload
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -63,6 +64,7 @@ export const AdminDashboard: React.FC = () => {
   const [servicesList, setServicesList] = useState<ServiceItem[]>([]);
   const [editingProduct, setEditingProduct] = useState<ProductItem | null>(null);
   const [productSaving, setProductSaving] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
 
   // Settings form
   const [settingsForm, setSettingsForm] = useState(settings);
@@ -262,6 +264,41 @@ export const AdminDashboard: React.FC = () => {
       fetchProducts();
     } catch {
       showToast('Impossible de supprimer ce produit.', 'error');
+    }
+  };
+
+  const handleProductImageUpload = async (file?: File) => {
+    if (!file || !editingProduct) return;
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+      showToast('Choisis une image PNG, JPEG ou WebP.', 'error');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('L’image ne doit pas dépasser 5 Mo.', 'error');
+      return;
+    }
+
+    setImageUploading(true);
+    try {
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => typeof reader.result === 'string' ? resolve(reader.result) : reject(new Error('Lecture impossible'));
+        reader.onerror = () => reject(new Error('Lecture impossible'));
+        reader.readAsDataURL(file);
+      });
+      const res = await fetch('/api/uploads/product-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...adminHeaders },
+        body: JSON.stringify({ dataUrl, filename: file.name.replace(/\.[^/.]+$/, '') })
+      });
+      const data = await res.json();
+      if (!data.success || !data.imageUrl) throw new Error(data.error || 'Téléversement impossible');
+      setEditingProduct(current => current ? { ...current, image: data.imageUrl } : null);
+      showToast('Image téléversée. Enregistre le produit pour confirmer.', 'success');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Impossible de téléverser l’image.', 'error');
+    } finally {
+      setImageUploading(false);
     }
   };
 
@@ -942,6 +979,17 @@ export const AdminDashboard: React.FC = () => {
                   <input type="url" value={editingProduct.image ?? ''} onChange={e => setEditingProduct({ ...editingProduct, image: e.target.value || undefined })} className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm font-normal" placeholder="https://… ou /assets/produit.jpg" />
                 </div>
               </label>
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-dashed border-sky-200 bg-sky-50/60 px-4 py-3">
+                <div>
+                  <p className="text-xs font-semibold text-slate-700">Importer depuis votre ordinateur</p>
+                  <p className="mt-0.5 text-[11px] text-slate-500">PNG, JPEG ou WebP · 5 Mo maximum</p>
+                </div>
+                <label className="inline-flex items-center gap-2 rounded-lg bg-white border border-sky-200 px-3.5 py-2 text-xs font-semibold text-sky-700 hover:bg-sky-100 cursor-pointer transition-colors">
+                  <Upload className="w-4 h-4" />
+                  {imageUploading ? 'Téléversement…' : 'Choisir une image'}
+                  <input type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" disabled={imageUploading} onChange={e => { void handleProductImageUpload(e.target.files?.[0]); e.currentTarget.value = ''; }} />
+                </label>
+              </div>
             </div>
 
             <div className="sticky bottom-0 bg-white border-t border-slate-100 px-6 py-4 flex justify-end gap-3">

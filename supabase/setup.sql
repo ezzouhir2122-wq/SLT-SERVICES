@@ -112,6 +112,17 @@ create index if not exists leads_status_idx     on public.leads (status);
 -- 3. ROW LEVEL SECURITY
 -- ------------------------------------------------------------
 
+-- Images des produits. Le serveur les téléverse avec la clé service_role ;
+-- le bucket public permet ensuite au catalogue de les afficher.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('product-images', 'product-images', true, 5242880, array['image/png', 'image/jpeg', 'image/webp'])
+on conflict (id) do update set public = true, file_size_limit = 5242880,
+  allowed_mime_types = array['image/png', 'image/jpeg', 'image/webp'];
+
+drop policy if exists "public read product images" on storage.objects;
+create policy "public read product images" on storage.objects
+  for select using (bucket_id = 'product-images');
+
 alter table public.settings          enable row level security;
 alter table public.services          enable row level security;
 alter table public.products          enable row level security;

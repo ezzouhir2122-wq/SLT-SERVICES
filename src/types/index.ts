@@ -122,6 +122,17 @@ export interface MaintenancePlan {
   isPopular?: boolean;
 }
 
+export interface BlogSection {
+  heading: string;
+  paragraphs?: string[];
+  bullets?: string[];
+}
+
+export interface BlogFaq {
+  question: string;
+  answer: string;
+}
+
 export interface BlogPost {
   id: string;
   slug: string;
@@ -132,6 +143,15 @@ export interface BlogPost {
   excerpt: string;
   content: string[];
   isDraft: boolean;
+  // Champs enrichis (optionnels) pour les articles SEO longs.
+  metaDescription?: string;
+  heroImage?: string;
+  updatedAt?: string;
+  author?: string;
+  keywords?: string[];
+  intro?: string;        // paragraphe "réponse d'abord"
+  sections?: BlogSection[];
+  faq?: BlogFaq[];
 }
 
 export interface FAQItem {

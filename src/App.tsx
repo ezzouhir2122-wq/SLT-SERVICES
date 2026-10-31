@@ -18,6 +18,7 @@ import { EquipementsPage } from './pages/EquipementsPage';
 import { RealisationsPage } from './pages/RealisationsPage';
 import { AboutPage } from './pages/AboutPage';
 import { BlogPage } from './pages/BlogPage';
+import { BlogArticlePage } from './pages/BlogArticlePage';
 import { ContactPage } from './pages/ContactPage';
 import { MentionsLegalesPage } from './pages/MentionsLegalesPage';
 import { ConfidentialitePage } from './pages/ConfidentialitePage';
@@ -63,6 +64,11 @@ function AppContent() {
 
     if (currentPath === '/blog') {
       return <BlogPage />;
+    }
+
+    if (currentPath.startsWith('/blog/')) {
+      const slug = currentPath.split('/')[2];
+      return <BlogArticlePage slug={slug} />;
     }
 
     if (currentPath === '/contact') {

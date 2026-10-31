@@ -1,4 +1,4 @@
-import { initialServices, initialProducts, initialProjects, initialCompanySettings } from '../data/initialData';
+import { initialServices, initialProducts, initialProjects, initialBlogPosts, initialCompanySettings } from '../data/initialData';
 
 /**
  * URL de production officielle (indexée par Google).
@@ -72,6 +72,19 @@ export function resolveSeo(path: string): PageSeo {
   const clean = path.replace(/\/+$/, '') || '/';
 
   if (STATIC_SEO[clean]) return STATIC_SEO[clean];
+
+  // /blog/:slug (la liste /blog est déjà gérée par STATIC_SEO)
+  if (clean.startsWith('/blog/')) {
+    const slug = clean.split('/')[2];
+    const post = slug ? initialBlogPosts.find(p => p.slug === slug) : undefined;
+    if (post) {
+      return {
+        title: `${post.title} | ${BRAND}`,
+        description: (post.metaDescription || post.excerpt).slice(0, 160),
+        image: post.heroImage?.startsWith('http') ? post.heroImage : undefined,
+      };
+    }
+  }
 
   // /services ou /services/:slug
   if (clean === '/services' || clean.startsWith('/services/')) {
@@ -169,4 +182,61 @@ export function applySeo(path: string) {
   setMeta('name', 'twitter:title', seo.title);
   setMeta('name', 'twitter:description', seo.description);
   setMeta('name', 'twitter:image', image);
+}
+
+/**
+ * Injecte (ou retire) un bloc de données structurées JSON-LD identifié par `id`.
+ * Passer `null` supprime le bloc (utile au démontage d'une page d'article).
+ */
+export function setJsonLd(id: string, data: Record<string, any> | null) {
+  const selector = `script[data-seo-jsonld="${id}"]`;
+  const existing = document.head.querySelector(selector);
+  if (!data) {
+    if (existing) existing.remove();
+    return;
+  }
+  const script = existing instanceof HTMLScriptElement ? existing : document.createElement('script');
+  script.type = 'application/ld+json';
+  script.setAttribute('data-seo-jsonld', id);
+  script.textContent = JSON.stringify(data);
+  if (!existing) document.head.appendChild(script);
+}
+
+/** Construit le JSON-LD BlogPosting d'un article. */
+export function buildArticleJsonLd(post: {
+  slug: string; title: string; metaDescription?: string; excerpt: string;
+  heroImage?: string; publishedAt: string; updatedAt?: string; author?: string;
+}) {
+  const url = `${SITE_URL}/blog/${post.slug}`;
+  const image = post.heroImage?.startsWith('http') ? post.heroImage : DEFAULT_IMAGE;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.metaDescription || post.excerpt,
+    image,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
+    author: { '@type': 'Organization', name: post.author || BRAND },
+    publisher: {
+      '@type': 'Organization',
+      name: BRAND,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/logo-slt.png` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    url,
+  };
+}
+
+/** Construit le JSON-LD FAQPage à partir d'une liste de questions/réponses. */
+export function buildFaqJsonLd(faq: { question: string; answer: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map(f => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  };
 }

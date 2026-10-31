@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express, { Request, Response, RequestHandler } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createClient } from '@supabase/supabase-js';
 import { Lead, ServiceItem, ProductItem } from './src/types/index.ts';
 import { createStore } from './lib/createStore.ts';
 import { notifyNewLead } from './lib/notify.ts';
@@ -13,6 +14,7 @@ const store = createStore();
 const adminUsername = process.env.ADMIN_USERNAME;
 const adminPassword = process.env.ADMIN_PASSWORD;
 const adminApiToken = process.env.ADMIN_API_TOKEN;
+const productImagesBucket = 'product-images';
 
 /** Enrobe un handler async : toute erreur de stockage renvoie un 500 propre. */
 const wrap = (fn: (req: Request, res: Response) => Promise<void>): RequestHandler => {
@@ -140,6 +142,59 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
       return;
     }
     res.json({ success: true, message: 'Product deleted' });
+  }));
+
+  // --------------------------------------------------------- Product images
+  app.post('/api/uploads/product-image', requireAdmin, wrap(async (req, res) => {
+    const { dataUrl, filename } = req.body ?? {};
+    const matched = typeof dataUrl === 'string'
+      ? /^data:(image\/(?:png|jpeg|webp));base64,([A-Za-z0-9+/=\s]+)$/.exec(dataUrl)
+      : null;
+    if (!matched) {
+      res.status(400).json({ success: false, error: 'Le fichier doit être une image PNG, JPEG ou WebP.' });
+      return;
+    }
+
+    const image = Buffer.from(matched[2], 'base64');
+    if (!image.length || image.length > 5 * 1024 * 1024) {
+      res.status(400).json({ success: false, error: 'L’image ne doit pas dépasser 5 Mo.' });
+      return;
+    }
+
+    const url = process.env.SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!url || !key) {
+      res.status(503).json({ success: false, error: 'Le stockage des images n’est pas encore configuré.' });
+      return;
+    }
+
+    const extension = matched[1] === 'image/jpeg' ? 'jpg' : matched[1].split('/')[1];
+    const safeName = typeof filename === 'string'
+      ? filename.replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 60)
+      : 'produit';
+    const objectPath = `products/${Date.now()}-${safeName || 'produit'}.${extension}`;
+    const storage = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } }).storage;
+
+    let upload = await storage.from(productImagesBucket).upload(objectPath, image, {
+      contentType: matched[1], cacheControl: '31536000', upsert: false
+    });
+    if (upload.error && /bucket not found/i.test(upload.error.message)) {
+      const created = await storage.createBucket(productImagesBucket, {
+        public: true,
+        fileSizeLimit: '5242880',
+        allowedMimeTypes: ['image/png', 'image/jpeg', 'image/webp']
+      });
+      if (created.error && !/already exists/i.test(created.error.message)) {
+        throw new Error(`Création du stockage image : ${created.error.message}`);
+      }
+      upload = await storage.from(productImagesBucket).upload(objectPath, image, {
+        contentType: matched[1], cacheControl: '31536000', upsert: false
+      });
+    }
+    if (upload.error) throw new Error(`Téléversement image : ${upload.error.message}`);
+
+    const { data } = storage.from(productImagesBucket).getPublicUrl(objectPath);
+    res.status(201).json({ success: true, imageUrl: data.publicUrl });
   }));
 
   // ---------------------------------------------------- Projects / Réalisations
