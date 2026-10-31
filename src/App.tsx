@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
+import { applySeo } from './lib/seo';
+import { resolveGaId, ensureGaLoaded, trackPageView } from './lib/analytics';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { WhatsAppFloating } from './components/WhatsAppFloating';
 import { MobileCtaBar } from './components/MobileCtaBar';
+import { CookieConsent } from './components/CookieConsent';
 
 // Pages
 import { HomePage } from './pages/HomePage';
@@ -21,7 +24,20 @@ import { ConfidentialitePage } from './pages/ConfidentialitePage';
 import { AdminDashboard } from './pages/AdminDashboard';
 
 function AppContent() {
-  const { currentPath } = useApp();
+  const { currentPath, settings } = useApp();
+  const gaId = resolveGaId(settings.gaMeasurementId);
+
+  // SEO : met à jour title, description, canonical et Open Graph à chaque page.
+  useEffect(() => {
+    applySeo(currentPath);
+  }, [currentPath]);
+
+  // Analytics : charge GA4 si consentement donné + ID configuré, puis page_view.
+  useEffect(() => {
+    if (!gaId) return;
+    ensureGaLoaded(gaId);
+    trackPageView(currentPath);
+  }, [currentPath, gaId]);
 
   const renderCurrentPage = () => {
     // Exact or prefix matches
@@ -97,6 +113,7 @@ function AppContent() {
       <Footer />
       <WhatsAppFloating />
       <MobileCtaBar />
+      {gaId && <CookieConsent measurementId={gaId} />}
     </div>
   );
 }

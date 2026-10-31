@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { Lead, ServiceItem, ProductItem } from './src/types/index.ts';
 import { createStore } from './lib/createStore.ts';
+import { notifyNewLead } from './lib/notify.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -279,6 +280,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
     };
 
     const created = await store.createLead(newLead);
+
+    // Notification email au gérant (asynchrone, ne bloque pas la réponse client).
+    notifyNewLead(created).catch(err => console.error('[api] notifyNewLead:', err));
 
     res.status(201).json({
       success: true,

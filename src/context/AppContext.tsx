@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { CompanySettings, Lead } from '../types';
 import { initialCompanySettings } from '../data/initialData';
+import { trackEvent } from '../lib/analytics';
 
 interface Toast {
   id: string;
@@ -119,6 +120,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       });
       const data = await res.json();
       if (data.success) {
+        // Conversion GA4 (ignoré si analytics non chargé / consentement refusé).
+        trackEvent('generate_lead', {
+          service: leadData.service,
+          source: leadData.source || 'formulaire_devis',
+          city: leadData.city,
+        });
         showToast(`Demande transmise avec succès ! Référence : ${data.reference}`, 'success');
         return { success: true, reference: data.reference };
       } else {
